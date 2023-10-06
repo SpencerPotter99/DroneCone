@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("This is the home page")
+    return render(request, 'DroneCustomer/home.html')
 
 def checkout(request):
     return HttpResponse("This is the Checkout page")
