@@ -14,7 +14,7 @@ def orderHistory(request):
     return HttpResponse("This is the orderHistory page")
 
 def login(request):
-    return HttpResponse("This is the login page")
+    return render(request, 'DroneCustomer/login.html')
 
-def droneManagment(request):
-    return HttpResponse("This is the Drone Management page")
+def droneManagement(request):
+    return render(request, 'DroneCustomer/droneManager.html')
