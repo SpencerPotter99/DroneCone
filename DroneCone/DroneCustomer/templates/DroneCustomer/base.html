@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
+<div class="navigationBar">
+<img src="{% static 'DroneLogo.png' %}" height="50" width="50">
 <nav class="navbar">
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/about/">About</a></li>
     </ul>
 </nav>
+</div>
 <div class="content">
     {% block content %}{% endblock %}
 </div>
