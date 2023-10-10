@@ -18,3 +18,9 @@ def login(request):
 
 def droneManagement(request):
     return render(request, 'DroneCustomer/droneManager.html')
+
+def droneOwnerCreation(request):
+    return render(request, 'DroneCustomer/droneOwnerCreation.html')
+
+def signUp(request):
+    return render(request, 'DroneCustomer/customerCreation.html')

@@ -1,12 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Blogs</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People's Drones</title>
+    <style>
+        /* Style for the expanded drone details */
+        .drone-details {
+            display: none;
+        }
+
+        /* Style for the active drone */
+        .active {
+            color: green;
+        }
+
+        /* Style for the inactive drone */
+        .inactive {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-<h1>
-    This is the Drone Manager Page, Where you can see all your drones
-</h1>
+    <h1>Your Drones</h1>
+
+    <ul id="drone-list">
+        <div class="drone">
+            <h2>Name: Drone 1</h2>
+            <button onclick="toggleDetails(this)">Show Details</button>
+            <div class="drone-details">
+                <p>Size: Small</p>
+                <p>Battery Life: 30 minutes</p>
+                <p>Location: New York</p>
+                <p>Status: <span class="active" onclick="toggleStatus(this)">Active</span></p>
+            </div>
+            <button onclick="deleteDrone(this)">Delete</button>
+        </div>
+        <div class="drone">
+            <h2>Name: Drone 2</h2>
+            <button onclick="toggleDetails(this)">Show Details</button>
+            <div class="drone-details">
+                <p>Size: Medium</p>
+                <p>Battery Life: 45 minutes</p>
+                <p>Location: Los Angeles</p>
+                <p>Status: <span class="inactive" onclick="toggleStatus(this)">Inactive</span></p>
+            </div>
+            <button onclick="deleteDrone(this)">Delete</button>
+        </div>
+        <!-- Add more drone entries as needed -->
+    </ul>
+     <button onclick="showAddForm()">Add Drone</button>
+    <form action="submit" id="add-form" style="display: none;">
+        <label for="name">Name: </label>
+        <input type="text" id="name" required><br>
+        <label for="size">Size: </label>
+        <select name="size" id="size">
+            <option value="small">Small (2 cones)</option>
+            <option value="medium">Medium (4 cones)</option>
+            <option value="large">Large (8 cones)</option>
+        </select><br>
+        <label for="battery">Battery Life: </label>
+        <input type="text" id="battery" required><br>
+        <label for="location">Location: </label>
+        <input type="text" id="location" required><br>
+        <label for="status">Status: </label>
+        <select id="status" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select><br>
+        <button type="submit" onclick="addNewDrone()">Submit</button>
+    </form>
+
+    <script>
+        // Function to toggle the visibility of drone details
+        function toggleDetails(button) {
+            let droneDetails = button.nextElementSibling;
+            droneDetails.style.display = (droneDetails.style.display === 'none') ? 'block' : 'none';
+        }
+
+        // Function to toggle the status between Active and Inactive
+        function toggleStatus(span) {
+            if (span.classList.contains("active")) {
+                span.classList.remove("active");
+                span.classList.add("inactive");
+                span.textContent = "Inactive";
+            } else {
+                span.classList.remove("inactive");
+                span.classList.add("active");
+                span.textContent = "Active";
+            }
+        }
+
+        // Function to show the add drone form
+        function showAddForm() {
+            let addForm = document.getElementById("add-form");
+            addForm.style.display = "block";
+        }
+
+        // Function to add a new drone dynamically
+        function addNewDrone() {
+            let name = document.getElementById("name").value;
+            let size = document.getElementById("size").value;
+            let battery = document.getElementById("battery").value;
+            let location = document.getElementById("location").value;
+            let status = document.getElementById("status").value;
+
+            let droneList = document.getElementById("drone-list");
+
+            let newDrone = document.createElement("div");
+            newDrone.className = "drone";
+            newDrone.innerHTML = `
+                <h2>Name: ${name}</h2>
+                <button onclick="toggleDetails(this)">Show Details</button>
+                <div class="drone-details">
+                    <p>Size: ${size}</p>
+                    <p>Battery Life: ${battery}</p>
+                    <p>Location: ${location}</p>
+                    <p>Status: <span class="${status}" onclick="toggleStatus(this)">${status.charAt(0).toUpperCase() + status.slice(1)}</span></p>
+                </div>
+                <button onclick="deleteDrone(this)">Delete</button>
+            `;
+
+            droneList.appendChild(newDrone);
+
+            // Reset the form
+            document.getElementById("add-form").reset();
+            document.getElementById("add-form").style.display = "none";
+        }
+
+        // Function to delete a drone entry
+        function deleteDrone(button) {
+            let droneItem = button.parentElement;
+            droneItem.remove();
+        }
+    </script>
 </body>
 </html>
