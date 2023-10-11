@@ -1,8 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin Page</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
@@ -12,6 +13,7 @@
             <li><a href="{% url 'inventory' %}">Inventory</a></li>
             <li><a href="{% url 'drone_management' %}">Drone Management</a></li>
             <li><a href="{% url 'sales' %}">Sales</a></li>
+            <li><a href="{% url 'index' %}">home</a></li>
         </ul>
     </div>
 
