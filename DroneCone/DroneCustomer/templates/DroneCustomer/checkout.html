@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Checkout - Drone Cones</title>
+</head>
+<body>
+    <!-- Your Order Section -->
+    <section id="your-order">
+        <h2>Your Order</h2>
+        <ul>
+            {% for item in order_items %}
+                <li>{{ item.name }} - ${{ item.price }}</li>
+            {% endfor %}
+        </ul>
+        <p>Total Price: ${{ total_price }}</p>
+    </section>
+
+    <!-- Delivery Address Section -->
+<section id="delivery-address">
+    <h2>Delivery Address</h2>
+    <form action="/submit-address/" method="post" style="display: flex; flex-direction: column;">
+        {% csrf_token %}
+        <label style="font-weight: bold;">Street Number</label>
+        <input type="text" name="street_number" placeholder="Street Number" required>
+
+        <label style="font-weight: bold;">City</label>
+        <input type="text" name="city" placeholder="City" required>
+
+        <label style="font-weight: bold;">State</label>
+        <input type="text" name="state" placeholder="State" required>
+
+        <button type="button" id="use-saved-address" style="margin-top: 10px;">Use Saved Address</button>
+        <button type="button" id="send-to-current-location" style="margin-top: 10px"> Send to Current Location</button>
+    </form>
+</section>
+
+<!-- Payment Section -->
+<section id="payment">
+    <h2>Payment</h2>
+    <form action="/submit-payment/" method="post" style="display: flex; flex-direction: column;">
+        {% csrf_token %}
+        <label style="font-weight: bold;">Cardholder Name</label>
+        <input type="text" name="cardholder_name" placeholder="Cardholder Name" required>
+
+        <label style="font-weight: bold;">Card Number</label>
+        <input type="text" name="card_number" placeholder="Card Number" required>
+
+        <label style="font-weight: bold;">Expiration Date</label>
+        <input type="text" name="expiration_date" placeholder="Expiration Date" required>
+
+        <label style="font-weight: bold;">CVV</label>
+        <input type="text" name="cvv" placeholder="CVV" required>
+
+        <button type="submit" style="margin-top: 10px;">Complete Order</button>
+    </form>
+</section>
+</body>
+</html>

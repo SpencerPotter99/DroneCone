@@ -8,7 +8,7 @@ def index(request):
     return render(request, 'DroneCustomer/home.html')
 
 def checkout(request):
-    return HttpResponse("This is the Checkout page")
+    return render(request, 'DroneCustomer/checkout.html')
 
 def orderHistory(request):
     return HttpResponse("This is the orderHistory page")
