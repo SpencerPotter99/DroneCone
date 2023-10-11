@@ -3,26 +3,5 @@
 {% block title %}Your Weight in Gold{% endblock %}
 
 {% block content %}
-<h1>What's Your Weight's Worth In Gold?</h1>
-<ol>
-    <li><a href="{% url 'plan' %}">Software Development Plan</a></li>
-    <li><a href="{% url 'unitconv' %}">Unit Conversion</a></li>
-</ol>
-<div id="phase-0" class="center-text">
-    <h4 class="dark-color">Input Your Weight And Press The "=" Button To See Your Worth In Gold</h4>
-    <h4 class="dark-color">For Your Privacy, Results Are Removed When Clicked</h4>
-    <form method="post" action="gold.html">
-        <input type="number" id="num" name="num">
-        <select id="unit" name="unit">
-            <option value="lb">Pounds</option>
-            <option value="kg">Kilograms</option>
-            <option value="g">Grams</option>
-            <option value="oz">Ounces</option>
-            <option value="T">US Tons</option>
-        </select>
-        <button class="button-large" type="button" onclick="calculate()">=</button>
-    </form>
-    <h4 id="waiting" class="dark-color">Please Wait.....</h4>
-</div>
-<input type="hidden" id="time" value="{{ time }}">
+
 {% endblock %}
