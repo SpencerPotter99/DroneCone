@@ -1,0 +1,36 @@
+/* Basic styling for the sidebar */
+.sidebar {
+    width: 250px; /* Adjust the width to your preference */
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+/* Style for the sidebar links */
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+}
+
+/* Highlight the current page link */
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+/* Styling the content area */
+.content {
+    margin-left: 250px; /* Adjust this margin to match the sidebar width */
+    padding: 20px;
+}
