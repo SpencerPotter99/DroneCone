@@ -1,6 +1,22 @@
-.navigationBar{
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    border-radius: 100px;
+
+.navbar {
+    background-color: #A2D2FF; /* Change the background color to your preference */
+    width: 100%; /* Set the width to 100% to expand to the full screen width */
+    margin: 0; /* Remove default margin */
+    padding: 10%; /* Remove default padding */
+    position: relative; /* Add position relative to create a positioning context */
+}
+
+.navbar img.left {
+    float: left;
+}
+.navbar img.right {
+    float: right;
+}
+.item {
+    display: inline-block;
+    display: inline;
+    zoom: 1;
+    vertical-align: top;
+    font-size: 12px;
 }
