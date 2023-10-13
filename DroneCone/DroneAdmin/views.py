@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request, "DroneAdmin/index.html")
+    return render(request, "DroneAdmin/dashboard.html")
 
 
 def drone_management(request):
