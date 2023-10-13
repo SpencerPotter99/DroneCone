@@ -3,22 +3,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body>
-    <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <ul>
-            <li><a href="{% url 'inventory' %}">Inventory</a></li>
+<body class="bg-gray-100 flex">
+    <aside class="w-1/4 bg-gray-200 p-4">
+        <h2 class="text-lg font-semibold mb-4">Navigation</h2>
+        <ul class="space-y-2">
+            <li><a href="{% url 'sales' %}">Sales Dashboard</a></li>
+            <li><a href="{% url 'inventory' %}">Inventory Dashboard</a></li>
             <li><a href="{% url 'drone_management' %}">Drone Management</a></li>
-            <li><a href="{% url 'sales' %}">Sales</a></li>
-            <li><a href="{% url 'index' %}">home</a></li>
+            <!-- Add more navigation links as needed -->
         </ul>
-    </div>
-
-    <div class="content">
+    </aside>
+    <main class="w-3/4 p-8">
+        <h1 class="text-3xl font-semibold mb-4">{% block heading %}{% endblock %}</h1>
         {% block content %}{% endblock %}
-    </div>
+    </main>
 </body>
 </html>
