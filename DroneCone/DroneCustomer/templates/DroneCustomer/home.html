@@ -1,6 +1,114 @@
 {% extends "DroneCustomer/base.html" %}
-
+{% load static %}
 {% block content %}
-<h1>About Us</h1>
+<div class="text-center">
+    <h1 class="text-4xl font-bold">Welcome To Drone Cones</h1>
+    <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
+</div>
+<div class="text-center mt-8">
+    <h1 class="text-2xl font-semibold">Choose Your Ice Cream Flavor</h1>
+</div>
+  <div class="card-container ">
+  <div class="card">
+    <img src="{% static 'VanillaIceCream.png' %}" alt="Vanilla IceC ream">
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="{% static 'ChocolateIceCream.png' %}"  alt="Chocolate Ice Cream" >
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="{% static 'MintIceCream.png' %}" alt="Mint Ice Cream">
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
+    </div>
+  </div>
+  <div class="card">    
+      <img src="{% static 'StrawberryIceCream.png' %}" alt="StrawberyyIceCream">
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
+    </div> 
+</div>
+</div>
+<div>
+</div>
+<div class="text-center mt-8">
+    <h1 class="text-2xl font-semibold">Choose Your Ice Cream Cone</h1>
+</div>
+      <div class="card-container ">
+      <div class="card">
+        <img src="{% static 'VanillaIceCream.png' %}" alt="Vanilla IceC ream">
+        <div class="container">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="{% static 'ChocolateIceCream.png' %}"  alt="Chocolate Ice Cream" >
+        <div class="container">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="{% static 'MintIceCream.png' %}" alt="Mint Ice Cream">
+        <div class="container">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">    
+          <img src="{% static 'StrawberryIceCream.png' %}" alt="StrawberyyIceCream">
+        <div class="container">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div> 
+    </div>
+    </div>
+    <div>
+    </div>
+    <div class="text-center mt-8">
+        <h1 class="text-2xl font-semibold">Choose Your Toppings</h1>
+    </div>
+          <div class="card-container ">
+          <div class="card">
+            <img src="{% static 'VanillaIceCream.png' %}" alt="Vanilla IceC ream">
+            <div class="container">
+              <h4><b>John Doe</b></h4>
+              <p>Architect & Engineer</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="{% static 'ChocolateIceCream.png' %}"  alt="Chocolate Ice Cream" >
+            <div class="container">
+              <h4><b>John Doe</b></h4>
+              <p>Architect & Engineer</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="{% static 'MintIceCream.png' %}" alt="Mint Ice Cream">
+            <div class="container">
+              <h4><b>John Doe</b></h4>
+              <p>Architect & Engineer</p>
+            </div>
+          </div>
+          <div class="card">    
+              <img src="{% static 'StrawberryIceCream.png' %}" alt="StrawberyyIceCream">
+            <div class="container">
+              <h4><b>John Doe</b></h4>
+              <p>Architect & Engineer</p>
+            </div> 
+        </div>
+        </div>
+        <div>
+        </div>
 <p>This is the home page content.</p>
 {% endblock %}
