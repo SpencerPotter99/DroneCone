@@ -17,15 +17,37 @@
                 <p class="text-gray-600">Amount: 8</p>
                 <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
             </div>
-            <!-- Add more flavors as needed -->
-            <div class="bg-white p-4 shadow-lg rounded-lg">
+
+{#            <div class="bg-white p-4 shadow-lg rounded-lg">#}
 {#                <form action="{% url 'add_flavor' %}" method="post" class="space-y-2">#}
 {#                    {% csrf_token %}#}
 {#                    <input type="text" name="flavor" placeholder="Flavor" class="p-2 rounded-md" required>#}
 {#                    <input type="number" name="amount" placeholder="Amount" class="p-2 rounded-md" required>#}
 {#                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Flavor</button>#}
 {#                </form>#}
+{#            </div>#}
+        </div>
+    <h2 class="text-2xl font-semibold mb-4">Ice Cream</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="bg-white p-4 shadow-lg rounded-lg">
+                <p class="text-xl font-semibold">Vanilla</p>
+                <p class="text-gray-600">Amount: 10</p>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
             </div>
+            <div class="bg-white p-4 shadow-lg rounded-lg">
+                <p class="text-xl font-semibold">Chocolate</p>
+                <p class="text-gray-600">Amount: 8</p>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
+            </div>
+
+{#            <div class="bg-white p-4 shadow-lg rounded-lg">#}
+{#                <form action="{% url 'add_flavor' %}" method="post" class="space-y-2">#}
+{#                    {% csrf_token %}#}
+{#                    <input type="text" name="flavor" placeholder="Flavor" class="p-2 rounded-md" required>#}
+{#                    <input type="number" name="amount" placeholder="Amount" class="p-2 rounded-md" required>#}
+{#                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Flavor</button>#}
+{#                </form>#}
+{#            </div>#}
         </div>
     </section>
 
@@ -33,12 +55,12 @@
     <!-- ... -->
 
     <!-- Add a form to add new cone/cup type -->
-    <div class="bg-white p-4 shadow-lg rounded-lg">
+{#    <div class="bg-white p-4 shadow-lg rounded-lg">#}
 {#        <form action="{% url 'add_cone_cup' %}" method="post" class="space-y-2">#}
 {#            {% csrf_token %}#}
 {#            <input type="text" name="cone_cup_type" placeholder="Cone/Cup Type" class="p-2 rounded-md" required>#}
 {#            <input type="number" name="amount" placeholder="Amount" class="p-2 rounded-md" required>#}
 {#            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Cone/Cup Type</button>#}
 {#        </form>#}
-    </div>
+{#    </div>#}
 {% endblock %}
