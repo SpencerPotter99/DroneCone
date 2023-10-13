@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order History - Drone Cones</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Optional Bootstrap JavaScript CDN along with required Popper.js CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="mb-4">Order History</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Assuming orders is passed as a context variable -->
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                            {% for item in order.items %}
+                            <li>{{ item.name }} - ${{ item.price }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>${{ order.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

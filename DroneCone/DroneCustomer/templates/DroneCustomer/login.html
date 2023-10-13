@@ -3,19 +3,24 @@
 <head>
     <title>Blogs</title>
     <meta charset="UTF-8">
+    <style>
+        div{
+            background-color: #a2d2ff;
+            text-align: center;
+            border-style: groove;
+            margin: 200px;
+        }
+    </style>
 </head>
-<body>
-<nav>
-        Sign in
-</nav>
-
-<div style="text-align: center">
+<body style="background-color: #CDB4DB">
+<div>
+    <h2>Sign in</h2>
 <form action="submit">
     <label for="userName">Email:</label>
-    <input type="text" id="userName" name="userName">
+    <input type="text" id="userName" name="userName" placeholder="Email Address" required><br>
     <label for="password">Password: </label>
-    <input type="password" id="password" name="password">
-    <input type="button" value="sign in">
+    <input type="password" id="password" name="password" placeholder="Password"  required><br>
+    <input type="button" value="sign in" style="background-color: #ffc8dd">
 </form>
 </div>
 </body>
