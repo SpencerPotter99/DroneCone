@@ -11,7 +11,7 @@ def checkout(request):
     return render(request, 'DroneCustomer/checkout.html')
 
 def orderHistory(request):
-    return HttpResponse("This is the orderHistory page")
+    return render(request, 'DroneCustomer/orderHistory.html')
 
 def login(request):
     return render(request, 'DroneCustomer/login.html')
