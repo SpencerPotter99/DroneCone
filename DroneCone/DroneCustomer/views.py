@@ -5,6 +5,9 @@ from django.http import HttpResponse
 
 
 def index(request):
+    return render(request, 'DroneCustomer/index.html')
+
+def home(request):
     return render(request, 'DroneCustomer/home.html')
 
 def checkout(request):
