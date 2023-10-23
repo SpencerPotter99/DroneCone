@@ -72,3 +72,6 @@
     display: block;
     margin: 0 auto; /* Center the image horizontally */
 }
+.highlighted {
+    background-color: yellow; /* You can customize the border color and style */
+  }
