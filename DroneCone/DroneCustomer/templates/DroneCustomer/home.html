@@ -1,114 +1,144 @@
 {% extends "DroneCustomer/base.html" %}
 {% load static %}
 {% block content %}
+<div id="app">
 <div class="text-center">
     <h1 class="text-4xl font-bold">Welcome To Drone Cones</h1>
     <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
 </div>
 <div class="text-center mt-8">
+  <h1 class="text-2xl font-semibold">Choose Your Size</h1>
+</div>
+<div class="size-container text-center">
+<div class="size-container">
+  <label>
+    <input type="radio" v-model="selectedSize" value="small">
+    Small
+  </label>
+  <label>
+    <input type="radio" v-model="selectedSize" value="medium">
+    Medium
+  </label>
+  <label>
+    <input type="radio" v-model="selectedSize" value="large">
+    Large
+  </label>
+</div>
+</div>
+<div class="text-center mt-8">
     <h1 class="text-2xl font-semibold">Choose Your Ice Cream Flavor</h1>
 </div>
-  <div class="card-container ">
-  <div class="card">
-    <img src="{% static 'VanillaIceCream.png' %}" alt="Vanilla IceC ream">
+<div class="card-container">
+  <div v-for="(card, index) in cards" :key="index" class="card" @click="toggleCard(index)" :class="{ 'highlighted': selectedCards.includes(index) }">
+    <img :src="imageBasePath + card.name + 'IceCream.png'" :alt="card.name + ' Ice Cream'">
     <div class="container">
-      <h4><b>John Doe</b></h4>
+      <h4><b>Test</b></h4>
       <p>Architect & Engineer</p>
     </div>
   </div>
-  <div class="card">
-    <img src="{% static 'ChocolateIceCream.png' %}"  alt="Chocolate Ice Cream" >
-    <div class="container">
-      <h4><b>John Doe</b></h4>
-      <p>Architect & Engineer</p>
-    </div>
-  </div>
-  <div class="card">
-    <img src="{% static 'MintIceCream.png' %}" alt="Mint Ice Cream">
-    <div class="container">
-      <h4><b>John Doe</b></h4>
-      <p>Architect & Engineer</p>
-    </div>
-  </div>
-  <div class="card">    
-      <img src="{% static 'StrawberryIceCream.png' %}" alt="StrawberyyIceCream">
-    <div class="container">
-      <h4><b>John Doe</b></h4>
-      <p>Architect & Engineer</p>
-    </div> 
-</div>
 </div>
 <div>
 </div>
 <div class="text-center mt-8">
     <h1 class="text-2xl font-semibold">Choose Your Ice Cream Cone</h1>
 </div>
-      <div class="card-container ">
-      <div class="card">
-        <img src="{% static 'VanillaIceCream.png' %}" alt="Vanilla IceC ream">
-        <div class="container">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{% static 'ChocolateIceCream.png' %}"  alt="Chocolate Ice Cream" >
-        <div class="container">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{% static 'MintIceCream.png' %}" alt="Mint Ice Cream">
-        <div class="container">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">    
-          <img src="{% static 'StrawberryIceCream.png' %}" alt="StrawberyyIceCream">
-        <div class="container">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div> 
+<div class="card-container">
+  <div v-for="(cone, index2) in cones" :key="index2" class="card" @click="toggleCone(index2)" :class="{ 'highlighted': selectedConeCards.includes(index2) }">
+    <img :src="imageBasePath + cone.name + 'IceCream.png'" :alt="cone.name + ' Ice Cream'">
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
     </div>
-    </div>
+  </div>
+</div>
     <div>
     </div>
     <div class="text-center mt-8">
         <h1 class="text-2xl font-semibold">Choose Your Toppings</h1>
     </div>
-          <div class="card-container ">
-          <div class="card">
-            <img src="{% static 'VanillaIceCream.png' %}" alt="Vanilla IceC ream">
-            <div class="container">
-              <h4><b>John Doe</b></h4>
-              <p>Architect & Engineer</p>
-            </div>
-          </div>
-          <div class="card">
-            <img src="{% static 'ChocolateIceCream.png' %}"  alt="Chocolate Ice Cream" >
-            <div class="container">
-              <h4><b>John Doe</b></h4>
-              <p>Architect & Engineer</p>
-            </div>
-          </div>
-          <div class="card">
-            <img src="{% static 'MintIceCream.png' %}" alt="Mint Ice Cream">
-            <div class="container">
-              <h4><b>John Doe</b></h4>
-              <p>Architect & Engineer</p>
-            </div>
-          </div>
-          <div class="card">    
-              <img src="{% static 'StrawberryIceCream.png' %}" alt="StrawberyyIceCream">
-            <div class="container">
-              <h4><b>John Doe</b></h4>
-              <p>Architect & Engineer</p>
-            </div> 
+    <div class="card-container">
+      <div v-for="(topping, index3) in toppings" :key="index3" class="card" @click="toggleTopping(index3)" :class="{ 'highlighted': selectedToppings.includes(index3) }">
+        <img :src="imageBasePath + topping.name + 'IceCream.png'" :alt="topping.name + ' Ice Cream'">
+        <div class="container">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
         </div>
-        </div>
-        <div>
-        </div>
+      </div>
+    </div>
+    <div class="text-center mt-8">
+      <button @click="submitOrder" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Order</button>
+    </div>
 <p>This is the home page content.</p>
+<script>
+new Vue({
+    el: '#app',
+    data: {
+      selectedSize: null,
+      selectedCards: [], // Define the selectedCards array
+      selectedConeCards: [], // Define the selectedConeCards array
+      selectedToppings: [], // Define the selectedToppings array
+      imageBasePath: "{% static '' %}", // Set the base path for images
+      cards: [
+        { name: 'Vanilla', title: 'Vanilla Ice Cream', description: 'Delicious vanilla flavor' },
+        { name: 'Chocolate', title: 'Chocolate Ice Cream', description: 'Rich chocolatey goodness' },
+        { name: 'Mint', title: 'Mint Ice Cream', description: 'Refreshing minty taste' },
+        { name: 'Strawberry', title: 'Strawberry Ice Cream', description: 'Sweet and fruity' },
+      ],
+      cones: [
+        { name: 'WaffleCone', title: 'Waffle Cone', description: 'A crunchy treat'},
+        { name: 'ChocolateCone', title: 'Chocolate Cone', description: 'Rich and Creamy cholate dipped cone'},
+        { name: 'GlutenFreeCone', title: 'Gluten Free Cone', description: 'A waffle cone without Gluten'},
+        { name: 'CarmelCone', title: 'Carmel Cone', description: 'Sweet Waffle Cone dipped in warm carmel'},
+      ],
+      toppings: [
+        { name: 'Sprinkles', title: 'Sprinkles', description: 'A crunchy treat'},
+        { name: 'ChocolateDrizzle', title: 'Chocolate Drizzle', description: 'Rich and Creamy cholate dipped cone'},
+        { name: 'CarmelDrizzle', title: 'Carmel Drizzle', description: 'A waffle cone without Gluten'},
+        { name: 'BrownieBites', title: 'Brownie Bites', description: 'Sweet Waffle Cone dipped in warm carmel'},
+      ],
+    },
+    methods: {
+      toggleCard(index) {
+        const selectedIndex = this.selectedCards.indexOf(index);
+        if (selectedIndex === -1) {
+          this.selectedCards.push(index);
+        } else {
+          this.selectedCards.splice(selectedIndex, 1);
+        }
+        console?.log(this.selectedCards)
+      },
+      toggleCone(index2) {
+        const selectedIndex = this.selectedConeCards.indexOf(index2);
+        if (selectedIndex === -1) {
+          this.selectedConeCards.push(index2);
+        } else {
+          this.selectedConeCards.splice(selectedIndex, 1);
+        }
+        console?.log(this.selectedConeCards);
+      },
+      toggleTopping(index3) {
+        const selectedIndex = this.selectedToppings.indexOf(index3);
+        if (selectedIndex === -1) {
+          this.selectedToppings.push(index3);
+        } else {
+          this.selectedToppings.splice(selectedIndex, 1);
+        }
+        console?.log(this.selectedToppings);
+      },
+      selectSize(size) {
+        this.selectedSize = size;
+      },
+      submitOrder() {
+      const order = {
+        size: this.selectedSize,
+        selectedCards: this.selectedCards.map(index => this.cards[index]),
+        selectedConeCards: this.selectedConeCards.map(index => this.cones[index]),
+        selectedToppings: this.selectedToppings.map(index => this.toppings[index]),
+      };
+      console?.log(order);
+    }
+    },
+   
+  });
+</script>
 {% endblock %}
