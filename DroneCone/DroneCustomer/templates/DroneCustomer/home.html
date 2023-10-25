@@ -1,7 +1,7 @@
 {% extends "DroneCustomer/base.html" %}
 {% load static %}
 {% block content %}
-<div id="app">
+<div id="app"> 
 <div class="text-center">
     <h1 class="text-4xl font-bold">Welcome To Drone Cones</h1>
     <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
@@ -68,77 +68,6 @@
     <div class="text-center mt-8">
       <button @click="submitOrder" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Order</button>
     </div>
-<p>This is the home page content.</p>
-<script>
-new Vue({
-    el: '#app',
-    data: {
-      selectedSize: null,
-      selectedCards: [], // Define the selectedCards array
-      selectedConeCards: [], // Define the selectedConeCards array
-      selectedToppings: [], // Define the selectedToppings array
-      imageBasePath: "{% static '' %}", // Set the base path for images
-      cards: [
-        { name: 'Vanilla', title: 'Vanilla Ice Cream', description: 'Delicious vanilla flavor' },
-        { name: 'Chocolate', title: 'Chocolate Ice Cream', description: 'Rich chocolatey goodness' },
-        { name: 'Mint', title: 'Mint Ice Cream', description: 'Refreshing minty taste' },
-        { name: 'Strawberry', title: 'Strawberry Ice Cream', description: 'Sweet and fruity' },
-      ],
-      cones: [
-        { name: 'WaffleCone', title: 'Waffle Cone', description: 'A crunchy treat'},
-        { name: 'ChocolateCone', title: 'Chocolate Cone', description: 'Rich and Creamy cholate dipped cone'},
-        { name: 'GlutenFreeCone', title: 'Gluten Free Cone', description: 'A waffle cone without Gluten'},
-        { name: 'CarmelCone', title: 'Carmel Cone', description: 'Sweet Waffle Cone dipped in warm carmel'},
-      ],
-      toppings: [
-        { name: 'Sprinkles', title: 'Sprinkles', description: 'A crunchy treat'},
-        { name: 'ChocolateDrizzle', title: 'Chocolate Drizzle', description: 'Rich and Creamy cholate dipped cone'},
-        { name: 'CarmelDrizzle', title: 'Carmel Drizzle', description: 'A waffle cone without Gluten'},
-        { name: 'BrownieBites', title: 'Brownie Bites', description: 'Sweet Waffle Cone dipped in warm carmel'},
-      ],
-    },
-    methods: {
-      toggleCard(index) {
-        const selectedIndex = this.selectedCards.indexOf(index);
-        if (selectedIndex === -1) {
-          this.selectedCards.push(index);
-        } else {
-          this.selectedCards.splice(selectedIndex, 1);
-        }
-        console?.log(this.selectedCards)
-      },
-      toggleCone(index2) {
-        const selectedIndex = this.selectedConeCards.indexOf(index2);
-        if (selectedIndex === -1) {
-          this.selectedConeCards.push(index2);
-        } else {
-          this.selectedConeCards.splice(selectedIndex, 1);
-        }
-        console?.log(this.selectedConeCards);
-      },
-      toggleTopping(index3) {
-        const selectedIndex = this.selectedToppings.indexOf(index3);
-        if (selectedIndex === -1) {
-          this.selectedToppings.push(index3);
-        } else {
-          this.selectedToppings.splice(selectedIndex, 1);
-        }
-        console?.log(this.selectedToppings);
-      },
-      selectSize(size) {
-        this.selectedSize = size;
-      },
-      submitOrder() {
-      const order = {
-        size: this.selectedSize,
-        selectedCards: this.selectedCards.map(index => this.cards[index]),
-        selectedConeCards: this.selectedConeCards.map(index => this.cones[index]),
-        selectedToppings: this.selectedToppings.map(index => this.toppings[index]),
-      };
-      console?.log(order);
-    }
-    },
-   
-  });
-</script>
+<p>This is the home p\</p>
+</div>
 {% endblock %}
