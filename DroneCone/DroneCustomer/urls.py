@@ -11,5 +11,6 @@ urlpatterns = [
     path("managedrones/", views.droneManagement, name="mydrones"),
     path("signup/", views.signUp, name="signup"),
     path("droneownersignup/", views.droneOwnerCreation, name="droneownersignup"),
+    path("editaccount/", views.editAccount, name="editaccount"),
     path("signup/droneOwnerCreation.html/", views.droneOwnerCreation, name="drownownersignup")
 ]
