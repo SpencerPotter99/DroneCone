@@ -13,8 +13,8 @@ def home(request):
 def checkout(request):
     return render(request, 'DroneCustomer/checkout.html')
 
-def orderHistory(request):
-    return render(request, 'DroneCustomer/orderHistory.html')
+def account(request):
+    return render(request, 'DroneCustomer/account.html')
 
 def login(request):
     return render(request, 'DroneCustomer/login.html')
@@ -27,3 +27,6 @@ def droneOwnerCreation(request):
 
 def signUp(request):
     return render(request, 'DroneCustomer/customerCreation.html')
+
+def editAccount(request):
+    return render(request, 'DroneCustomer/editAccount.html')

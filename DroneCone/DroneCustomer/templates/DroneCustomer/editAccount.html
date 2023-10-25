@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Account - Drone Cones</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #A2D2FF;" class="min-h-screen">
+
+    <div class="container mx-auto p-4">
+        <!-- Edit Account Section -->
+        <section id="edit-account" class="p-4 rounded-lg shadow-lg" style="background-color: white;">
+            <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Edit Account</h2>
+            <form action="/update-account/" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-4">
+                    <label for="email" class="block font-bold mb-2" style="color: #CDB4DB;">Email</label>
+                    <input type="email" name="email" id="email" class="w-full px-3 py-2 border rounded" placeholder="Email" value="{{ user.email }}" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="password" class="block font-bold mb-2" style="color: #CDB4DB;">Password</label>
+                    <input type="password" name="password" id="password" class="w-full px-3 py-2 border rounded" placeholder="Password" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label class="block font-bold mb-2" style="color: #CDB4DB;">
+                        <input type="checkbox" name="drone_owner" id="drone_owner" class="mr-2">
+                        Would you like to become a drone owner?
+                    </label>
+                </div>
+                <button type="submit" id="enter-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;">Update Account</button>
+            </form>
+        </section>
+    </div>
+
+</body>
+</html>
