@@ -4,64 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout - Drone Cones</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container">
-    <!-- Your Order Section -->
-    <section id="your-order" class="mb-4">
-        <h2 class="mb-3">Your Order</h2>
-        <ul class="list-group mb-2">
-            {% for item in order_items %}
-                <li class="list-group-item">{{ item.name }} - ${{ item.price }}</li>
-            {% endfor %}
-        </ul>
-        <p>Total Price: ${{ total_price }}</p>
-    </section>
+<body style="background-color: #A2D2FF;" class="min-h-screen">
 
- <form action="/submit-order/" method="post" class="mb-4">
-     {% csrf_token %}
-    <!-- Delivery Address Section -->
-    <section id="delivery-address" class="mb-4">
-        <h2 class="mb-3">Delivery Address</h2>
-            <div class="form-group">
-                <label for="street_number" class="font-weight-bold">Street Number</label>
-                <input type="text" name="street_number" id="street_number" class="form-control" placeholder="Street Number" required>
-            </div>
-            <div class="form-group">
-                <label for="city" class="font-weight-bold">City</label>
-                <input type="text" name="city" id="city" class="form-control" placeholder="City" required>
-            </div>
-            <div class="form-group">
-                <label for="state" class="font-weight-bold">State</label>
-                <input type="text" name="state" id="state" class="form-control" placeholder="State" required>
-            </div>
-            <button type="button" id="use-saved-address" class="btn btn-secondary mb-2">Use Saved Address</button>
-            <button type="button" id="send-to-current-location" class="btn btn-primary">Send to Current Location</button>
-    </section>
+    <div class="container mx-auto p-4">
+        <!-- Your Order Section -->
+        <section id="your-order" class="mb-4 p-4 rounded shadow-lg" style="background-color: white;">
+            <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Your Order</h2>
+            <ul class="list-disc list-inside mb-2">
+                {% for item in order_items %}
+                    <li class="mb-1">{{ item.name }} - ${{ item.price }}</li>
+                {% endfor %}
+            </ul>
+            <p class="font-bold">Total Price: ${{ total_price }}</p>
+        </section>
 
-    <!-- Payment Section -->
-    <section id="payment" class="mb-4">
-        <h2 class="mb-3">Payment</h2>
-            <div class="form-group">
-                <label for="cardholder_name" class="font-weight-bold">Cardholder Name</label>
-                <input type="text" name="cardholder_name" id="cardholder_name" class="form-control" placeholder="Cardholder Name" required>
-            </div>
-            <div class="form-group">
-                <label for="card_number" class="font-weight-bold">Card Number</label>
-                <input type="text" name="card_number" id="card_number" class="form-control" placeholder="Card Number" required>
-            </div>
-            <div class="form-group">
-                <label for="expiration_date" class="font-weight-bold">Expiration Date</label>
-                <input type="text" name="expiration_date" id="expiration_date" class="form-control" placeholder="Expiration Date" required>
-            </div>
-            <div class="form-group">
-                <label for="cvv" class="font-weight-bold">CVV</label>
-                <input type="text" name="cvv" id="cvv" class="form-control" placeholder="CVV" required>
-            </div>
-            <button type="submit" class="btn btn-success">Complete Order</button>
-    </section>
- </form>
-</div>
+        <form action="/submit-order/" method="post" class="mb-4 p-4 rounded shadow-lg" style="background-color: white;">
+            {% csrf_token %}
+            <!-- Delivery Address Section -->
+            <section id="delivery-address" class="mb-4">
+                <h2 class="mb-3 text-2xl font-bold" style="color: #CDB4DB;">Delivery Address</h2>
+                <div class="form-group mb-4">
+                    <label for="street_number" class="block font-bold mb-2" style="color: #CDB4DB;">Street Number</label>
+                    <input type="text" name="street_number" id="street_number" class="w-full px-3 py-2 border rounded" placeholder="Street Number" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="city" class="block font-bold mb-2" style="color: #CDB4DB;">City</label>
+                    <input type="text" name="city" id="city" class="w-full px-3 py-2 border rounded" placeholder="City" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="state" class="block font-bold mb-2" style="color: #CDB4DB;">State</label>
+                    <input type="text" name="state" id="state" class="w-full px-3 py-2 border rounded" placeholder="State" required>
+                </div>
+                <button type="button" id="use-saved-address" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;">Use Saved Address</button>
+                <button type="button" id="send-to-current-location" class="py-2 px-4 rounded font-bold" style="background-color: #FFC8DD; color: white;">Send to Current Location</button>
+            </section>
+
+            <!-- Payment Section -->
+            <section id="payment" class="mb-4">
+                <h2 class="mb-3 text-2xl font-bold" style="color: #CDB4DB;">Payment</h2>
+                <div class="form-group mb-4">
+                    <label for="cardholder_name" class="block font-bold mb-2" style="color: #CDB4DB;">Cardholder Name</label>
+                    <input type="text" name="cardholder_name" id="cardholder_name" class="w-full px-3 py-2 border rounded" placeholder="Cardholder Name" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="card_number" class="block font-bold mb-2" style="color: #CDB4DB;">Card Number</label>
+                    <input type="text" name="card_number" id="card_number" class="w-full px-3 py-2 border rounded" placeholder="Card Number" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="expiration_date" class="block font-bold mb-2" style="color: #CDB4DB;">Expiration Date</label>
+                    <input type="text" name="expiration_date" id="expiration_date" class="w-full px-3 py-2 border rounded" placeholder="Expiration Date" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="cvv" class="block font-bold mb-2" style="color: #CDB4DB;">CVV</label>
+                    <input type="text" name="cvv" id="cvv" class="w-full px-3 py-2 border rounded" placeholder="CVV" required>
+                </div>
+                <button type="submit" class="py-2 px-4 rounded font-bold" style="background-color: #FFAFCC; color: white;">Complete Order</button>
+            </section>
+        </form>
+    </div>
+
 </body>
 </html>

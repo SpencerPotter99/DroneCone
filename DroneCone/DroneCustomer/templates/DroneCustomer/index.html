@@ -1,10 +1,18 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Drone Cones</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<p>this is a test</p>
+<body class="min-h-screen flex items-center justify-center" style="background-image: url('{% static 'Icecreambackground.png' %}'); background-size: cover; background-repeat: no-repeat;">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+        <h1 class="text-4xl mb-4 font-bold" style="color: #CDB4DB;">Welcome to Drone Cones</h1>
+        <button onclick="location.href='/login'" class="text-white font-bold py-2 px-4 rounded-full mb-2" style="background-color: #FFC8DD; transition: background-color 0.3s;">Log In</button><br>
+        <button onclick="location.href='/signup'" class="text-white font-bold py-2 px-4 rounded-full" style="background-color: #FFAFCC; transition: background-color 0.3s;">Sign Up</button>
+    </div>
+
 </body>
 </html>

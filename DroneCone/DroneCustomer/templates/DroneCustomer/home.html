@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>This is a test</p>
-</body>
-</html>
+{% extends "DroneCustomer/base.html" %}
+{% load static %}
+{% block content %}
+<div id="app"> 
+<div class="text-center">
+    <h1 class="text-4xl font-bold">Welcome To Drone Cones</h1>
+    <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
+</div>
+<div class="text-center mt-8">
+  <h1 class="text-2xl font-semibold">Choose Your Size</h1>
+</div>
+<div class="size-container text-center">
+<div class="size-container">
+  <label>
+    <input type="radio" v-model="selectedSize" value="small">
+    Small
+  </label>
+  <label>
+    <input type="radio" v-model="selectedSize" value="medium">
+    Medium
+  </label>
+  <label>
+    <input type="radio" v-model="selectedSize" value="large">
+    Large
+  </label>
+</div>
+</div>
+<div class="text-center mt-8">
+    <h1 class="text-2xl font-semibold">Choose Your Ice Cream Flavor</h1>
+</div>
+<div class="card-container">
+  <div v-for="(card, index) in cards" :key="index" class="card" @click="toggleCard(index)" :class="{ 'highlighted': selectedCards.includes(index) }">
+    <img :src="imageBasePath + card.name + 'IceCream.png'" :alt="card.name + ' Ice Cream'">
+    <div class="container">
+      <h4><b>Test</b></h4>
+      <p>Architect & Engineer</p>
+    </div>
+  </div>
+</div>
+<div>
+</div>
+<div class="text-center mt-8">
+    <h1 class="text-2xl font-semibold">Choose Your Ice Cream Cone</h1>
+</div>
+<div class="card-container">
+  <div v-for="(cone, index2) in cones" :key="index2" class="card" @click="toggleCone(index2)" :class="{ 'highlighted': selectedConeCards.includes(index2) }">
+    <img :src="imageBasePath + cone.name + 'IceCream.png'" :alt="cone.name + ' Ice Cream'">
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
+    </div>
+  </div>
+</div>
+    <div>
+    </div>
+    <div class="text-center mt-8">
+        <h1 class="text-2xl font-semibold">Choose Your Toppings</h1>
+    </div>
+    <div class="card-container">
+      <div v-for="(topping, index3) in toppings" :key="index3" class="card" @click="toggleTopping(index3)" :class="{ 'highlighted': selectedToppings.includes(index3) }">
+        <img :src="imageBasePath + topping.name + 'IceCream.png'" :alt="topping.name + ' Ice Cream'">
+        <div class="container">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-8">
+      <button @click="submitOrder" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Order</button>
+    </div>
+<p>This is the home p\</p>
+</div>
+{% endblock %}

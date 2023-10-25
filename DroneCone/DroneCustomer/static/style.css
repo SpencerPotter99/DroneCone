@@ -4,6 +4,10 @@
     width: 100%; /* Set the width to 100% to expand to the full screen width */
     height: 5%;
     display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+    overflow: auto;
 }
 
 .navbar img.left {
@@ -61,7 +65,7 @@
   }
 
   .card {
-    background-color: #E351C3;
+    background-color: #CDB4DB;
       border: 1px solid #ccc;
       padding: 10px;
       margin: 5px;
@@ -71,4 +75,8 @@
     width: 40%;
     display: block;
     margin: 0 auto; /* Center the image horizontally */
+}
+
+.highlighted {
+    background-color: #FFAFCC; /* Change the background color to your preference */
 }
