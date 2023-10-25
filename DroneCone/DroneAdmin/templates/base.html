@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 flex">
+    <aside class="w-1/8 bg-gray-300 p-4 min-h-screen">
+        <h2 class="text-lg font-semibold mb-4">Navigation</h2>
+        <ul class="space-y-2">
+            <li><a href="{% url 'sales' %}">Sales</a></li>
+            <li><a href="{% url 'inventory' %}">Inventory</a></li>
+            <li><a href="{% url 'drone_management' %}">Drone Management</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        </ul>
+    </aside>
+    <main class="w-7/8 p-8">
+        <h1 class="text-3xl font-semibold mb-4">{% block heading %}{% endblock %}</h1>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
