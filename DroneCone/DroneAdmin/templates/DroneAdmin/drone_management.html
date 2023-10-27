@@ -4,6 +4,28 @@
 {% block heading %}Drone Management{% endblock %}
 
 {% block content %}
-
+<div class="p-4">
+    <h2 class="text-2xl font-semibold mb-4">Ice Cream Drone Management</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for drone in ice_cream_drones %}
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="text-lg font-semibold">{{ drone.name }}</h3>
+            <p class="text-gray-600 mb-2">Size: {{ drone.get_size_display }}</p>
+            <p class="text-gray-600 mb-2">Weight: {{ drone.drone_weight_g }} g</p>
+            <p class="text-gray-600 mb-2">Battery Capacity: {{ drone.battery_capacity_mAh }} mAh</p>
+            <p class="text-gray-600 mb-2">Battery Voltage: {{ drone.battery_voltage }} V</p>
+            <p class="text-gray-600 mb-2">Battery Level: {{ drone.get_battery_percentage }}%</p>
+            <p class="text-gray-600 mb-2">Status: {{ drone.get_drone_status }}</p>
+            <p class="text-gray-600 mb-2">Flight Range: {{ drone.determine_flight_range }} km</p>
+            <p class="text-gray-600 mb-2">Enabled: {{ drone.enabled }}</p>
+            <p class="text-gray-600 mb-2">In Flight: {{ drone.in_flight }}</p>
+            <div class="mt-4">
+                <a href="{% url 'edit_drone' drone.pk %}" class="text-indigo-600 hover:underline mr-4">Edit</a>
+                <a href="{% url 'delete_drone' drone.pk %}" class="text-red-600 hover:underline">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

@@ -1,14 +1,18 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
-
+from DroneCustomer.models import Drone
 
 def index(request):
     return render(request, "DroneAdmin/dashboard.html")
 
 
 def drone_management(request):
-    return render(request, "DroneAdmin/drone_management.html")
+    drones = Drone.objects.all()
+    return render(
+        request,
+        "DroneAdmin/drone_management.html",
+        { 'drones' : drones }
+    )
 
 
 def inventory(request):
