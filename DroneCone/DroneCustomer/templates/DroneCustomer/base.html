@@ -27,6 +27,7 @@
     new Vue({
         el: '#app',
         data: {
+          coneCount: 1,
           selectedSize: null,
           selectedCards: [], // Define the selectedCards array
           selectedConeCards: [], // Define the selectedConeCards array
@@ -52,6 +53,18 @@
           ],
         },
         methods: {
+            generateConeOptions() {
+                const coneOptions = [];
+                for (let i = 0; i < this.coneCount; i++) {
+                coneOptions.push({
+                    size: null,
+                    selectedCards: [],
+                    selectedConeCards: [],
+                    selectedToppings: [],
+                });
+                }
+                return coneOptions;
+            },
           toggleCard(index) {
             const selectedIndex = this.selectedCards.indexOf(index);
             if (selectedIndex === -1) {
@@ -92,7 +105,6 @@
           console?.log(order);
         }
         },
-       
       });
     </script>
 </html>
