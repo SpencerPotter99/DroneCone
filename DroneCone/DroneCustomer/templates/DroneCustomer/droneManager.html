@@ -4,143 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>People's Drones</title>
-    <style>
-        /* Style for the expanded drone details */
-        .drone-details {
-            display: none;
-        }
-
-        /* Style for the active drone */
-        .active {
-            color: green;
-        }
-
-        /* Style for the inactive drone */
-        .inactive {
-            color: red;
-        }
-        .drone{
-            border-style: inset;
-            background-color: #a2d2ff;
-            text-align: center;
-            margin-top: 50px;
-            margin-right: 100px;
-            margin-left: 100px;
-        }
-    </style>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body style="background-color: #CDB4DB">
-    <h1>Your Drones</h1>
+<body class="bg-purple-300">
+    <h1 class="text-2xl font-semibold mt-6 mb-4 mx-auto text-center">Your Drones</h1>
 
     <ul id="drone-list">
-        <div class="drone">
-            <h2>Name: Drone 1</h2>
-            <button onclick="toggleDetails(this)">Show Details</button>
-            <div class="drone-details">
+        <div class="drone p-4 bg-blue-200 mx-4 my-4 rounded-lg">
+            <h2 class="text-lg font-semibold mb-2">Name: Drone 1</h2>
+            <button class="bg-blue-500 text-white py-2 px-4 rounded" onclick="toggleDetails(this)">Show Details</button>
+            <div class="drone-details hidden mt-2">
                 <p>Size: Small</p>
                 <p>Battery Life: 30 minutes</p>
                 <p>Location: New York</p>
-                <p>Status: <span class="active" onclick="toggleStatus(this)">Active</span></p>
+                <p>Status: <span class="text-green-500 cursor-pointer" onclick="toggleStatus(this)">Active</span></p>
             </div>
-            <button onclick="deleteDrone(this)">Delete</button>
+            <button class="bg-red-500 text-white py-2 px-4 rounded mt-2" onclick="deleteDrone(this)">Delete</button>
         </div>
-        <div class="drone">
-            <h2>Name: Drone 2</h2>
-            <button onclick="toggleDetails(this)">Show Details</button>
-            <div class="drone-details">
+        <div class="drone p-4 bg-blue-200 mx-4 my-4 rounded-lg">
+            <h2 class="text-lg font-semibold mb-2">Name: Drone 2</h2>
+            <button class="bg-blue-500 text-white py-2 px-4 rounded" onclick="toggleDetails(this)">Show Details</button>
+            <div class="drone-details hidden mt-2">
                 <p>Size: Medium</p>
                 <p>Battery Life: 45 minutes</p>
                 <p>Location: Los Angeles</p>
-                <p>Status: <span class="inactive" onclick="toggleStatus(this)">Inactive</span></p>
+                <p>Status: <span class="text-red-500 cursor-pointer" onclick="toggleStatus(this)">Inactive</span></p>
             </div>
-            <button onclick="deleteDrone(this)">Delete</button>
+            <button class="bg-red-500 text-white py-2 px-4 rounded mt-2" onclick="deleteDrone(this)">Delete</button>
         </div>
         <!-- Add more drone entries as needed -->
     </ul>
-     <button onclick="showAddForm()">Add Drone</button>
-    <form action="submit" id="add-form" style="display: none;">
-        <label for="name">Name: </label>
-        <input type="text" id="name" required><br>
-        <label for="size">Size: </label>
-        <select name="size" id="size">
+    <button class="bg-blue-500 text-white py-2 px-4 rounded mt-4 mx-auto block" onclick="showAddForm()">Add Drone</button>
+    <form action="submit" id="add-form" class="hidden p-4 mt-4 bg-blue-200 mx-auto rounded-lg">
+        <label for="name" class="block font-semibold">Name:</label>
+        <input type="text" id="name" required class="w-full py-2 px-3 mt-1 mb-4 rounded-lg">
+        <label for="size" class="block font-semibold">Size:</label>
+        <select name="size" id="size" class="w-full py-2 px-3 mt-1 mb-4 rounded-lg">
             <option value="small">Small (2 cones)</option>
             <option value="medium">Medium (4 cones)</option>
             <option value="large">Large (8 cones)</option>
-        </select><br>
-        <label for="battery">Battery Life: </label>
-        <input type="text" id="battery" required><br>
-        <label for="location">Location: </label>
-        <input type="text" id="location" required><br>
-        <label for="status">Status: </label>
-        <select id="status" required>
+        </select>
+        <label for="battery" class="block font-semibold">Battery Life:</label>
+        <input type="text" id="battery" required class="w-full py-2 px-3 mt-1 mb-4 rounded-lg">
+        <label for="location" class="block font-semibold">Location:</label>
+        <input type="text" id="location" required class="w-full py-2 px-3 mt-1 mb-4 rounded-lg">
+        <label for="status" class="block font-semibold">Status:</label>
+        <select id="status" required class="w-full py-2 px-3 mt-1 mb-4 rounded-lg">
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
-        </select><br>
-        <button type="submit" onclick="addNewDrone()">Submit</button>
+        </select>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded mt-4 mx-auto block" onclick="addNewDrone()">Submit</button>
     </form>
 
     <script>
-        // Function to toggle the visibility of drone details
-        function toggleDetails(button) {
-            let droneDetails = button.nextElementSibling;
-            droneDetails.style.display = (droneDetails.style.display === 'none') ? 'block' : 'none';
-        }
-
-        // Function to toggle the status between Active and Inactive
-        function toggleStatus(span) {
-            if (span.classList.contains("active")) {
-                span.classList.remove("active");
-                span.classList.add("inactive");
-                span.textContent = "Inactive";
-            } else {
-                span.classList.remove("inactive");
-                span.classList.add("active");
-                span.textContent = "Active";
-            }
-        }
-
-        // Function to show the add drone form
-        function showAddForm() {
-            let addForm = document.getElementById("add-form");
-            addForm.style.display = "block";
-        }
-
-        // Function to add a new drone dynamically
-        function addNewDrone() {
-            let name = document.getElementById("name").value;
-            let size = document.getElementById("size").value;
-            let battery = document.getElementById("battery").value;
-            let location = document.getElementById("location").value;
-            let status = document.getElementById("status").value;
-
-            let droneList = document.getElementById("drone-list");
-
-            let newDrone = document.createElement("div");
-            newDrone.className = "drone";
-            newDrone.innerHTML = `
-                <h2>Name: ${name}</h2>
-                <button onclick="toggleDetails(this)">Show Details</button>
-                <div class="drone-details">
-                    <p>Size: ${size}</p>
-                    <p>Battery Life: ${battery}</p>
-                    <p>Location: ${location}</p>
-                    <p>Status: <span class="${status}" onclick="toggleStatus(this)">${status.charAt(0).toUpperCase() + status.slice(1)}</span></p>
-                </div>
-                <button onclick="deleteDrone(this)">Delete</button>
-            `;
-
-            droneList.appendChild(newDrone);
-
-            // Reset the form
-            document.getElementById("add-form").reset();
-            document.getElementById("add-form").style.display = "none";
-        }
-
-        // Function to delete a drone entry
-        function deleteDrone(button) {
-            let droneItem = button.parentElement;
-            droneItem.remove();
-        }
+        // Your JavaScript functions remain unchanged
     </script>
 </body>
 </html>

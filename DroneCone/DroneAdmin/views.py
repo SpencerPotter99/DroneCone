@@ -1,3 +1,19 @@
 from django.shortcuts import render
 
-# Create your views here.
+from django.http import HttpResponse
+
+
+def index(request):
+    return render(request, "DroneAdmin/dashboard.html")
+
+
+def drone_management(request):
+    return render(request, "DroneAdmin/drone_management.html")
+
+
+def inventory(request):
+    return render(request, "DroneAdmin/inventory.html")
+
+
+def sales(request):
+    return render(request, "DroneAdmin/sales.html")
