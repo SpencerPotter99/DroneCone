@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 
+from .forms import DroneForm
 from DroneCustomer.models import Drone
 
 def index(request):
@@ -13,6 +14,21 @@ def drone_management(request):
         "DroneAdmin/drone_management.html",
         { 'drones' : drones }
     )
+
+def add_drone(request, drone_id=None):
+    if drone_id:
+        drone = get_object_or_404(Drone, pk = drone_id)
+    else:
+        drone = None
+
+    if request.method == 'POST':
+        form = DroneForm(request.POST, instance=drone)
+        if form.is_valid():
+            form.save()
+            return redirect('drone_management')
+    else:
+        form = DroneForm(instance=drone)
+    return render(request, 'DroneAdmin/add_drone.html', {'form': form})
 
 
 def inventory(request):

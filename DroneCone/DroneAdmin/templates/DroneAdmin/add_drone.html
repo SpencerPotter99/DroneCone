@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Drone{% endblock %}
+{% block heading %}Add Drone{% endblock %}
+
+{% block content %}
+    <div class="bg-white p-4 shadow-lg rounded-lg">
+        <h2 class="text-xl font-semibold">Add a New Drone/h2>
+        <form method="post" class="space-y-2">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Drone</button>
+        </form>
+    </div>
+    <a href="{% url 'inventory' %}" class="text-blue-500 mt-4">Back to Inventory</a>
+{% endblock %}
