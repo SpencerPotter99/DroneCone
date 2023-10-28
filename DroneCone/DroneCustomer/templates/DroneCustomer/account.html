@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Account - Drone Cones</title>
-    <!-- Tailwind CSS CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-</head>
-<body style="background-color: #A2D2FF;" class="min-h-screen">
-
-    <div class="container mx-auto p-4">
+{% extends "DroneCustomer/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container mx-auto p-4 pt-8" style="padding-top: 2rem;">
         <!-- Account Info Section -->
         <section id="account-info" class="mb-4 p-4 rounded-lg shadow-lg" style="background-color: white;">
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Account Information</h2>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Email:</span> {{ user.email }}</p>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Total Orders:</span> {{ user.total_orders }}</p>
-            <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;">Edit Account Information</button>
+            <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;" onclick="location.href='/dronecone/editaccount'">Edit Account Information</button>
         </section>
 
         <!-- Order History Section -->
@@ -50,6 +42,4 @@
             </table>
         </section>
     </div>
-
-</body>
-</html>
+{% endblock %}
