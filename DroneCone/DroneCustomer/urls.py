@@ -10,5 +10,6 @@ urlpatterns = [
     path("login/", views.login, name="login"),
     path("mydrones/", views.droneManagement, name="mydrones"),
     path("signup/", views.signUp, name="signup"),
+    path("droneOwnerCreation/", views.droneOwnerCreation, name="droneOwnerCreation"),
     path("droneownersignup/", views.droneOwnerCreation, name="droneownersignup")
 ]
