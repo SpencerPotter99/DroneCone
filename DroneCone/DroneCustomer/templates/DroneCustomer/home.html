@@ -6,6 +6,13 @@
     <h1 class="text-4xl font-bold">Welcome To Drone Cones</h1>
     <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
 </div>
+<div class="card-container">
+<div v-for="menuItem in menuItems" :key="menuItem.id" class="card" @click="toggleCard(menuItem.id)" :class="{ 'highlighted': selectedCards.includes(menuItem.id) }">
+  <h3><b>[[ menuItem.name ]]</b></h3>
+    <p>[[ menuItem.description ]]</p>
+    <p>Price: $[[ menuItem.price ]]</p>
+</div>
+</div>
 <div class="text-center mt-8">
   <h1 class="text-2xl font-semibold">Choose Your Size</h1>
 </div>
@@ -32,8 +39,8 @@
   <div v-for="(card, index) in cards" :key="index" class="card" @click="toggleCard(index)" :class="{ 'highlighted': selectedCards.includes(index) }">
     <img :src="imageBasePath + card.name + 'IceCream.png'" :alt="card.name + ' Ice Cream'">
     <div class="container">
-      <h4><b>Test</b></h4>
-      <p>Architect & Engineer</p>
+      <h4><b>[[ card.name ]]</b></h4>
+      <p>Price: $[[ card.description ]]</p>
     </div>
   </div>
 </div>
@@ -46,8 +53,8 @@
   <div v-for="(cone, index2) in cones" :key="index2" class="card" @click="toggleCone(index2)" :class="{ 'highlighted': selectedConeCards.includes(index2) }">
     <img :src="imageBasePath + cone.name + 'IceCream.png'" :alt="cone.name + ' Ice Cream'">
     <div class="container">
-      <h4><b>John Doe</b></h4>
-      <p>Architect & Engineer</p>
+      <h4><b>[[ cone.name ]]</b></h4>
+      <p>Price: +$[[ cone.description ]]</p>
     </div>
   </div>
 </div>
@@ -60,8 +67,8 @@
       <div v-for="(topping, index3) in toppings" :key="index3" class="card" @click="toggleTopping(index3)" :class="{ 'highlighted': selectedToppings.includes(index3) }">
         <img :src="imageBasePath + topping.name + 'IceCream.png'" :alt="topping.name + ' Ice Cream'">
         <div class="container">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
+          <h4><b>[[ topping.name ]]</b></h4>
+          <p>Price: +$[[ topping.description ]]</p>
         </div>
       </div>
     </div>
