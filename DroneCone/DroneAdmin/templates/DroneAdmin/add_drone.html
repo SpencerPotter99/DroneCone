@@ -9,19 +9,18 @@
             {% csrf_token %}
 
             <label class="block font-semibold text-gray-700">Name:</label>
-            <div class="border border-gray-500 rounded">{{ form.name }}</div>
+            {{ form.name }}
 
             <label class="block font-semibold text-gray-700">Size:</label>
             {{ form.size }}
 
             <label class="block font-semibold text-gray-700">Weight:</label>
-            <div class="border border-gray-500 rounded">{{ form.drone_weight_g }}</div>
+            {{ form.drone_weight_g }}
 
             <label class="block font-semibold text-gray-700">Battery Voltage:</label>
-            <div class="border border-gray-500 rounded">{{ form.battery_voltage }}</div>
-
+            {{ form.battery_voltage }}
             <label class="block font-semibold text-gray-700">Battery Level:</label>
-            <div class="border border-gray-500 rounded">{{ form.battery_level }}</div>
+            {{ form.battery_level }}
 
             <label class="block font-semibold text-gray-700">Drone is Enabled:</label>
             {{ form.enabled }}
@@ -29,7 +28,7 @@
             <label class="block font-semibold text-gray-700">In-flight:</label>
             {{ form.in_flight }}
             <div>
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
+                <button type="submit" class="flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
             </div>
         </form>
     </div>

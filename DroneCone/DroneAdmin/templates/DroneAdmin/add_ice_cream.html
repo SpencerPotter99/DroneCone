@@ -8,18 +8,18 @@
         <form method="post">
             {% csrf_token %}
             <label class="block font-semibold text-gray-700">Flavor:</label>
-            <div class="border border-gray-500 rounded">{{ form.flavor }}</div>
+            {{ form.flavor }}
 
             <label class="block font-semibold text-gray-700">Description:</label>
-            <div class="border border-gray-500 rounded">{{ form.description }}</div>
+            {{ form.description }}
 
             <label class="block font-semibold text-gray-700">Price:</label>
-            <div class="border border-gray-500 rounded">{{ form.price }}</div>
+            {{ form.price }}
 
             <label class="block font-semibold text-gray-700">Quantity:</label>
-            <div class="border border-gray-500 rounded">{{ form.qty }}</div>
+            {{ form.qty }}
 
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
+            <button type="submit" class=" flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
         </form>
     </div>
     <a href="{% url 'inventory' %}" class="text-blue-500 mt-4">Back to Inventory</a>
