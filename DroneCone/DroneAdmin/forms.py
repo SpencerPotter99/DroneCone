@@ -28,10 +28,9 @@ class DroneForm(forms.ModelForm):
 class IceCreamForm(forms.ModelForm):
     class Meta:
         model = IceCream
-        fields = ['flavor', 'description', 'price', 'qty']
+        fields = ['flavor', 'price', 'qty']
         widgets = {
             'flavor': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'description': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
             'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
@@ -39,10 +38,9 @@ class IceCreamForm(forms.ModelForm):
 class ToppingForm(forms.ModelForm):
     class Meta:
         model = Topping
-        fields = ['name', 'description', 'price', 'qty']
+        fields = ['name', 'price', 'qty']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'description': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
             'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
@@ -50,10 +48,9 @@ class ToppingForm(forms.ModelForm):
 class ConeForm(forms.ModelForm):
     class Meta:
         model = Cone
-        fields = ['name', 'description', 'price', 'qty']
+        fields = ['name', 'price', 'qty']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'description': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
             'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }

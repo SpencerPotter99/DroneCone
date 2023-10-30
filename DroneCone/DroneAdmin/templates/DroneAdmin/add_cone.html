@@ -10,9 +10,6 @@
             <label class="block font-semibold text-gray-700">Name:</label>
             {{ form.name }}
 
-            <label class="block font-semibold text-gray-700">Description:</label>
-            {{ form.description }}
-
             <label class="block font-semibold text-gray-700">Price:</label>
             {{ form.price }}
 
@@ -20,7 +17,6 @@
             {{ form.qty }}
 
             <button type="submit" class="flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
-
         </form>
     </div>
     <a href="{% url 'inventory' %}" class="text-blue-500 mt-4">Back to Inventory</a>
