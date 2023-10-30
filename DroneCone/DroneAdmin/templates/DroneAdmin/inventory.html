@@ -12,7 +12,7 @@
                 <p class="text-xl font-semibold">{{ ice_cream.flavor }}</p>
                 <p class="text-gray-600">Quantity: {{ ice_cream.qty }}</p>
                 <p class="text-gray-600">Price: {{ ice_cream.price }}</p>
-                <p class="text-gray-600">{{ ice_cream.description }}</p>
+                <p class="text-gray-600">"{{ ice_cream.description }}"</p>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
                     <a href="{% url 'add_ice_cream' ice_cream.id %}">Edit</a>
                 </button>
@@ -34,7 +34,7 @@
                 <p class="text-xl font-semibold">{{ cone.name }}</p>
                 <p class="text-gray-600">Quantity: {{ cone.qty }}</p>
                 <p class="text-gray-600">Price: {{ cone.price }}</p>
-                <p class="text-gray-600">{{ cone.description }}</p>
+                <p class="text-gray-600">"{{ cone.description }}"</p>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
                     <a href="{% url 'add_cone' cone.id %}">Edit</a>
                 </button>
@@ -56,7 +56,7 @@
                 <p class="text-xl font-semibold">{{ topping.name }}</p>
                 <p class="text-gray-600">Quantity: {{ topping.qty }}</p>
                 <p class="text-gray-600">Price: {{ topping.price }}</p>
-                <p class="text-gray-600">{{ topping.description }}</p>
+                <p class="text-gray-600">"{{ topping.description }}"</p>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
                     <a href="{% url 'add_topping' topping.id %}">Edit</a>
                 </button>
