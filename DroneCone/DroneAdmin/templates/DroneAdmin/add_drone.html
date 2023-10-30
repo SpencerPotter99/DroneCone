@@ -5,12 +5,34 @@
 
 {% block content %}
     <div class="bg-white p-4 shadow-lg rounded-lg">
-        <h2 class="text-xl font-semibold">Add a New Drone/h2>
-        <form method="post" class="space-y-2">
+        <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Drone</button>
+
+            <label class="block font-semibold text-gray-700">Name:</label>
+            <div class="border border-gray-500 rounded">{{ form.name }}</div>
+
+            <label class="block font-semibold text-gray-700">Size:</label>
+            {{ form.size }}
+
+            <label class="block font-semibold text-gray-700">Weight:</label>
+            <div class="border border-gray-500 rounded">{{ form.drone_weight_g }}</div>
+
+            <label class="block font-semibold text-gray-700">Battery Voltage:</label>
+            <div class="border border-gray-500 rounded">{{ form.battery_voltage }}</div>
+
+            <label class="block font-semibold text-gray-700">Battery Level:</label>
+            <div class="border border-gray-500 rounded">{{ form.battery_level }}</div>
+
+            <label class="block font-semibold text-gray-700">Drone is Enabled:</label>
+            {{ form.enabled }}
+
+            <label class="block font-semibold text-gray-700">In-flight:</label>
+            {{ form.in_flight }}
+            <div>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Drone</button>
+            </div>
         </form>
     </div>
-    <a href="{% url 'inventory' %}" class="text-blue-500 mt-4">Back to Inventory</a>
+
+    <a href="{% url 'drone_management' %}" class="text-blue-500 mt-4">Back to Drone Management</a>
 {% endblock %}

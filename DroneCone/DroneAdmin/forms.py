@@ -1,5 +1,5 @@
 from django import forms
-from DroneCustomer.models import Drone
+from DroneCustomer.models import Drone, IceCream, Topping, Cone
 
 class DroneForm(forms.ModelForm):
     class Meta:
@@ -14,3 +14,18 @@ class DroneForm(forms.ModelForm):
             'enabled',
             'in_flight'
         ]
+
+class IceCreamForm(forms.ModelForm):
+    class Meta:
+        model = IceCream
+        fields = ['flavor', 'description', 'price', 'qty']
+
+class ToppingForm(forms.ModelForm):
+    class Meta:
+        model = Topping
+        fields = ['name', 'description', 'price', 'qty']
+
+class ConeForm(forms.ModelForm):
+    class Meta:
+        model = Cone
+        fields = ['name', 'description', 'price', 'qty']

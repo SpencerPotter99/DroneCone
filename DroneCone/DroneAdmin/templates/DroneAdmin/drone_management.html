@@ -5,7 +5,6 @@
 
 {% block content %}
 <div class="p-4">
-    <h2 class="text-2xl font-semibold mb-4">Ice Cream Drone Management</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {% for drone in drones %}
         <div class="bg-white p-4 rounded shadow">
@@ -31,7 +30,7 @@
             <form action="{% url 'add_drone' %}" method="post" class="space-y-2">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Flavor</button>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add</button>
             </form>
         </div>
 </div>
