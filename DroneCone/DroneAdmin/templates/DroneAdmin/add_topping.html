@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Topping{% endblock %}
-{% block heading %}Add Topping{% endblock %}
+{% block title %}{{ action_title }} Topping{% endblock %}
+{% block heading %}{{ action_title }} Topping{% endblock %}
 
 {% block content %}
     <div class="bg-white p-4 shadow-lg rounded-lg">
         <form method="post">
             {% csrf_token %}
-           <label class="block font-semibold text-gray-700">Name:</label>
-            <div class="border border-gray-500 rounded">{{ form.name }}</div>
-
-            <label class="block font-semibold text-gray-700">Description:</label>
-            <div class="border border-gray-500 rounded">{{ form.description }}</div>
+            <label class="block font-semibold text-gray-700">Name:</label>
+            {{ form.name }}
 
             <label class="block font-semibold text-gray-700">Price:</label>
-            <div class="border border-gray-500 rounded">{{ form.price }}</div>
+            {{ form.price }}
 
             <label class="block font-semibold text-gray-700">Quantity:</label>
-            <div class="border border-gray-500 rounded">{{ form.qty }}</div>
-            <button type="submit" class="block bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Topping</button>
+            {{ form.qty }}
+
+            <button type="submit" class="flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
         </form>
     </div>
     <a href="{% url 'inventory' %}" class="text-blue-500 mt-4">Back to Inventory</a>

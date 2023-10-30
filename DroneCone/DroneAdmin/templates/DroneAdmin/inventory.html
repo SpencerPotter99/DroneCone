@@ -4,18 +4,16 @@
 {% block heading %}Inventory{% endblock %}
 
 {% block content %}
-    <section class="mb-8">
+<section class="mb-8">
     <h2 class="text-2xl font-semibold mb-4">Ice Cream</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {% for ice_cream in ice_creams %}
             <div class="bg-white p-4 shadow-lg rounded-lg">
                 <p class="text-xl font-semibold">{{ ice_cream.flavor }}</p>
-                <p class="text-gray-600">Quantity: {{ ice_cream.qty }}</p>
-                <p class="text-gray-600">Price: {{ ice_cream.price }}</p>
-                <p class="text-gray-600">{{ ice_cream.description }}</p>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
-                    <a href="{% url 'add_ice_cream' ice_cream.id %}">Edit</a>
-                </button>
+                <p class="text-gray-700">Quantity: {{ ice_cream.qty }}</p>
+                <p class="text-gray-700">Price: ${{ ice_cream.price }}</p>
+                <button onclick="window.location.href='{% url 'add_ice_cream' ice_cream.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
+                <button onclick="window.location.href='{% url 'delete_ice_cream' ice_cream.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
             </div>
         {% endfor %}
         <div class="bg-white p-4 shadow-lg rounded-lg">
@@ -23,21 +21,20 @@
             <form action="{% url 'add_ice_cream' %}" method="post" class="space-y-2">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add</button>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2 ">Add</button>
             </form>
         </div>
     </div>
-    <h2 class="text-2xl font-semibold mb-4">Cone/Cups</h2>
+    <h2 class="text-2xl font-semibold mb-4 mt-4">Cone/Cups</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {% for cone in cones %}
             <div class="bg-white p-4 shadow-lg rounded-lg">
                 <p class="text-xl font-semibold">{{ cone.name }}</p>
-                <p class="text-gray-600">Quantity: {{ cone.qty }}</p>
-                <p class="text-gray-600">Price: {{ cone.price }}</p>
-                <p class="text-gray-600">{{ cone.description }}</p>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
-                    <a href="{% url 'add_cone' cone.id %}">Edit</a>
-                </button>
+                <p class="text-gray-700">Quantity: {{ cone.qty }}</p>
+                <p class="text-gray-700">Price: ${{ cone.price }}</p>
+                <p class="text-gray-700">"{{ cone.description }}"</p>
+                 <button onclick="window.location.href='{% url 'add_cone' cone.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
+                <button onclick="window.location.href='{% url 'delete_cone' cone.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
             </div>
         {% endfor %}
         <div class="bg-white p-4 shadow-lg rounded-lg">
@@ -45,30 +42,31 @@
             <form action="{% url 'add_cone' %}" method="post" class="space-y-2">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add</button>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2 ">Add</button>
             </form>
         </div>
     </div>
-    <h2 class="text-2xl font-semibold mb-4">Toppings</h2>
+    <h2 class="text-2xl font-semibold mb-4 mt-4">Toppings</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {% for topping in toppings %}
             <div class="bg-white p-4 shadow-lg rounded-lg">
                 <p class="text-xl font-semibold">{{ topping.name }}</p>
-                <p class="text-gray-600">Quantity: {{ topping.qty }}</p>
-                <p class="text-gray-600">Price: {{ topping.price }}</p>
-                <p class="text-gray-600">{{ topping.description }}</p>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
-                    <a href="{% url 'add_topping' topping.id %}">Edit</a>
-                </button>
+                <p class="text-gray-700">Quantity: {{ topping.qty }}</p>
+                <p class="text-gray-700">Price: ${{ topping.price }}</p>
+                <p class="text-gray-700">"{{ topping.description }}"</p>
+                 <button onclick="window.location.href='{% url 'add_topping' topping.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
+                <button onclick="window.location.href='{% url 'delete_topping' topping.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
             </div>
         {% endfor %}
         <div class="bg-white p-4 shadow-lg rounded-lg">
             <h3 class="text-xl font-semibold">Add Topping</h3>
-            <form action="{% url 'add_topping' %}" method="post" class="space-y-2">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add</button>
-            </form>
+            <div>
+                <form action="{% url 'add_topping' %}" method="post" class="space-y-2 ">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="block bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add</button>
+                </form>
+            </div>
         </div>
     </div>
 </section>
