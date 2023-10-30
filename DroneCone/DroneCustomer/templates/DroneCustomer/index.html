@@ -10,8 +10,8 @@
 
     <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <h1 class="text-4xl mb-4 font-bold" style="color: #CDB4DB;">Welcome to Drone Cones</h1>
-        <button onclick="location.href='/login'" class="text-white font-bold py-2 px-4 rounded-full mb-2" style="background-color: #FFC8DD; transition: background-color 0.3s;">Log In</button><br>
-        <button onclick="location.href='/signup'" class="text-white font-bold py-2 px-4 rounded-full" style="background-color: #FFAFCC; transition: background-color 0.3s;">Sign Up</button>
+        <div class="text-white font-bold py-2 px-4 rounded-full mb-2" style="background-color: #FFC8DD; transition: background-color 0.3s;"><a href="{% url 'loginPage' %}">Log In</a></div><br>
+        <div class="text-white font-bold py-2 px-4 rounded-full" style="background-color: #FFAFCC; transition: background-color 0.3s;"><a href="{% url 'createAccountPage' %}">Sign Up</a></div>
     </div>
 
 </body>
