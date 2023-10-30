@@ -7,7 +7,7 @@
     <div class="bg-white p-4 shadow-lg rounded-lg">
         <form method="post">
             {% csrf_token %}
-           <label class="block font-semibold text-gray-700">Name:</label>
+            <label class="block font-semibold text-gray-700">Name:</label>
             <div class="border border-gray-500 rounded">{{ form.name }}</div>
 
             <label class="block font-semibold text-gray-700">Description:</label>
@@ -18,6 +18,7 @@
 
             <label class="block font-semibold text-gray-700">Quantity:</label>
             <div class="border border-gray-500 rounded">{{ form.qty }}</div>
+
             <button type="submit" class="block bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add Topping</button>
         </form>
     </div>
