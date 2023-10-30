@@ -1,0 +1,411 @@
+[
+  {
+    "model": "DroneCustomer.profile",
+    "pk": 2,
+    "fields": {
+      "user": 3,
+      "phone": "+1234567890",
+      "address": "123 Main St, City A",
+      "drone_owner": true
+    }
+  },
+  {
+    "model": "DroneCustomer.profile",
+    "pk": 3,
+    "fields": {
+      "user": 5,
+      "phone": "+1777777777",
+      "address": "567 Pine St, City D",
+      "drone_owner": false
+    }
+  },
+  {
+    "model": "DroneCustomer.profile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "phone": "+1444444444",
+      "address": "789 Oak St, City C",
+      "drone_owner": false
+    }
+  },
+  {
+    "model": "DroneCustomer.profile",
+    "pk": 5,
+    "fields": {
+      "user": 2,
+      "phone": "+1654321890",
+      "address": "890 Cedar St, City E",
+      "drone_owner": true
+    }
+  },
+  {
+    "model": "DroneCustomer.drone",
+    "pk": 1,
+    "fields": {
+      "owner": 2,
+      "name": "DroneX1",
+      "size": "small",
+      "drone_weight_g": 2500,
+      "battery_capacity_mAh": 5000,
+      "battery_voltage": "7.40",
+      "battery_level": "1.00",
+      "enabled": true,
+      "in_flight": false
+    }
+  },
+  {
+    "model": "DroneCustomer.drone",
+    "pk": 2,
+    "fields": {
+      "owner": 3,
+      "name": "FlyMaster",
+      "size": "medium",
+      "drone_weight_g": 3000,
+      "battery_capacity_mAh": 7000,
+      "battery_voltage": "11.10",
+      "battery_level": "0.10",
+      "enabled": true,
+      "in_flight": false
+    }
+  },
+  {
+    "model": "DroneCustomer.drone",
+    "pk": 3,
+    "fields": {
+      "owner": 2,
+      "name": "SkyLifter",
+      "size": "large",
+      "drone_weight_g": 6500,
+      "battery_capacity_mAh": 13000,
+      "battery_voltage": "22.20",
+      "battery_level": "2.50",
+      "enabled": false,
+      "in_flight": false
+    }
+  },
+  {
+    "model": "DroneCustomer.drone",
+    "pk": 4,
+    "fields": {
+      "owner": 3,
+      "name": "CargoHawk",
+      "size": "medium",
+      "drone_weight_g": 5200,
+      "battery_capacity_mAh": 10000,
+      "battery_voltage": "14.80",
+      "battery_level": "0.50",
+      "enabled": true,
+      "in_flight": false
+    }
+  },
+  {
+    "model": "DroneCustomer.drone",
+    "pk": 5,
+    "fields": {
+      "owner": 3,
+      "name": "Carrier",
+      "size": "large",
+      "drone_weight_g": 7200,
+      "battery_capacity_mAh": 14000,
+      "battery_voltage": "11.10",
+      "battery_level": "0.00",
+      "enabled": true,
+      "in_flight": false
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 1,
+    "fields": {
+      "flavor": "Vanilla",
+      "price": "1.00",
+      "qty": 50
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 2,
+    "fields": {
+      "flavor": "Chocolate",
+      "price": "1.25",
+      "qty": 40
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 3,
+    "fields": {
+      "flavor": "Strawberry",
+      "price": "1.20",
+      "qty": 35
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 4,
+    "fields": {
+      "flavor": "Mint Chip",
+      "price": "1.50",
+      "qty": 45
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 5,
+    "fields": {
+      "flavor": "Cookie Dough",
+      "price": "1.75",
+      "qty": 30
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 6,
+    "fields": {
+      "flavor": "Rocky Road",
+      "price": "1.30",
+      "qty": 1
+    }
+  },
+  {
+    "model": "DroneCustomer.icecream",
+    "pk": 7,
+    "fields": {
+      "flavor": "Caramel Swirl",
+      "price": "1.49",
+      "qty": 0
+    }
+  },
+  {
+    "model": "DroneCustomer.topping",
+    "pk": 1,
+    "fields": {
+      "name": "Sprinkles",
+      "price": "0.20",
+      "qty": 150
+    }
+  },
+  {
+    "model": "DroneCustomer.topping",
+    "pk": 2,
+    "fields": {
+      "name": "Chocolate Syrup",
+      "price": "0.30",
+      "qty": 120
+    }
+  },
+  {
+    "model": "DroneCustomer.topping",
+    "pk": 3,
+    "fields": {
+      "name": "Chopped Nuts",
+      "price": "0.40",
+      "qty": 100
+    }
+  },
+  {
+    "model": "DroneCustomer.topping",
+    "pk": 4,
+    "fields": {
+      "name": "Whipped Cream",
+      "price": "0.25",
+      "qty": 130
+    }
+  },
+  {
+    "model": "DroneCustomer.topping",
+    "pk": 5,
+    "fields": {
+      "name": "Gummy Bears",
+      "price": "0.35",
+      "qty": 1
+    }
+  },
+  {
+    "model": "DroneCustomer.topping",
+    "pk": 6,
+    "fields": {
+      "name": "Caramel Sauce",
+      "price": "0.45",
+      "qty": 0
+    }
+  },
+  {
+    "model": "DroneCustomer.cone",
+    "pk": 1,
+    "fields": {
+      "name": "Cake Cone",
+      "price": "0.25",
+      "qty": 100
+    }
+  },
+  {
+    "model": "DroneCustomer.cone",
+    "pk": 2,
+    "fields": {
+      "name": "Waffle Cone",
+      "price": "0.50",
+      "qty": 80
+    }
+  },
+  {
+    "model": "DroneCustomer.cone",
+    "pk": 3,
+    "fields": {
+      "name": "Sugar Cone",
+      "price": "0.35",
+      "qty": 75
+    }
+  },
+  {
+    "model": "DroneCustomer.cone",
+    "pk": 4,
+    "fields": {
+      "name": "Chocolate Cone",
+      "price": "0.55",
+      "qty": 60
+    }
+  },
+  {
+    "model": "DroneCustomer.cone",
+    "pk": 5,
+    "fields": {
+      "name": "Waffle Bowl",
+      "price": "0.40",
+      "qty": 1
+    }
+  },
+  {
+    "model": "DroneCustomer.cone",
+    "pk": 6,
+    "fields": {
+      "name": "Gluten-Free Cone",
+      "price": "0.49",
+      "qty": 0
+    }
+  },
+  {
+    "model": "DroneCustomer.icecreamcone",
+    "pk": 1,
+    "fields": {
+      "size": "small",
+      "flavor": 1,
+      "cone": 1,
+      "toppings": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "DroneCustomer.icecreamcone",
+    "pk": 2,
+    "fields": {
+      "size": "large",
+      "flavor": 5,
+      "cone": 5,
+      "toppings": [
+        2
+      ]
+    }
+  },
+  {
+    "model": "DroneCustomer.order",
+    "pk": 1,
+    "fields": {
+      "user": 5,
+      "drone": 1,
+      "cones": {
+        "size": "small",
+        "flavor": "Vanilla",
+        "toppings": "Sprinkles",
+        "cone": "Sugar Cone",
+        "price": "5.00"
+      },
+      "status": "delivered",
+      "created_at": "2023-10-30T06:55:12.982Z",
+      "updated_at": "2023-10-30T06:55:12.982Z"
+    }
+  },
+  {
+    "model": "DroneCustomer.cart",
+    "pk": 1,
+    "fields": {
+      "user": 4,
+      "cones": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$Xyo5nOAdG96s0SJh0Esve4$prjs+SXyhfFej+1/0FF+6BN0y2wQDr8/XTLMnmaPM7Q=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user123",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "john@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-10-30T05:49:33Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$n0z5ETujEh7GXmYJYrRAQE$nkUHgM/AlXfDnw6WvfkFtiajIMMs1IGi1Vo1y44WCBc=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin007",
+      "first_name": "Emily",
+      "last_name": "Johnson",
+      "email": "emily@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-10-30T05:49:42Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$xXEz0ASP0r4fth4rXIFYck$CBna8100ITBgLM0qK7p9wTWlPvEkeDELqX8xUAMNyoI=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "iceCreamLover",
+      "first_name": "David",
+      "last_name": "Lee",
+      "email": "david@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-30T05:49:57Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$WK9yWycnXa1NAzlt6faD8C$mJcXJyn9jDH+0FmKFO5rVP85aB4407UbOuc5xcnIEGQ=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "chocoFan",
+      "first_name": "Michael",
+      "last_name": "Davis",
+      "email": "michael@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-30T05:50:11Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
