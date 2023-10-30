@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .models import Order
 # Create your views here.
 from django.http import HttpResponse
 
@@ -13,8 +13,15 @@ def home(request):
 def checkout(request):
     return render(request, 'DroneCustomer/checkout.html')
 
+
+
 def account(request):
-    return render(request, 'DroneCustomer/account.html')
+    user = request.user
+    orders = Order.objects.filter(user=user).order_by('-created_at')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'DroneCustomer/account.html', context)
 
 def login(request):
     return render(request, 'DroneCustomer/login.html')
