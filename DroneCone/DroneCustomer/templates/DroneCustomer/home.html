@@ -7,11 +7,25 @@
     <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
 </div>
 <div class="card-container">
-<div v-for="menuItem in menuItems" :key="menuItem.id" class="card" @click="toggleCard(menuItem.id)" :class="{ 'highlighted': selectedCards.includes(menuItem.id) }">
-  <h3><b>[[ menuItem.name ]]</b></h3>
+  <div v-for="menuItem in menuItems" :key="menuItem.id" v-if="menuItem.qty > 0" class="card" @click="toggleCard(menuItem.id)" :class="{ 'highlighted': selectedCards.includes(menuItem.id) }">
+    <h3><b>[[ menuItem.flavor ]]</b></h3>
     <p>[[ menuItem.description ]]</p>
     <p>Price: $[[ menuItem.price ]]</p>
+  </div>
 </div>
+<div class="card-container">
+  <div v-for="menuItem in coneItems" :key="menuItem.id" class="card" @click="toggleCone(menuItem.id)" :class="{ 'highlighted': selectedConeCards.includes(menuItem.id) }">
+    <h3><b>[[ menuItem.name ]]</b></h3>
+      <p>[[ menuItem.description ]]</p>
+      <p>Price: $[[ menuItem.price ]]</p>
+  </div>
+</div>
+<div class="card-container">
+  <div v-for="menuItem in toppingItems" :key="menuItem.id" class="card" @click="toggleTopping(menuItem.id)" :class="{ 'highlighted': selectedToppings.includes(menuItem.id) }">
+    <h3><b>[[ menuItem.name ]]</b></h3>
+      <p>[[ menuItem.description ]]</p>
+      <p>Price: $[[ menuItem.price ]]</p>
+  </div>
 </div>
 <div class="text-center mt-8">
   <h1 class="text-2xl font-semibold">Choose Your Size</h1>

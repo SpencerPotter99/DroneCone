@@ -1,13 +1,20 @@
 from rest_framework import serializers
-from .models import MenuItem
-from .models import Order
+from .models import IceCream, IceCreamCone, Topping, Cone
 
-class MenuItemSerializer(serializers.ModelSerializer):
+class IceCreamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MenuItem
+        model = IceCream
         fields = '__all__'
 
-class OrderSerializer(serializers.ModelSerializer):
+class ConeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Order
+        model = Cone
+        fields = '__all__'
+class ToppingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topping
+        fields = '__all__'
+class IceCreamConeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IceCreamCone
         fields = '__all__'

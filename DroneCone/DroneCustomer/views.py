@@ -2,30 +2,38 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import MenuItem, MenuOption, OptionValue
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
-from .models import MenuItem
-from .serializers import MenuItemSerializer, OrderSerializer
+from .models import IceCream, IceCreamCone, Topping, Cone
+from .serializers import *
 
 class MenuItemsAPI(APIView):
     def get(self, request):
-        menu_items = MenuItem.objects.all()
-        serializer = MenuItemSerializer(menu_items, many=True)
+        menu_items = IceCream.objects.all()
+        serializer = IceCreamSerializer(menu_items, many=True)
         print(menu_items)
         return Response(serializer.data)
 
-class OptionItemsAPI(APIView):
+class ToppingsItemsAPI(APIView):
     def get(self, request):
-        menu_items = MenuItem.objects.all()
-        serializer = MenuItemSerializer(menu_items, many=True)
-        print(menu_items)
+        topping_items = Topping.objects.all()
+        serializer = ToppingSerializer(topping_items, many=True)
+        print(topping_items)
+        return Response(serializer.data)
+
+class ConeItemsAPI(APIView):
+    def get(self, request):
+        cone_items = Cone.objects.all()
+        serializer = ConeSerializer(cone_items, many=True)
+        print(cone_items)
         return Response(serializer.data)
 
 class OrderCreateView(APIView):
     def post(self, request):
         print("TEST")
-        serializer = OrderSerializer(data=request.data)
+        serializer = IceCreamConeSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             serializer.save(user=request.user)  # Assuming you have user authentication
             return Response(serializer.data, status=status.HTTP_201_CREATED)
