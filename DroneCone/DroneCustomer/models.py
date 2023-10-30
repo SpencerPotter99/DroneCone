@@ -1,23 +1,15 @@
 from django.contrib.auth.models import User
 from django.db import models
-import json
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone = models.CharField(max_length=15, blank=True)
     address = models.CharField(max_length=255, blank=True)
+    drone_owner = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.get_full_name()
-
-
-class DroneOwner(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='drone_owner')
-    drones = models.ManyToManyField("Drone", related_name="owner")
-
-    def __str__(self):
-        return self.user.get_full_name()
-
+        return f"{self.user.username}"
 
 class Drone(models.Model):
     SIZE_CHOICES = [
@@ -25,18 +17,19 @@ class Drone(models.Model):
         ('medium', 'Medium'),
         ('large', 'Large'),
     ]
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="drone")
     name = models.CharField(max_length=100)
     size = models.CharField(max_length=10, choices=SIZE_CHOICES, default='small')
 
     drone_weight_g = models.PositiveIntegerField()
     battery_capacity_mAh = models.PositiveIntegerField()
     battery_voltage = models.DecimalField(max_digits=5, decimal_places=2)
-    battery_level = models.DecimalField(max_digits=2, decimal_places=1)  # 1.0 - 0.0
+    battery_level = models.DecimalField(max_digits=3, decimal_places=2)  # 1.0 - 0.0
 
     enabled = models.BooleanField(default=True)
     in_flight = models.BooleanField(default=False)
 
-    def available(self):
+    def is_available(self):
         return self.enabled and not self.in_flight
 
     def get_drone_status(self):
@@ -45,35 +38,33 @@ class Drone(models.Model):
         return "Disabled"
 
     def get_battery_percentage(self):
-        return self.battery_level * 100
+        return int(self.battery_level * 100)
 
-    def determine_flight_range(self):
+    def determine_flight_range_km(self):
         """
         Dummy method to determine how far the drone can go.
         """
-        p_per_kg = 170  # Assume a conservative estimate of 170,000 W/g
-        discharge = 0.8  # Assume a battery discharge of 80% during the flight.
-        aad = (self.drone_weight_g / 1000) * (p_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
-        flight_time_hrs = (self.battery_capacity_mAh / 1000) * discharge * aad  # time = capacity × discharge / AAD
-        return flight_time_hrs * 100 / 2  # Max travel distance = time * kph / 2(round-trip)
+        watts_per_kg = 150  # Estimating it takes 170 watts of power to lift one kilogram of equipment.
+        aad = (self.drone_weight_g / 1000) * (watts_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
+        flight_time_hrs = (self.battery_capacity_mAh / 1000) * float(self.battery_level) / aad  # time = capacity × discharge / AAD
+        return f"{flight_time_hrs * 100 / 2:.2f}" # Max travel distance = time * kph / 2(round-trip)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 class IceCream(models.Model):
     flavor = models.CharField(max_length=127)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     qty = models.IntegerField(default=0)
-
+    class Meta:
+        verbose_name_plural = "Ice cream"
     def __str__(self):
         return f"{self.flavor}"
 
 
 class Topping(models.Model):
     name = models.CharField(max_length=127)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     qty = models.IntegerField(default=0)
 
     def __str__(self):
@@ -82,8 +73,7 @@ class Topping(models.Model):
 
 class Cone(models.Model):
     name = models.CharField(max_length=127)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     qty = models.IntegerField(default=0)
 
     def __str__(self):
@@ -97,12 +87,27 @@ class IceCreamCone(models.Model):
     ]
     size = models.CharField(max_length=10, choices=SIZE_CHOICES, default='small')
     flavor = models.ForeignKey('IceCream', on_delete=models.CASCADE)
-    toppings = models.ManyToManyField('Topping')
+    toppings = models.ManyToManyField('Topping', blank=True)
     cone = models.ForeignKey('Cone', on_delete=models.CASCADE)
-    qty = models.PositiveSmallIntegerField(default=1)
 
     def __str__(self):
-        return f"Flavor: {self.flavor}, Size: {self.size}, Toppings: {self.toppings}, Cone: {self.cone}"
+        return f"{self.flavor} | {self.cone} | {self.size} | {[str(topping) for topping in list(self.toppings.all())]}"
+
+    def get_cone_info(self):
+        return {'size': str(self.size),
+                'flavor': str(self.flavor),
+                'toppings': [str(topping) for topping in list(self.toppings.all())],
+                'cone': str(self.cone),
+                'price': str(self.get_price())}
+
+
+    def get_price(self):
+        price = self.cone.price + sum(topping.price for topping in self.toppings.all())
+        match self.size:
+            case 'small': price += self.flavor.price * 1
+            case 'medium': price += self.flavor.price * 2
+            case 'large': price += self.flavor.price * 3
+        return price
 
 
 class Order(models.Model):
@@ -117,7 +122,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     drone = models.ForeignKey(Drone, on_delete=models.SET_NULL, blank=True, null=True)
     cones = models.JSONField()
-    status = models.CharField(max_length=255, default='Pending')
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -127,23 +132,13 @@ class Order(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
-    cones = models.ManyToManyField('IceCreamCone')
+    cones = models.ManyToManyField('IceCreamCone', blank=True)
 
     def remove_all_cones(self):
         self.cones.clear()
 
-    def cones_to_json(self):
-        conesList = []
-        for cone in self.cones.all():
-            coneData = {
-                'size': cone.size,
-                'flavor': cone.flavor.flavor,
-                'toppings': [topping.name for topping in cone.toppings.all()],
-                'cone': cone.name,
-                'qty': cone.qty
-            }
-            conesList.append(coneData)
-        return json.dumps(conesList)
+    def get_cones_info(self):
+        return [cone.cone_to_json() for cone in self.cones.all()]
 
     def __str__(self):
-        return f"{self.user.get_full_name()}'s cart"
+        return f"{self.user.username}'s cart"
