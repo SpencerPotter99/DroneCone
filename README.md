@@ -1,6 +1,5 @@
 # DroneCone
 A web application that mocks Doordash but with drones and ice cream cones
 
-
-
-This is a practice push
+# Setup
+To setup you need to install django and have the djangorestframework installed

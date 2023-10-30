@@ -21,7 +21,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=127)),
                 ('description', models.TextField(blank=True)),
                 ('price', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('qty', models.IntegerField(default=0)),
             ],
         ),
         migrations.CreateModel(
