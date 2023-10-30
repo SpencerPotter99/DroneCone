@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+import json
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -60,53 +60,49 @@ class Drone(models.Model):
     def __str__(self):
         return self.name
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-    parent_category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True)
+class IceCream(models.Model):
+    flavor = models.CharField(max_length=127)
     description = models.TextField(blank=True)
-    menu_items = models.ManyToManyField('MenuItem', related_name='categories')
-    enabled = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.name
-
-
-class MenuItem(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    options = models.ManyToManyField('MenuOption', related_name='menu_items')
-    enabled = models.BooleanField(default=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     qty = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return f"{self.flavor}"
 
 
-class MenuOption(models.Model):
-    DISPLAY_CHOICES = (
-        ('checkbox', 'Checkbox'),
-        ('radio', 'Radio'),
-    )
-
-    name = models.CharField(max_length=255)
-    display_type = models.CharField(max_length=10, choices=DISPLAY_CHOICES)
-    values = models.ManyToManyField('OptionValue', related_name='menu_option')
-    min_amount = models.PositiveIntegerField(default=0)
-    max_amount = models.PositiveIntegerField(default=1)
-
-    def __str__(self):
-        return self.name
-
-
-class OptionValue(models.Model):
-    name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+class Topping(models.Model):
+    name = models.CharField(max_length=127)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     qty = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
+
+
+class Cone(models.Model):
+    name = models.CharField(max_length=127)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    qty = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class IceCreamCone(models.Model):
+    SIZE_CHOICES = [
+        ('small', 'Small'),
+        ('medium', 'Medium'),
+        ('large', 'Large'),
+    ]
+    size = models.CharField(max_length=10, choices=SIZE_CHOICES, default='small')
+    flavor = models.ForeignKey('IceCream', on_delete=models.CASCADE)
+    toppings = models.ManyToManyField('Topping')
+    cone = models.ForeignKey('Cone', on_delete=models.CASCADE)
+    qty = models.PositiveSmallIntegerField(default=1)
+
+    def __str__(self):
+        return f"Flavor: {self.flavor}, Size: {self.size}, Toppings: {self.toppings}, Cone: {self.cone}"
 
 
 class Order(models.Model):
@@ -119,8 +115,8 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    drone = models.ForeignKey(Drone, on_delete=models.CASCADE, blank=True, null=True)
-    items = models.JSONField()
+    drone = models.ForeignKey(Drone, on_delete=models.SET_NULL, blank=True, null=True)
+    cones = models.JSONField()
     status = models.CharField(max_length=255, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -131,24 +127,23 @@ class Order(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
-    items = models.ManyToManyField('MenuItem', through='CartItem')
+    cones = models.ManyToManyField('IceCreamCone')
+
+    def remove_all_cones(self):
+        self.cones.clear()
+
+    def cones_to_json(self):
+        conesList = []
+        for cone in self.cones.all():
+            coneData = {
+                'size': cone.size,
+                'flavor': cone.flavor.flavor,
+                'toppings': [topping.name for topping in cone.toppings.all()],
+                'cone': cone.name,
+                'qty': cone.qty
+            }
+            conesList.append(coneData)
+        return json.dumps(conesList)
 
     def __str__(self):
         return f"{self.user.get_full_name()}'s cart"
-
-
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    menu_item = models.ForeignKey('MenuItem', on_delete=models.CASCADE)
-    options = models.ManyToManyField('OptionValue', through='CartItemOption')
-
-    def __str__(self):
-        return f"{self.menu_item.name}"
-
-
-class CartItemOption(models.Model):
-    cart_item = models.ForeignKey(CartItem, on_delete=models.CASCADE)
-    option_value = models.ForeignKey('OptionValue', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.option_value.name}"
