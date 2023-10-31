@@ -21,7 +21,6 @@ def add_drone(request, drone_id=None):
         drone = get_object_or_404(Drone, pk = drone_id)
     else:
         drone = None
-
     if request.method == 'POST':
         form = DroneForm(request.POST, instance=drone)
         if form.is_valid():
@@ -30,6 +29,14 @@ def add_drone(request, drone_id=None):
     else:
         form = DroneForm(instance=drone)
     return render(request, 'DroneAdmin/add_drone.html', {'form': form})
+
+
+def delete_drone(request, drone_id):
+    drone = get_object_or_404(Drone, pk=drone_id)
+    if request.method == 'POST':
+        drone.delete()
+        return redirect('drone_management')
+    return render(request, 'DroneAdmin/delete_drone.html', {'drone': drone})
 
 
 def inventory(request):
@@ -51,9 +58,10 @@ def inventory(request):
 def add_ice_cream(request, item_id=None):
     if item_id:
         ice_cream = get_object_or_404(IceCream, pk=item_id)
+        action_title = "Edit"
     else:
         ice_cream = None
-
+        action_title = "Add"
     if request.method == 'POST':
         form = IceCreamForm(request.POST, instance=ice_cream)
         if form.is_valid():
@@ -61,16 +69,27 @@ def add_ice_cream(request, item_id=None):
             return redirect('inventory')
     else:
         form = IceCreamForm(instance=ice_cream)
+    return render(request, 'DroneAdmin/add_ice_cream.html', {'form': form, 'action_title': action_title})
 
-    return render(request, 'DroneAdmin/add_ice_cream.html', {'form': form})
+
+def delete_ice_cream(request, item_id=None):
+    if item_id:
+        ice_cream = get_object_or_404(IceCream, pk=item_id)
+    else:
+        ice_cream = None
+    if request.method == 'POST':
+        ice_cream.delete()
+        return redirect('inventory')
+    return render(request, 'DroneAdmin/delete_ice_cream.html', {'ice_cream': ice_cream})
 
 
 def add_cone(request, item_id=None):
     if item_id:
         cone = get_object_or_404(Cone, pk=item_id)
+        action_title = "Edit"
     else:
         cone = None
-
+        action_title = "Add"
     if request.method == 'POST':
         form = ConeForm(request.POST, instance=cone)
         if form.is_valid():
@@ -78,16 +97,27 @@ def add_cone(request, item_id=None):
             return redirect('inventory')
     else:
         form = ConeForm(instance=cone)
+    return render(request, 'DroneAdmin/add_cone.html', {'form': form, 'action_title': action_title})
 
-    return render(request, 'DroneAdmin/add_cone.html', {'form': form})
+
+def delete_cone(request, item_id=None):
+    if item_id:
+        cone = get_object_or_404(Cone, pk=item_id)
+    else:
+        cone = None
+    if request.method == 'POST':
+        cone.delete()
+        return redirect('inventory')
+    return render(request, 'DroneAdmin/delete_cone.html', {'cone': cone})
 
 
 def add_topping(request, item_id=None):
     if item_id:
         topping = get_object_or_404(Topping, pk=item_id)
+        action_title = "Edit"
     else:
         topping = None
-
+        action_title = "Add"
     if request.method == 'POST':
         form = ToppingForm(request.POST, instance=topping)
         if form.is_valid():
@@ -95,9 +125,18 @@ def add_topping(request, item_id=None):
             return redirect('inventory')
     else:
         form = ToppingForm(instance=topping)
+    return render(request, 'DroneAdmin/add_topping.html',
+                  {'form': form, 'action_title': action_title, 'topping': topping})
 
-    return render(request, 'DroneAdmin/add_topping.html', {'form': form})
-
+def delete_topping(request, item_id=None):
+    if item_id:
+        topping = get_object_or_404(Topping, pk=item_id)
+    else:
+        topping = None
+    if request.method == 'POST':
+        topping.delete()
+        return redirect('inventory')
+    return render(request, 'DroneAdmin/delete_topping.html', {'topping': topping})
 
 def sales(request):
     return render(request, "DroneAdmin/sales.html")
