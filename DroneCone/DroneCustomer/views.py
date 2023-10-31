@@ -31,9 +31,7 @@ class ConeItemsAPI(APIView):
 
 class OrderCreateView(APIView):
     def post(self, request):
-        print("TEST")
         serializer = IceCreamConeSerializer(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save(user=request.user)  # Assuming you have user authentication
             return Response(serializer.data, status=status.HTTP_201_CREATED)

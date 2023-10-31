@@ -5,6 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
     <meta charset="UTF-8">
+    {% csrf_token %}
     <title>Title</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -24,6 +25,8 @@
 </div>
 </body>
 <script>
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
     new Vue({
         el: '#app',
         delimiters: ['[[', ']]'],
@@ -127,29 +130,30 @@
             this.selectedSize = size;
           },
           submitOrder() {
-            const selectedFlavors = this.selectedCards.map(index => this.menuItems[index]);
-            const selectedToppings = this.selectedToppings.map(index => this.menuItems[index]);
-            const selectedCones = this.selectedConeCards.map(index => this.menuItems[index]);
+    const selectedFlavors = this.selectedCards.map(index => this.cards[index]); // Use this.cards array
+    const selectedToppings = this.selectedToppings.map(index => this.toppings[index]); // Use this.toppings array
+    const selectedCones = this.selectedConeCards.map(index => this.cones[index]); // Use this.cones array
 
-            const orderData = {
-                size: this.selectedSize,
-                flavors: selectedFlavors,
-                toppings: selectedToppings,
-                cones: selectedCones,
-                quantity: this.coneCount,
-            };
-            console.log(orderData)
+    const orderData = {
+        size: this.selectedSize,
+        flavor: selectedFlavors,
+        toppings: selectedToppings,
+        cone: selectedCones,
+        qty: this.coneCount,
+    };
 
-            axios.post('/dronecone/orders/', orderData)
-                .then(response => {
-                    console.log(response)
-                    console.log("PASSED")
-                })
-                .catch(error => {
-                    console.log("DID NOT PASS")
-                    console.log(error)
-                });
-        }
+    console.log(orderData);
+
+    axios.post('/dronecone/orders/', orderData)
+        .then(response => {
+            console.log(response);
+            console.log("PASSED");
+        })
+        .catch(error => {
+            console.log("DID NOT PASS");
+            console.log(error);
+        });
+}
         },
         created() {
             this.fetchData(); // Call the fetchData method when the Vue instance is created

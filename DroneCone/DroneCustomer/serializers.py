@@ -15,6 +15,10 @@ class ToppingSerializer(serializers.ModelSerializer):
         model = Topping
         fields = '__all__'
 class IceCreamConeSerializer(serializers.ModelSerializer):
+    flavor = IceCreamSerializer(many=True)
+    toppings = ToppingSerializer(many=True)
+    cone = ConeSerializer(many=True)
+
     class Meta:
         model = IceCreamCone
         fields = '__all__'
