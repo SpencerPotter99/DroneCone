@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm
-from DroneCustomer.models import Drone, IceCream, Cone, Topping
+from DroneCustomer.models import Drone, IceCream, Cone, Topping, Profile
 
 def index(request):
     return render(request, "DroneAdmin/dashboard.html")
@@ -9,6 +9,7 @@ def index(request):
 
 def drone_management(request):
     drones = Drone.objects.all()
+
     return render(
         request,
         "DroneAdmin/drone_management.html",
@@ -16,9 +17,9 @@ def drone_management(request):
     )
 
 
-def add_drone(request, drone_id=None):
-    if drone_id:
-        drone = get_object_or_404(Drone, pk = drone_id)
+def add_drone(request, item_id=None):
+    if item_id:
+        drone = get_object_or_404(Drone, pk=item_id)
     else:
         drone = None
     if request.method == 'POST':
@@ -31,8 +32,11 @@ def add_drone(request, drone_id=None):
     return render(request, 'DroneAdmin/add_drone.html', {'form': form})
 
 
-def delete_drone(request, drone_id):
-    drone = get_object_or_404(Drone, pk=drone_id)
+def delete_drone(request, item_id=None):
+    if item_id:
+        drone = get_object_or_404(Drone, pk=item_id)
+    else:
+        drone = None
     if request.method == 'POST':
         drone.delete()
         return redirect('drone_management')

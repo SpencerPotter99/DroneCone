@@ -5,6 +5,7 @@ class DroneForm(forms.ModelForm):
     class Meta:
         model = Drone
         fields = [
+            'owner',
             'name',
             'size',
             'drone_weight_g',
@@ -16,7 +17,6 @@ class DroneForm(forms.ModelForm):
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'size': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
             'drone_weight_g': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'battery_capacity_mAh': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'battery_voltage': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),

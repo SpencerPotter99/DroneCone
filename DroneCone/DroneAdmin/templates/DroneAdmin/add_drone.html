@@ -7,6 +7,8 @@
     <div class="bg-white p-4 shadow-lg rounded-lg">
         <form method="post">
             {% csrf_token %}
+            <label class="block font-semibold text-gray-700">Name:</label>
+            {{ form.owner }}
 
             <label class="block font-semibold text-gray-700">Name:</label>
             {{ form.name }}
@@ -33,5 +35,5 @@
         </form>
     </div>
 
-    <a href="{% url 'drone_management' %}" class="text-blue-500 mt-4">Back to Drone Management</a>
+    <a href="{% url 'drone_management' %}" class="block mt-4">Cancel</a>
 {% endblock %}
