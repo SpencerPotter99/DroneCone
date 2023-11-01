@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
     {% load static %}
@@ -16,7 +16,6 @@
         </a>
         <a href="/dronecone/login/" class="right">
             <img src="{% static 'user-account-icon.webp' %}" height="50" width="50" alt="Settings">
-            <h2 class="text-lg text-gray-600">Login</h2>
         </a>
     </div>
 
@@ -27,32 +26,76 @@
 <script>
     new Vue({
         el: '#app',
+        delimiters: ['[[', ']]'],
         data: {
+          coneCount: 1,
           selectedSize: null,
+          menuItems: [],
+          toppingItems: [],
+          coneItems: [],
           selectedCards: [], // Define the selectedCards array
           selectedConeCards: [], // Define the selectedConeCards array
           selectedToppings: [], // Define the selectedToppings array
           imageBasePath: "{% static '' %}", // Set the base path for images
           cards: [
-            { name: 'Vanilla', title: 'Vanilla Ice Cream', description: 'Delicious vanilla flavor' },
-            { name: 'Chocolate', title: 'Chocolate Ice Cream', description: 'Rich chocolatey goodness' },
-            { name: 'Mint', title: 'Mint Ice Cream', description: 'Refreshing minty taste' },
-            { name: 'Strawberry', title: 'Strawberry Ice Cream', description: 'Sweet and fruity' },
+            { name: 'Vanilla', title: 'Vanilla Ice Cream', description: '5.00' },
+            { name: 'Chocolate', title: 'Chocolate Ice Cream', description: '5.50' },
+            { name: 'Mint', title: 'Mint Ice Cream', description: '6.00' },
+            { name: 'Strawberry', title: 'Strawberry Ice Cream', description: '5.50' },
           ],
           cones: [
-            { name: 'WaffleCone', title: 'Waffle Cone', description: 'A crunchy treat'},
-            { name: 'ChocolateCone', title: 'Chocolate Cone', description: 'Rich and Creamy cholate dipped cone'},
-            { name: 'GlutenFreeCone', title: 'Gluten Free Cone', description: 'A waffle cone without Gluten'},
-            { name: 'CarmelCone', title: 'Carmel Cone', description: 'Sweet Waffle Cone dipped in warm carmel'},
+            { name: 'WaffleCone', title: 'Waffle Cone', description: '0.00'},
+            { name: 'ChocolateCone', title: 'Chocolate Cone', description: '0.50'},
+            { name: 'GlutenFreeCone', title: 'Gluten Free Cone', description: '0.50'},
+            { name: 'CarmelCone', title: 'Carmel Cone', description: '0.75'},
           ],
           toppings: [
-            { name: 'Sprinkles', title: 'Sprinkles', description: 'A crunchy treat'},
-            { name: 'ChocolateDrizzle', title: 'Chocolate Drizzle', description: 'Rich and Creamy cholate dipped cone'},
-            { name: 'CarmelDrizzle', title: 'Carmel Drizzle', description: 'A waffle cone without Gluten'},
-            { name: 'BrownieBites', title: 'Brownie Bites', description: 'Sweet Waffle Cone dipped in warm carmel'},
+            { name: 'Sprinkles', title: 'Sprinkles', description: '0.50'},
+            { name: 'ChocolateDrizzle', title: 'Chocolate Drizzle', description: '0.50'},
+            { name: 'CarmelDrizzle', title: 'Carmel Drizzle', description: '0.50'},
+            { name: 'BrownieBites', title: 'Brownie Bites', description: '0.75'},
           ],
         },
         methods: {
+            fetchData () {
+                console.log("test")
+                axios.get('/dronecone/menu-items/')  // Use the URL of your API endpoint
+                    .then(response => {
+                        this.menuItems = response.data;
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                        console.error('Error fetching menu items', error);
+                    });
+                axios.get('/dronecone/topping-items/')  // Use the URL of your API endpoint
+                    .then(response => {
+                        this.toppingItems = response.data;
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                        console.error('Error fetching menu items', error);
+                    });
+                axios.get('/dronecone/cone-items/')  // Use the URL of your API endpoint
+                    .then(response => {
+                        this.coneItems = response.data;
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                        console.error('Error fetching menu items', error);
+                    });
+            },
+            generateConeOptions() {
+                const coneOptions = [];
+                for (let i = 0; i < this.coneCount; i++) {
+                coneOptions.push({
+                    size: null,
+                    selectedCards: [],
+                    selectedConeCards: [],
+                    selectedToppings: [],
+                });
+                }
+                return coneOptions;
+            },
           toggleCard(index) {
             const selectedIndex = this.selectedCards.indexOf(index);
             if (selectedIndex === -1) {
@@ -84,16 +127,33 @@
             this.selectedSize = size;
           },
           submitOrder() {
-          const order = {
-            size: this.selectedSize,
-            selectedCards: this.selectedCards.map(index => this.cards[index]),
-            selectedConeCards: this.selectedConeCards.map(index => this.cones[index]),
-            selectedToppings: this.selectedToppings.map(index => this.toppings[index]),
-          };
-          console?.log(order);
+            const selectedFlavors = this.selectedCards.map(index => this.menuItems[index]);
+            const selectedToppings = this.selectedToppings.map(index => this.menuItems[index]);
+            const selectedCones = this.selectedConeCards.map(index => this.menuItems[index]);
+
+            const orderData = {
+                size: this.selectedSize,
+                flavors: selectedFlavors,
+                toppings: selectedToppings,
+                cones: selectedCones,
+                quantity: this.coneCount,
+            };
+            console.log(orderData)
+
+            axios.post('/dronecone/orders/', orderData)
+                .then(response => {
+                    console.log(response)
+                    console.log("PASSED")
+                })
+                .catch(error => {
+                    console.log("DID NOT PASS")
+                    console.log(error)
+                });
         }
         },
-       
+        created() {
+            this.fetchData(); // Call the fetchData method when the Vue instance is created
+        }
       });
     </script>
 </html>
