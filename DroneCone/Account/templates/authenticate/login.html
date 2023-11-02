@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Blogs</title>
+    <title>DroneCones Login</title>
     <meta charset="UTF-8">
     <!-- Add Tailwind CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
@@ -10,10 +10,16 @@
     <div class="min-h-screen flex items-center justify-center">
         <div class="bg-blue-200 p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold text-center">Sign in</h2>
-            <form action="submit" class="mt-4">
+            <ul class="messages">
+              {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+            </ul>
+            <form action="{% url 'login' %}" method="POST" class="mt-4">
+              {% csrf_token %}
                 <div class="mb-4">
                     <label for="userName" class="block text-sm font-medium text-gray-600">Email:</label>
-                    <input type="text" id="userName" name="userName" placeholder="Email Address" required
+                    <input type="text" id="userName" name="username" placeholder="Email Address" required
                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                     >
                 </div>
