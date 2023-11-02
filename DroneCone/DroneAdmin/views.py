@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm
 from DroneCustomer.models import Drone, IceCream, Cone, Topping, Profile
 
+
 def index(request):
     return render(request, "DroneAdmin/dashboard.html")
 
@@ -13,7 +14,7 @@ def drone_management(request):
     return render(
         request,
         "DroneAdmin/drone_management.html",
-        { 'drones' : drones }
+        {'drones': drones}
     )
 
 
@@ -132,6 +133,7 @@ def add_topping(request, item_id=None):
     return render(request, 'DroneAdmin/add_topping.html',
                   {'form': form, 'action_title': action_title, 'topping': topping})
 
+
 def delete_topping(request, item_id=None):
     if item_id:
         topping = get_object_or_404(Topping, pk=item_id)
@@ -141,6 +143,7 @@ def delete_topping(request, item_id=None):
         topping.delete()
         return redirect('inventory')
     return render(request, 'DroneAdmin/delete_topping.html', {'topping': topping})
+
 
 def sales(request):
     return render(request, "DroneAdmin/sales.html")
