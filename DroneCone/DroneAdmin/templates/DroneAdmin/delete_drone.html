@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
+{% block title %}Delete Drone{% endblock %}
+{% block heading %}Delete Drone{% endblock %}
+
 {% block content %}
-  <h2>Delete Drone</h2>
-  <p>Are you sure you want to delete this drone?</p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-    <a href="{% url 'drone_management' %}">Cancel</a>
-  </form>
+    <p>Are you sure you want to delete this drone?</p>
+    <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'inventory' %}">Cancel</a>
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
+    </form>
 {% endblock %}
