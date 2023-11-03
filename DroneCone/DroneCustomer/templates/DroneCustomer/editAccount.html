@@ -20,8 +20,12 @@
                     <input type="email" name="email" id="email" class="w-full px-3 py-2 border rounded" placeholder="Email" value="{{ user.email }}" required>
                 </div>
                 <div class="form-group mb-4">
-                    <label for="password" class="block font-bold mb-2" style="color: #CDB4DB;">Password</label>
-                    <input type="password" name="password" id="password" class="w-full px-3 py-2 border rounded" placeholder="Password" required>
+                    <label for="current_password" class="block font-bold mb-2" style="color: #CDB4DB;">Current Password</label>
+                    <input type="password" name="current_password" id="current_password" class="w-full px-3 py-2 border rounded" placeholder="Current Password" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="new_password" class="block font-bold mb-2" style="color: #CDB4DB;">New Password</label>
+                    <input type="password" name="new_password" id="new_password" class="w-full px-3 py-2 border rounded" placeholder=" New Password" required>
                 </div>
                 <div class="form-group mb-4">
                     <label class="block font-bold mb-2" style="color: #CDB4DB;">
@@ -29,7 +33,7 @@
                         Would you like to become a drone owner?
                     </label>
                 </div>
-                <button type="submit" id="enter-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;">Update Account</button>
+                <button type="submit" id="enter-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;" onclick="location.href='/dronecone/account'">Update Account</button>
             </form>
         </section>
     </div>

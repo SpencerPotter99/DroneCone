@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+import json
+from decimal import Decimal
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -128,6 +129,17 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order #{self.pk} - {self.status}"
+
+    def get_order_total(self):
+        total_price = Decimal('0.00')
+        try:
+            cone_data_list = json.loads(self.cones)
+            for cone_data in cone_data_list:
+                cone_price = Decimal(cone_data.get('price', '0.00'))
+                total_price += cone_price
+        except json.JSONDecodeError:
+            pass
+        return total_price
 
 
 class Cart(models.Model):

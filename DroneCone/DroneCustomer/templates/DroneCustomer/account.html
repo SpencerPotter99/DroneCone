@@ -6,7 +6,7 @@
         <section id="account-info" class="mb-4 p-4 rounded-lg shadow-lg" style="background-color: white;">
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Account Information</h2>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Email:</span> {{ user.email }}</p>
-            <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Total Orders:</span> {{ user.total_orders }}</p>
+            <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Total Orders:</span> {{ total_orders }}</p>
             <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;" onclick="location.href='/dronecone/editaccount'">Edit Account Information</button>
         </section>
 
@@ -23,19 +23,18 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
-                    <!-- Assuming orders is passed as a context variable -->
                     {% for order in orders %}
                     <tr class="border-b border-gray-200">
-                        <td class="px-4 py-2">{{ order.number }}</td>
-                        <td class="px-4 py-2">{{ order.date }}</td>
+                        <td class="px-4 py-2">{{ order.pk }}</td>
+                        <td class="px-4 py-2">{{ order.created_at|date:"F j, Y" }}</td>
                         <td class="px-4 py-2">
                             <ul class="list-disc list-inside">
-                                {% for item in order.items %}
-                                <li>{{ item.name }} - ${{ item.price }}</li>
+                                {% for cone_info in order.cones %}
+                                <li>{{ cone_info.flavor }} - ${{ cone_info.price }}</li>
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td class="px-4 py-2">${{ order.total_price }}</td>
+                        <td class="px-4 py-2">${{ order.get_order_total }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
