@@ -83,8 +83,8 @@ def account(request):
     }
     return render(request, 'DroneCustomer/account.html', context)
 
-def login(request):
-    return render(request, 'DroneCustomer/login.html')
+# def login(request):
+#     return render(request, 'Account/login.html')
 
 def droneManagement(request):
     return render(request, 'DroneCustomer/droneManager.html')
