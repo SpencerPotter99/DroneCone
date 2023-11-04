@@ -41,7 +41,7 @@
     <h1 class="text-2xl font-semibold">Choose Your Ice Cream Cone</h1>
 </div>
 <div class="card-container">
-  <div v-for="menuItem in coneItems" :key="menuItem.id" class="card" @click="toggleCone(menuItem.id)" :class="{ 'highlighted': selectedCone?.name === menuItem.name }">
+  <div v-for="(menuItem, index2) in coneItems" :key="menuItem.id" class="card" @click="toggleCone(index2)" :class="{ 'highlighted': selectedCone?.name === menuItem.name }">
     <h3><b>[[ menuItem.name ]]</b></h3>
       <p>[[ menuItem.description ]]</p>
       <p>Price: $[[ menuItem.price ]]</p>
