@@ -10,7 +10,7 @@
             <label class="block font-semibold text-gray-700">Flavor:</label>
             {{ form.flavor }}
 
-            <label class="block font-semibold text-gray-700">Price:</label>
+            <label class="block font-semibold text-gray-700">Price: $</label>
             {{ form.price }}
 
             <label class="block font-semibold text-gray-700">Quantity:</label>
@@ -19,5 +19,5 @@
             <button type="submit" class=" flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
         </form>
     </div>
-    <a href="{% url 'inventory' %}" class="text-blue-500 mt-4">Back to Inventory</a>
+    <a href="{% url 'inventory' %}" class="block mt-4">Cancel</a>
 {% endblock %}
