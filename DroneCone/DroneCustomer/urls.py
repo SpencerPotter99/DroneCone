@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import MenuItemsAPI, OrderCreateView, ToppingsItemsAPI, ConeItemsAPI
+from .views import *
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -18,5 +18,8 @@ urlpatterns = [
     path('menu-items/', MenuItemsAPI.as_view(), name='menu-items-api'),
     path('topping-items/', ToppingsItemsAPI.as_view(), name='topping-items-api'),
     path('cone-items/', ConeItemsAPI.as_view(), name='cone-items-api'),
-    path('orders/', OrderCreateView.as_view(), name='order-create')
+    path('create_orders/', OrderCreateView.as_view(), name='order-create'),
+    path('create_icecreamcone/', IceCreamConeCreateView.as_view(), name='create_icecreamcone'),
+    path('cart/', CartView.as_view(), name='cart'),
+     path('add_to_cart/', AddToCartView.as_view(), name='add_to_cart'),
 ]
