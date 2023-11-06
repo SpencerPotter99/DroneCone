@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blogs</title>
+    <meta charset="UTF-8">
+    <style>
+        input[type=text], select {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+}
+        input[type=password], select {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+}
+
+        input[type=submit] {
+            width: 100%;
+            background-color: red;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+}
+        div{
+             border-radius: 5px;
+             background-color: bisque;
+             padding: 20px;
+            margin: 100px;
+        }
+    </style>
+</head>
+<body>
+<h1>
+    Please create an account
+    <!-- {{ email }}
+    {{ password }} -->
+</h1>
+<div >
+    <!-- {% if form.errors %}
+        <p>There was an error with your form</p>
+    {% endif %} -->
+    <!-- {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %} -->
+<form action="{% url 'createAccountPage' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- <label for="fName">First Name:</label>
+    <input type="text" id="fName" name="fName" placeholder="First Name" required>
+    <label for="lName">Last Name:</label>
+    <input type="text" id="lName" name="lName" placeholder="Last Name" required>
+    <label for="userName">Email:</label>
+    <input type="text" id="userName" name="userName" placeholder="Email Address" required>
+    <label for="password">Password: </label>
+    <input type="password" id="password" name="password" placeholder="Password" required> -->
+    <input type="submit" value="sign up">
+</form>
+<<<<<<< HEAD:DroneCone/Account/templates/authenticate/customerCreation.html
+    <a href="{% url 'droneownersignup' %}">Click here to sign up as a Drone Owner</a>
+=======
+    <a href="{% url 'droneOwnerCreation' %}">Click here to sign up as a Drone Owner</a>
+>>>>>>> 8e6e67683150b13ad6e4fa23e89236bad91d10c0:DroneCone/DroneCustomer/templates/DroneCustomer/customerCreation.html
+</div>
+</body>
+</html>
