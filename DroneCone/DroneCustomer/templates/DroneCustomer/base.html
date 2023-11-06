@@ -11,10 +11,10 @@
 </head>
 <body class="bodyBackground">
     <div class="navbar">
-        <a href="/dronecone/" class="left">
+        <a href="{% url 'index' %}" class="left">
             <img src="{% static 'DroneLogo.png' %}" height="50" width="50" alt="Drone Logo">
         </a>
-        <a href="/dronecone/login/" class="right">
+        <a href="{% url 'account:login' %}" class="right">
             <img src="{% static 'user-account-icon.webp' %}" height="50" width="50" alt="Settings">
         </a>
     </div>
@@ -59,7 +59,7 @@
         methods: {
             fetchData () {
                 console.log("test")
-                axios.get('/dronecone/menu-items/')  // Use the URL of your API endpoint
+                axios.get('{% url 'menu_items_api' %}')  // Use the URL of your API endpoint
                     .then(response => {
                         this.menuItems = response.data;
                         console.log(response.data)
@@ -67,7 +67,7 @@
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('/dronecone/topping-items/')  // Use the URL of your API endpoint
+                axios.get('{% url 'topping_items_api' %}')  // Use the URL of your API endpoint
                     .then(response => {
                         this.toppingItems = response.data;
                         console.log(response.data)
@@ -75,7 +75,7 @@
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('/dronecone/cone-items/')  // Use the URL of your API endpoint
+                axios.get('{% url 'cone_items_api' %}')  // Use the URL of your API endpoint
                     .then(response => {
                         this.coneItems = response.data;
                         console.log(response.data)
@@ -140,7 +140,7 @@
             };
             console.log(orderData)
 
-            axios.post('/dronecone/orders/', orderData)
+            axios.post('{% url 'order_create' %}', orderData)
                 .then(response => {
                     console.log(response)
                     console.log("PASSED")

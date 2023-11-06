@@ -8,16 +8,15 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("home", views.home, name="home"),
     path("checkout/", views.checkout, name="checkout"),
-    #path("account/", views.account, name="account"),
-    # path("login/", views.login, name="login"),
-    path("managedrones/", views.droneManagement, name="mydrones"),
-    #path("signup/", views.signUp, name="signup"),
-    #path("droneOwnerCreation/", views.droneOwnerCreation, name="droneOwnerCreation"),
-    #path("droneownersignup/", views.droneOwnerCreation, name="droneownersignup"),
-    #path("editaccount/", views.editAccount, name="editaccount"),
-    #path("signup/droneOwnerCreation.html/", views.droneOwnerCreation, name="drownownersignup"),
-    path('menu-items/', MenuItemsAPI.as_view(), name='menu-items-api'),
-    path('topping-items/', ToppingsItemsAPI.as_view(), name='topping-items-api'),
-    path('cone-items/', ConeItemsAPI.as_view(), name='cone-items-api'),
-    path('orders/', OrderCreateView.as_view(), name='order-create')
+    path("account/", views.account, name="account"),
+    path("manage-drones/", views.droneManagement, name="my_drones"),
+    # Remove ?
+    path("drone-owner-creation/", views.droneOwnerCreation, name="drone_owner_creation"),
+    path("drone-owner-signup/", views.droneOwnerCreation, name="drone_owner_signup"),
+    #
+    path("edit-account/", views.editAccount, name="edit_account"),
+    path('menu-items/', MenuItemsAPI.as_view(), name='menu_items_api'),
+    path('topping-items/', ToppingsItemsAPI.as_view(), name='topping_items_api'),
+    path('cone-items/', ConeItemsAPI.as_view(), name='cone_items_api'),
+    path('orders/', OrderCreateView.as_view(), name='order_create')
 ]
