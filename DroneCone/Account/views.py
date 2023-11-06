@@ -1,45 +1,107 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages 
-from .forms import CustomUserCreationForm
-from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic import CreateView
+from .forms import CustomUserCreationForm, ProfileForm, CustomUserForm
 
 
-def loginPage(request):
-    return render(request, 'authenticate/login.html')
+class RegisterView(CreateView):
+    model = User
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('account:login')
+    template_name = "account/register.html"
 
-def login_user(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.success(request, "There was an error logging in, try again...")
-            return redirect('loginPage')
-    else:
-        return render(request, 'authenticate/login.html', {})
+class LoginView(auth_views.LoginView):
+    template_name = 'account/login.html'
 
-def register_user(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            # context = {'email': email, 'password':password}
-            user = authenticate(username=username, password=password)
-            # return render(request, 'authenticate/customerCreation.html', context)
 
-            login(request, user)
-            messages.success(request, "Registration Successful")
-            return redirect('home')
-        
-    else: 
-        form = CustomUserCreationForm()
+class LogoutView(auth_views.LogoutView):
+    template_name = "account/logout.html"
+    http_method_names = ["get", "post", "options"]
 
-    return render(request, 'authenticate/customerCreation.html', {'form':form})
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Logout may be done via POST."""
+        auth_logout(request)
+        messages.success(request, 'Successfully logged out.')
+        redirect_to = self.get_success_url()
+        if redirect_to != request.get_full_path():
+            # Redirect to target page once the session has been cleared.
+            return HttpResponseRedirect(redirect_to)
+        return super().get(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
+
+    get = get  # Django4.2 has get = post, but we don't want the user to logout on get request.
+
+
+class PasswordChangeView(auth_views.PasswordChangeView):
+    template_name = 'account/password_change.html'
+    success_url = reverse_lazy("account:password_change_done")
+
+
+class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
+    template_name = 'account/password_change_done.html'
+
+
+class PasswordResetView(SuccessMessageMixin, auth_views.PasswordResetView):
+    template_name = 'account/password_reset.html'
+    email_template_name = 'account/password_reset_email.html'
+    subject_template_name = 'account/password_reset_subject.txt'
+    success_message = ("Please check your email for the password reset instructions. "
+                       "You will only receive an email if an account is associated with the provided email.")
+    success_url = reverse_lazy('account:password_reset_done')
+
+
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'account/password_reset_done.html'
+
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'account/password_reset_from_key.html'
+    success_url = reverse_lazy("account:password_reset_complete")
+
+
+class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'account/password_reset_from_key_done.html'
+
+
+class ProfileView(LoginRequiredMixin, View):
+    template_name = 'account/user_profile.html'
+    user_form_class = CustomUserForm
+    profile_form_class = ProfileForm
+
+    def get(self, request, *args, **kwargs):
+        user_form = self.user_form_class(instance=request.user)
+        profile_form = self.profile_form_class(instance=request.user.profile)
+        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
+
+    def post(self, request, *args, **kwargs):
+        user_form = self.user_form_class(request.POST, instance=request.user)
+        profile_form = self.profile_form_class(request.POST, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect('account:profile')
+
+        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})

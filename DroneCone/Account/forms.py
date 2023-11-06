@@ -1,12 +1,26 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.forms import EmailField, ModelForm
+from .models import Profile
+
 
 class CustomUserCreationForm(UserCreationForm):
-    username = forms.CharField(max_length = 50, required=True, label='username')
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
+    email = EmailField(required=True)
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ("email",)
+
+
+class CustomUserForm(ModelForm):
+    email = EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "username", "password1", "password2")
+        fields = ('email', 'first_name', 'last_name')
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('address', 'phone', 'drone_owner')

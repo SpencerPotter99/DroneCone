@@ -7,7 +7,7 @@
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Account Information</h2>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Email:</span> {{ user.email }}</p>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Total Orders:</span> {{ user.total_orders }}</p>
-            <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;" onclick="location.href='/dronecone/editaccount'">Edit Account Information</button>
+            <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;" onclick="location.href='{% url 'edit_account' %}'">Edit Account Information</button>
         </section>
 
         <!-- Order History Section -->
