@@ -1,6 +1,6 @@
 [
   {
-    "model": "DroneCustomer.profile",
+    "model": "Account.profile",
     "pk": 2,
     "fields": {
       "user": 3,
@@ -10,7 +10,7 @@
     }
   },
   {
-    "model": "DroneCustomer.profile",
+    "model": "Account.profile",
     "pk": 3,
     "fields": {
       "user": 5,
@@ -20,7 +20,7 @@
     }
   },
   {
-    "model": "DroneCustomer.profile",
+    "model": "Account.profile",
     "pk": 4,
     "fields": {
       "user": 4,
@@ -30,7 +30,7 @@
     }
   },
   {
-    "model": "DroneCustomer.profile",
+    "model": "Account.profile",
     "pk": 5,
     "fields": {
       "user": 2,

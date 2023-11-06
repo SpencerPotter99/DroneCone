@@ -21,6 +21,5 @@ urlpatterns = [
     path("dronecone/", include("DroneCustomer.urls")),
     path("admin/", admin.site.urls),
     path("droneadmin/", include("DroneAdmin.urls")),
-    path("account/", include("django.contrib.auth.urls")),
     path("account/", include("Account.urls")),
 ]
