@@ -32,6 +32,7 @@
         delimiters: ['[[', ']]'],
         data: {
           coneCount: 1,
+          userId: null,
           selectedSize: 'small',
           menuItems: [],
           selectedFlavor: null,
@@ -39,9 +40,17 @@
           toppingItems: [],
           coneItems: [],
           selectedToppings: [], // Define the selectedToppings array
+          orderHistory: [],
         },
         methods: {
             fetchData () {
+                axios.get('get_user_id/')
+                  .then(response => {
+                    this.userId = response.data.user_id;
+                  })
+                  .catch(error => {
+                    console.error('Error fetching menu items', error);
+                  });
                 axios.get('/dronecone/menu-items/')  // Use the URL of your API endpoint
                     .then(response => {
                         this.menuItems = response.data;
@@ -66,6 +75,33 @@
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
+                axios.get('order_history/')
+                    .then(response => {
+                      // Handle the list of orders in the response.data
+                      this.orderHistory = response.data
+                      console.log(response.data);
+                      console.log(this.orderHistory)
+                      const currentTime = new Date();
+                    // Parse the 'updated_at' time from the order object (assuming it's in ISO 8601 format)
+                    const updatedAtStr = response.data[response.data.length - 1].updated_at;
+                    console.log(updatedAtStr)
+                    const updatedAtTime = new Date(updatedAtStr);
+
+
+                    // Calculate the time difference in milliseconds
+                    const timeDifference = currentTime - updatedAtTime;
+
+                    // Check if the time difference is less than or equal to 10 minutes (600,000 milliseconds)
+                    if (timeDifference <= 600000) {
+                      console.log("The 'updated_at' time is 10 minutes or less in the past.");
+                    } else {
+                      console.log("The 'updated_at' time is more than 10 minutes ago.");
+                    }
+                    })
+                    .catch(error => {
+                      // Handle errors
+                      console.error(error);
+                    });
             },
             toggleCard(index) {
               this.selectedFlavor = this.menuItems[index];
@@ -87,7 +123,27 @@
             }
             console?.log(this.selectedToppings);
           },
-          
+          get_price() {
+      let price = this.selectedCone.price + this.selectedToppings.reduce((total, topping) => total + topping.price, 0);
+
+      switch (this.selectedSize) { // Use this.selectedSize instead of this.size
+        case 'small':
+          price += this.selectedFlavor.price * 1;
+          break;
+        case 'medium':
+          price += this.selectedFlavor.price * 2;
+          break;
+        case 'large':
+          price += this.selectedFlavor.price * 3;
+          break;
+      }
+
+      console.log(price);
+
+      // If you want to use the calculated price somewhere, you can assign it to a data property.
+      // For example, create a data property named 'calculatedPrice' and set it here:
+      this.calculatedPrice = price;
+    },
           selectSize(size) {
             this.selectedSize = size;
           },
@@ -100,15 +156,17 @@ const iceCreamConeData = {
   cone: this.selectedCone.id,  // Replace with the actual Cone ID
 };
 
+
 console.log(iceCreamConeData)
+console.log(this.userId)
 const orderData = {
-  user: 1,  // Replace with the actual user ID
+  user: this.userId,  // Replace with the actual user ID
   drone: null,  // Replace with the actual drone ID if needed
   cones: iceCreamConeData,  // Replace with your order data
   status: 'pending',
 };
 
-
+this.get_price()
     // Make a POST request to create the IceCreamCone
 axios.post('create_icecreamcone/', iceCreamConeData)
   .then(response => {

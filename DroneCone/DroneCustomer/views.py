@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .models import IceCream, IceCreamCone, Topping, Cone, Order
 from .serializers import *
 
@@ -38,12 +39,27 @@ class OrderCreateView(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+class OrderListView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user  # Get the currently logged-in user
+        return Order.objects.filter(user=user)
+
 class CartView(generics.RetrieveUpdateAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
 
     def get_object(self):
         return self.request.user.cart
+
+class GetUserIdView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_id = request.user.id
+        return Response({'user_id': user_id})
 
 class AddToCartView(generics.CreateAPIView):
     queryset = Cart.objects.all()

@@ -21,5 +21,7 @@ urlpatterns = [
     path('create_orders/', OrderCreateView.as_view(), name='order-create'),
     path('create_icecreamcone/', IceCreamConeCreateView.as_view(), name='create_icecreamcone'),
     path('cart/', CartView.as_view(), name='cart'),
-     path('add_to_cart/', AddToCartView.as_view(), name='add_to_cart'),
+    path('add_to_cart/', AddToCartView.as_view(), name='add_to_cart'),
+    path('order_history/', OrderListView.as_view(), name='order_history'),
+    path('get_user_id/', GetUserIdView.as_view(), name='get_user_id'),
 ]
