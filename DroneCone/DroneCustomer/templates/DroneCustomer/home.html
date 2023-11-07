@@ -53,7 +53,7 @@
         <h1 class="text-2xl font-semibold">Choose Your Toppings</h1>
     </div>
     <div class="card-container">
-      <div v-for="menuItem in toppingItems" :key="menuItem.id" class="card" @click="toggleTopping(menuItem.id)" :class="{ 'highlighted': selectedToppings.includes(menuItem.id) }">
+      <div v-for="menuItem in toppingItems" :key="menuItem.id" class="card" @click="toggleTopping(menuItem)" :class="{ 'highlighted': selectedToppings.includes(menuItem) }">
         <h3><b>[[ menuItem.name ]]</b></h3>
           <p>[[ menuItem.description ]]</p>
           <p>Price: $[[ menuItem.price ]]</p>
