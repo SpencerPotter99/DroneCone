@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import MenuItemsAPI, OrderCreateView, ToppingsItemsAPI, ConeItemsAPI
+from .views import *
 
 
 urlpatterns = [
@@ -9,6 +9,12 @@ urlpatterns = [
     path("home", views.home, name="home"),
     path("checkout/", views.checkout, name="checkout"),
     path("account/", views.account, name="account"),
+    path("signup/", views.signUp, name="signup"),
+    path('create_icecreamcone/', IceCreamConeCreateView.as_view(), name='create_icecreamcone'),
+    path('cart/', CartView.as_view(), name='cart'),
+    path('add_to_cart/', AddToCartView.as_view(), name='add_to_cart'),
+    path('order_history/', OrderListView.as_view(), name='order_history'),
+    path('get_user_id/', GetUserIdView.as_view(), name='get_user_id'),
     path("manage-drones/", views.droneManagement, name="my_drones"),
     # Remove ?
     path("drone-owner-creation/", views.droneOwnerCreation, name="drone_owner_creation"),
