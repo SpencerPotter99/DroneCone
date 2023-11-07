@@ -12,10 +12,10 @@
 </head>
 <body class="bodyBackground">
     <div class="navbar">
-        <a href="/dronecone/" class="left">
+        <a href="{% url 'index' %}" class="left">
             <img src="{% static 'DroneLogo.png' %}" height="50" width="50" alt="Drone Logo">
         </a>
-        <a href="/dronecone/login/" class="right">
+        <a href="{% url 'account:login' %}" class="right">
             <img src="{% static 'user-account-icon.webp' %}" height="50" width="50" alt="Settings">
         </a>
     </div>
@@ -44,35 +44,39 @@
         },
         methods: {
             fetchData () {
-                axios.get('get_user_id/')
+                axios.get('{% url 'get_user_id' %}')
                   .then(response => {
                     this.userId = response.data.user_id;
                   })
                   .catch(error => {
                     console.error('Error fetching menu items', error);
                   });
-                axios.get('/dronecone/menu-items/')
+              
+                axios.get('{% url 'menu_items_api' %}') 
                     .then(response => {
                         this.menuItems = response.data;
                     })
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('/dronecone/topping-items/')
+              
+                axios.get('{% url 'topping_items_api' %}')
                     .then(response => {
                         this.toppingItems = response.data;
                     })
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('/dronecone/cone-items/')
+              
+                axios.get('{% url 'cone_items_api' %}')
                     .then(response => {
                         this.coneItems = response.data;
                     })
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('order_history/')
+              
+                axios.get('{% url 'order_history' %}')
                     .then(response => {
                       // Handle the list of orders in the response.data
                       this.orderHistory = response.data
@@ -167,7 +171,7 @@
               status: 'pending',
             };
                 // Make a POST request to create the IceCreamCone
-            axios.post('create_icecreamcone/', iceCreamConeData)
+            axios.post('{% url 'create_icecreamcone' %}', iceCreamConeData)
               .then(response => {
                 // Handle success
                 console.log('IceCreamCone created:', response.data);
@@ -176,7 +180,7 @@
                 // Handle error
                 console.error('Error creating IceCreamCone:', error);
               });
-              axios.post('create_orders/', orderData)
+              axios.post('{% url 'order_create' %}', orderData)
               .then(response => {
                 // Handle success
                 console.log('Order created:', response.data);
@@ -185,7 +189,6 @@
                 // Handle error
                 console.error('Error creating order:', error);
               });
-
             }
         },
         created() {

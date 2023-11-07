@@ -13,7 +13,7 @@
         <!-- Edit Account Section -->
         <section id="edit-account" class="p-4 rounded-lg shadow-lg" style="background-color: white;">
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Edit Account</h2>
-            <form action="/update-account/" method="post">
+            <form action="{% url 'account' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group mb-4">
                     <label for="email" class="block font-bold mb-2" style="color: #CDB4DB;">Email</label>

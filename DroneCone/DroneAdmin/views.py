@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm
-from DroneCustomer.models import Drone, IceCream, Cone, Topping, Profile
+from DroneCustomer.models import Drone, IceCream, Cone, Topping
 
 
 def index(request):
