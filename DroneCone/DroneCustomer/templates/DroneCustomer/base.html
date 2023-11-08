@@ -5,16 +5,17 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
     <meta charset="UTF-8">
+    {% csrf_token %}
     <title>Title</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body class="bodyBackground">
     <div class="navbar">
-        <a href="/dronecone/home" class="left">
+        <a href="{% url 'index' %}" class="left">
             <img src="{% static 'DroneLogo.png' %}" height="50" width="50" alt="Drone Logo">
         </a>
-        <a href="/dronecone/account/" class="right">
+        <a href="{% url 'account:login' %}" class="right">
             <img src="{% static 'user-account-icon.webp' %}" height="50" width="50" alt="Settings">
         </a>
     </div>
@@ -24,132 +25,171 @@
 </div>
 </body>
 <script>
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
     new Vue({
         el: '#app',
         delimiters: ['[[', ']]'],
         data: {
           coneCount: 1,
-          selectedSize: null,
+          userId: null,
+          selectedSize: 'small',
           menuItems: [],
+          selectedFlavor: null,
+          selectedCone: null,
           toppingItems: [],
           coneItems: [],
-          selectedCards: [], // Define the selectedCards array
-          selectedConeCards: [], // Define the selectedConeCards array
           selectedToppings: [], // Define the selectedToppings array
-          imageBasePath: "{% static '' %}", // Set the base path for images
-          cards: [
-            { name: 'Vanilla', title: 'Vanilla Ice Cream', description: '5.00' },
-            { name: 'Chocolate', title: 'Chocolate Ice Cream', description: '5.50' },
-            { name: 'Mint', title: 'Mint Ice Cream', description: '6.00' },
-            { name: 'Strawberry', title: 'Strawberry Ice Cream', description: '5.50' },
-          ],
-          cones: [
-            { name: 'WaffleCone', title: 'Waffle Cone', description: '0.00'},
-            { name: 'ChocolateCone', title: 'Chocolate Cone', description: '0.50'},
-            { name: 'GlutenFreeCone', title: 'Gluten Free Cone', description: '0.50'},
-            { name: 'CarmelCone', title: 'Carmel Cone', description: '0.75'},
-          ],
-          toppings: [
-            { name: 'Sprinkles', title: 'Sprinkles', description: '0.50'},
-            { name: 'ChocolateDrizzle', title: 'Chocolate Drizzle', description: '0.50'},
-            { name: 'CarmelDrizzle', title: 'Carmel Drizzle', description: '0.50'},
-            { name: 'BrownieBites', title: 'Brownie Bites', description: '0.75'},
-          ],
+          orderHistory: [],
         },
         methods: {
             fetchData () {
-                console.log("test")
-                axios.get('/dronecone/menu-items/')  // Use the URL of your API endpoint
+                axios.get('{% url 'get_user_id' %}')
+                  .then(response => {
+                    this.userId = response.data.user_id;
+                  })
+                  .catch(error => {
+                    console.error('Error fetching menu items', error);
+                  });
+              
+                axios.get('{% url 'menu_items_api' %}') 
                     .then(response => {
                         this.menuItems = response.data;
-                        console.log(response.data)
                     })
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('/dronecone/topping-items/')  // Use the URL of your API endpoint
+              
+                axios.get('{% url 'topping_items_api' %}')
                     .then(response => {
                         this.toppingItems = response.data;
-                        console.log(response.data)
                     })
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
-                axios.get('/dronecone/cone-items/')  // Use the URL of your API endpoint
+              
+                axios.get('{% url 'cone_items_api' %}')
                     .then(response => {
                         this.coneItems = response.data;
-                        console.log(response.data)
                     })
                     .catch(error => {
                         console.error('Error fetching menu items', error);
                     });
+              
+                axios.get('{% url 'order_history' %}')
+                    .then(response => {
+                      // Handle the list of orders in the response.data
+                      this.orderHistory = response.data
+                      const currentTime = new Date();
+                    // Parse the 'updated_at' time from the order object (assuming it's in ISO 8601 format)
+                    const updatedAtStr = response.data[response.data.length - 1].updated_at;
+                    console.log(updatedAtStr)
+                    const updatedAtTime = new Date(updatedAtStr);
+                    // Calculate the time difference in milliseconds
+                    const timeDifference = currentTime - updatedAtTime;
+
+                    // Check if the time difference is less than or equal to 10 minutes (600,000 milliseconds)
+                    if (timeDifference <= 600000) {
+                      console.log("The 'updated_at' time is 10 minutes or less in the past.");
+                    } else {
+                      console.log("The 'updated_at' time is more than 10 minutes ago.");
+                    }
+                    })
+                    .catch(error => {
+                      // Handle errors
+                      console.error(error);
+                    });
             },
-            generateConeOptions() {
-                const coneOptions = [];
-                for (let i = 0; i < this.coneCount; i++) {
-                coneOptions.push({
-                    size: null,
-                    selectedCards: [],
-                    selectedConeCards: [],
-                    selectedToppings: [],
-                });
-                }
-                return coneOptions;
+            toggleCard(index) {
+              this.selectedFlavor = this.menuItems[index];
             },
-          toggleCard(index) {
-            const selectedIndex = this.selectedCards.indexOf(index);
-            if (selectedIndex === -1) {
-              this.selectedCards.push(index);
-            } else {
-              this.selectedCards.splice(selectedIndex, 1);
+            toggleCone(index2) {
+              this.selectedCone = this.coneItems[index2];
+            },
+
+            toggleTopping(topping) {
+              const selectedIndex = this.selectedToppings.findIndex(item => item.id === topping.id);
+              if (selectedIndex === -1) {
+                // Item is not selected, so select it
+                this.selectedToppings.push(topping);
+              } else {
+                // Item is already selected, so deselect it by removing it from the array
+                this.selectedToppings.splice(selectedIndex, 1);
+              }
+            },
+            // creates the json format of the cones model for the order
+            get_cone_info() {
+                return {
+                    size: this.selectedSize,
+                    flavor: this.selectedFlavor,
+                    toppings: this.selectedToppings.map(topping => topping),
+                    cone: this.selectedCone,
+                    price: this.get_price().toString()
+                };
+            },
+          // gets the price of the cone for the order
+          get_price() {
+            // Convert the selectedCone price to a number
+            const conePrice = parseFloat(this.selectedCone.price);
+
+            // Use reduce to sum the prices of selectedToppings after converting them to numbers
+            const totalPrice = this.selectedToppings.reduce((total, topping) => {
+              // Convert the topping.price to a number and add it to the total
+              return total + parseFloat(topping.price);
+            }, 0);
+
+            // Calculate the total price, considering the cone price and size
+            switch (this.selectedSize) {
+              case 'small':
+                return conePrice + totalPrice + parseFloat(this.selectedFlavor.price) * 1;
+              case 'medium':
+                return conePrice + totalPrice + parseFloat(this.selectedFlavor.price) * 2;
+              case 'large':
+                return conePrice + totalPrice + parseFloat(this.selectedFlavor.price) * 3;
+              default:
+                console.log("TEST DEFAULT")
+                return conePrice + totalPrice;
             }
-            console?.log(this.selectedCards)
-          },
-          toggleCone(index2) {
-            const selectedIndex = this.selectedConeCards.indexOf(index2);
-            if (selectedIndex === -1) {
-              this.selectedConeCards.push(index2);
-            } else {
-              this.selectedConeCards.splice(selectedIndex, 1);
-            }
-            console?.log(this.selectedConeCards);
-          },
-          toggleTopping(index3) {
-            const selectedIndex = this.selectedToppings.indexOf(index3);
-            if (selectedIndex === -1) {
-              this.selectedToppings.push(index3);
-            } else {
-              this.selectedToppings.splice(selectedIndex, 1);
-            }
-            console?.log(this.selectedToppings);
           },
           selectSize(size) {
             this.selectedSize = size;
           },
           submitOrder() {
-            const selectedFlavors = this.selectedCards.map(index => this.menuItems[index]);
-            const selectedToppings = this.selectedToppings.map(index => this.menuItems[index]);
-            const selectedCones = this.selectedConeCards.map(index => this.menuItems[index]);
-
-            const orderData = {
-                size: this.selectedSize,
-                flavors: selectedFlavors,
-                toppings: selectedToppings,
-                cones: selectedCones,
-                quantity: this.coneCount,
+            //this fromats the data for the cones model
+            const iceCreamConeData = {
+              size: this.selectedSize,
+              flavor: this.selectedFlavor.id,
+              toppings: this.selectedToppings.map(topping => topping.id), 
+              cone: this.selectedCone.id,
             };
-            console.log(orderData)
-
-            axios.post('/dronecone/orders/', orderData)
-                .then(response => {
-                    console.log(response)
-                    console.log("PASSED")
-                })
-                .catch(error => {
-                    console.log("DID NOT PASS")
-                    console.log(error)
-                });
-        }
+            //we then get the cone json data for the order model
+            jsonIceCreamCone = this.get_cone_info()
+            const orderData = {
+              user: this.userId,
+              drone: null,
+              cones: jsonIceCreamCone,
+              status: 'pending',
+            };
+                // Make a POST request to create the IceCreamCone
+            axios.post('{% url 'create_icecreamcone' %}', iceCreamConeData)
+              .then(response => {
+                // Handle success
+                console.log('IceCreamCone created:', response.data);
+              })
+              .catch(error => {
+                // Handle error
+                console.error('Error creating IceCreamCone:', error);
+              });
+              axios.post('{% url 'order_create' %}', orderData)
+              .then(response => {
+                // Handle success
+                console.log('Order created:', response.data);
+              })
+              .catch(error => {
+                // Handle error
+                console.error('Error creating order:', error);
+              });
+            }
         },
         created() {
             this.fetchData(); // Call the fetchData method when the Vue instance is created

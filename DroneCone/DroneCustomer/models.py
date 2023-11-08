@@ -3,15 +3,6 @@ from django.db import models
 import json
 from decimal import Decimal
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    phone = models.CharField(max_length=15, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    drone_owner = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.user.username}"
-
 class Drone(models.Model):
     SIZE_CHOICES = [
         ('small', 'Small'),
@@ -46,19 +37,24 @@ class Drone(models.Model):
         Dummy method to determine how far the drone can go.
         """
         watts_per_kg = 150  # Estimating it takes 170 watts of power to lift one kilogram of equipment.
-        aad = (self.drone_weight_g / 1000) * (watts_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
-        flight_time_hrs = (self.battery_capacity_mAh / 1000) * float(self.battery_level) / aad  # time = capacity × discharge / AAD
-        return f"{flight_time_hrs * 100 / 2:.2f}" # Max travel distance = time * kph / 2(round-trip)
+        aad = (self.drone_weight_g / 1000) * (
+                    watts_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
+        flight_time_hrs = (self.battery_capacity_mAh / 1000) * float(
+            self.battery_level) / aad  # time = capacity × discharge / AAD
+        return f"{flight_time_hrs * 100 / 2:.2f}"  # Max travel distance = time * kph / 2(round-trip)
 
     def __str__(self):
         return f"{self.name}"
+
 
 class IceCream(models.Model):
     flavor = models.CharField(max_length=127)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     qty = models.IntegerField(default=0)
+
     class Meta:
         verbose_name_plural = "Ice cream"
+
     def __str__(self):
         return f"{self.flavor}"
 
@@ -79,6 +75,7 @@ class Cone(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
 
 class IceCreamCone(models.Model):
     SIZE_CHOICES = [
@@ -101,13 +98,15 @@ class IceCreamCone(models.Model):
                 'cone': str(self.cone),
                 'price': str(self.get_price())}
 
-
     def get_price(self):
         price = self.cone.price + sum(topping.price for topping in self.toppings.all())
         match self.size:
-            case 'small': price += self.flavor.price * 1
-            case 'medium': price += self.flavor.price * 2
-            case 'large': price += self.flavor.price * 3
+            case 'small':
+                price += self.flavor.price * 1
+            case 'medium':
+                price += self.flavor.price * 2
+            case 'large':
+                price += self.flavor.price * 3
         return price
 
 

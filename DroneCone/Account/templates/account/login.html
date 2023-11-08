@@ -1,0 +1,20 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}
+    Log In
+{% endblock head_title %}
+
+{% block inner %}
+    <h1>Log In</h1>
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% else %}
+        <p>Please either <a href="{% url 'account:login' %}">Log In</a> or <a href="{% url 'account:signup' %}">Sign Up</a></p>
+    {% endif %}
+    <form class="login" method="post" action="{% url 'account:login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <a class="button secondaryAction" href="{% url 'account:password_reset' %}">Forgot Password?</a>
+        <button class="primaryAction btn btn-primary" type="submit">Log In</button>
+    </form>
+{% endblock inner %}

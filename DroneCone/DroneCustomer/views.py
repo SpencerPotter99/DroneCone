@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Order, Profile
 from django import forms
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework import generics
 from rest_framework.response import Response
-from .models import IceCream, IceCreamCone, Topping, Cone, Cart
+from rest_framework.permissions import IsAuthenticated
+from .models import IceCream, IceCreamCone, Topping, Cone, Order
 from .serializers import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -33,15 +34,50 @@ class ConeItemsAPI(APIView):
         print(cone_items)
         return Response(serializer.data)
 
-class OrderCreateView(APIView):
-    def post(self, request):
-        print("TEST")
-        serializer = IceCreamConeSerializer(data=request.data)
-        print(serializer)
-        if serializer.is_valid():
-            serializer.save(user=request.user)  # Assuming you have user authentication
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class IceCreamConeCreateView(generics.CreateAPIView):
+    queryset = IceCreamCone.objects.all()
+    serializer_class = IceCreamConeSerializer
+
+class OrderCreateView(generics.CreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderListView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user  # Get the currently logged-in user
+        return Order.objects.filter(user=user)
+
+class CartView(generics.RetrieveUpdateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+    def get_object(self):
+        return self.request.user.cart
+
+class GetUserIdView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_id = request.user.id
+        return Response({'user_id': user_id})
+
+class AddToCartView(generics.CreateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        cone_id = self.request.data.get('cone_id')  # Assuming you send the cone_id in the request data
+        try:
+            cone = IceCreamCone.objects.get(pk=cone_id)
+        except IceCreamCone.DoesNotExist:
+            return Response({'detail': 'Cone not found.'}, status=status.HTTP_NOT_FOUND)
+        user.cart.cones.add(cone)
+        serializer.save(user=user)
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
