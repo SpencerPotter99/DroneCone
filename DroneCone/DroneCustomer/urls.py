@@ -24,5 +24,8 @@ urlpatterns = [
     path('menu-items/', MenuItemsAPI.as_view(), name='menu_items_api'),
     path('topping-items/', ToppingsItemsAPI.as_view(), name='topping_items_api'),
     path('cone-items/', ConeItemsAPI.as_view(), name='cone_items_api'),
-    path('orders/', OrderCreateView.as_view(), name='order_create')
+    path('orders/', OrderCreateView.as_view(), name='order_create'),
+
+    path('icecreamcone/', IceCreamConeListView.as_view(), name='icecreamcone'),
+    path('icecreamcone/create/', TestCreateIcecreamView.as_view(), name='icecreamcone_create'),
 ]

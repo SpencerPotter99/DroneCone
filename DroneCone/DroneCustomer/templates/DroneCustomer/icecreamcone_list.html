@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Ice Cream List View</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Ice Cream Cones List</h1>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Flavor</th>
+            <th>Toppings</th>
+            <th>Cone</th>
+            <th>Size</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cone in icecream_cones %}
+            <tr>
+                <td>{{ cone.flavor }}</td>
+                <td>
+                    {% for topping in cone.toppings.all %}
+                        {{ topping.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ cone.cone.name }}</td>
+                <td>{{ cone.size }}</td>
+                <td>${{ cone.get_price }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No ice cream cones available</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{% url 'icecreamcone_create' %}" type="button" class="btn btn-primary">Create Ice Cream Cone</a>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

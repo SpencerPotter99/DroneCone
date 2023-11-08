@@ -1,14 +1,24 @@
-from django.shortcuts import render
+from django.views.generic.edit import UpdateView, DeleteView
 
+from django.views.generic.list import ListView
+
+from django.urls import reverse_lazy
+
+from django.shortcuts import render
+from django import forms
 # Create your views here.
 from django.http import HttpResponse
+from django.views.generic import CreateView
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+
+from .forms import IceCreamConeForm
 from .models import IceCream, IceCreamCone, Topping, Cone, Order
 from .serializers import *
+
 
 class MenuItemsAPI(APIView):
     def get(self, request):
@@ -102,3 +112,16 @@ def signUp(request):
 
 def editAccount(request):
     return render(request, 'DroneCustomer/editAccount.html')
+
+
+class TestCreateIcecreamView(CreateView):
+    model = IceCreamCone
+    form_class = IceCreamConeForm
+    template_name = 'DroneCustomer/icecreamcone_create.html'
+    success_url = reverse_lazy('icecreamcone')
+
+
+class IceCreamConeListView(ListView):
+    model = IceCreamCone
+    template_name = 'DroneCustomer/icecreamcone_list.html'
+    context_object_name = 'icecream_cones'
