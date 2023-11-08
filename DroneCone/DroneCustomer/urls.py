@@ -18,5 +18,6 @@ urlpatterns = [
     path('menu-items/', MenuItemsAPI.as_view(), name='menu-items-api'),
     path('topping-items/', ToppingsItemsAPI.as_view(), name='topping-items-api'),
     path('cone-items/', ConeItemsAPI.as_view(), name='cone-items-api'),
-    path('orders/', OrderCreateView.as_view(), name='order-create')
+    path('orders/', OrderCreateView.as_view(), name='order-create'),
+    path('update-account/', views.update_account, name='update_account')
 ]

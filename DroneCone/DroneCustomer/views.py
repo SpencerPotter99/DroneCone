@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Order
+from .models import Order, Profile
 from django import forms
 from rest_framework.views import APIView
 from rest_framework import status
@@ -72,6 +73,7 @@ def checkout(request):
     return render(request, 'DroneCustomer/checkout.html', context)
 
 
+@login_required
 def account(request):
     user = request.user
     total_orders = Order.objects.filter(user=user).count()
@@ -83,8 +85,6 @@ def account(request):
     }
     return render(request, 'DroneCustomer/account.html', context)
 
-# def login(request):
-#     return render(request, 'Account/login.html')
 
 def droneManagement(request):
     return render(request, 'DroneCustomer/droneManager.html')
@@ -95,8 +95,17 @@ def droneOwnerCreation(request):
 def signUp(request):
     return render(request, 'DroneCustomer/customerCreation.html')
 
+@login_required
 def editAccount(request):
-    return render(request, 'DroneCustomer/editAccount.html')
+    user = request.user
+    email = user.email
+    profile = user.profile
+    context = {
+        'profile': profile,
+        'email': email
+    }
+    return render(request, 'DroneCustomer/editAccount.html', context)
+
 
 def submit_order(request):
     cart = Cart.objects.filter(user=request.user).first()
@@ -121,6 +130,8 @@ def submit_order(request):
 def update_account(request):
     if request.method == 'POST':
         email = request.POST.get('email')
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
         current_password = request.POST.get('current_password')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
@@ -129,26 +140,42 @@ def update_account(request):
         user = request.user
 
         # Verify the current password
-        if not user.check_password(current_password):
-            messages.error(request, 'Incorrect current password.')
-            return redirect('edit_account')
+        if current_password:
+            if not user.check_password(current_password):
+                messages.error(request, 'Incorrect current password.')
+                return redirect('editaccount')
 
+        # Update user email
         if email:
             user.email = email
 
+        # Update profile address and phone
+        user.profile.address = address
+        user.profile.phone = phone
+        user.profile.drone_owner = drone_owner
+
+        # Update drone owner status
+        user.profile.drone_owner = drone_owner
+
+        # Save the profile changes
+        user.profile.save()
+
+        # Change password if provided
         if new_password and confirm_password:
             if new_password == confirm_password:
-                user.password = make_password(new_password)
+                user.set_password(new_password)  # Use set_password instead of directly assigning
+                update_session_auth_hash(request, user)  # Update session with the new password
+                user.save()
+                messages.success(request, 'Your password has been updated.')
             else:
                 messages.error(request, 'Passwords do not match.')
-                return redirect('edit_account')
+                return redirect('editaccount')
 
-        user.profile.drone_owner = drone_owner
-        user.profile.save()
+        # Save the user changes
         user.save()
 
-        update_session_auth_hash(request, user)  # Important, to update the session with the new password
         messages.success(request, 'Your account has been updated.')
-        return redirect('account_view')
+        return redirect('../account/')
 
-    return redirect('edit_account')
+    return redirect('editaccount')
+

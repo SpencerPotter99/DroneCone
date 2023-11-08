@@ -20,6 +20,7 @@
                         <th class="px-4 py-2">Date</th>
                         <th class="px-4 py-2">Items</th>
                         <th class="px-4 py-2">Total Price</th>
+                        <th class="px-4 py-2">Order Status</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
@@ -35,6 +36,7 @@
                             </ul>
                         </td>
                         <td class="px-4 py-2">${{ order.get_order_total }}</td>
+                        <td class="px-4 py-2">${{ order.status }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
