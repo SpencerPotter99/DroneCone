@@ -32,6 +32,9 @@
         delimiters: ['[[', ']]'],
         data: {
           coneCount: 1,
+          timeTellDelivery: null,
+          countdown: 60000, // add an extra zero for 10 minutes
+          orderId: null,
           userId: null,
           selectedSize: 'small',
           menuItems: [],
@@ -83,10 +86,14 @@
                       const currentTime = new Date();
                     // Parse the 'updated_at' time from the order object (assuming it's in ISO 8601 format)
                     const updatedAtStr = response.data[response.data.length - 1].updated_at;
+                    this.orderId=response.data[response.data.length - 1].id
+                    console.log(this.orderId)
+                    startCountdown = 60000 //add another 0 to get 10 minutes
                     console.log(updatedAtStr)
                     const updatedAtTime = new Date(updatedAtStr);
                     // Calculate the time difference in milliseconds
                     const timeDifference = currentTime - updatedAtTime;
+                    this.countdown= startCountdown - timeDifference
 
                     // Check if the time difference is less than or equal to 10 minutes (600,000 milliseconds)
                     if (timeDifference <= 600000) {
@@ -94,7 +101,8 @@
                     } else {
                       console.log("The 'updated_at' time is more than 10 minutes ago.");
                     }
-                    })
+                    }
+                    )
                     .catch(error => {
                       // Handle errors
                       console.error(error);
@@ -154,6 +162,16 @@
           selectSize(size) {
             this.selectedSize = size;
           },
+          updateOrderStatus(orderId) {
+              // Make an API call to update the order status to "Delivered"
+              axios.patch(`/update_order_status/${orderId}/`, { status: 'delivered' })
+                .then(response => {
+                  console.log('Order status updated to "Delivered".');
+                })
+                .catch(error => {
+                  console.error('Error updating order status:', error);
+                });
+            },
           submitOrder() {
             //this fromats the data for the cones model
             const iceCreamConeData = {
@@ -193,6 +211,15 @@
         },
         created() {
             this.fetchData(); // Call the fetchData method when the Vue instance is created
+            this.timeTellDelivery = setInterval(() => {
+              if (this.countdown <= 0) {
+                clearInterval(this.timeTellDelivery);
+                this.updateOrderStatus(this.orderId); // Update the order status to "Delivered"
+                console.log("LETS GOOO")
+              } else {
+                this.countdown -= 1000; // Decrease the countdown by 1 second (1000 milliseconds)
+              }
+            }, 1000);
         }
       });
     </script>
