@@ -1,45 +1,5 @@
 [
   {
-    "model": "Account.profile",
-    "pk": 2,
-    "fields": {
-      "user": 3,
-      "phone": "+1234567890",
-      "address": "123 Main St, City A",
-      "drone_owner": true
-    }
-  },
-  {
-    "model": "Account.profile",
-    "pk": 3,
-    "fields": {
-      "user": 5,
-      "phone": "+1777777777",
-      "address": "567 Pine St, City D",
-      "drone_owner": false
-    }
-  },
-  {
-    "model": "Account.profile",
-    "pk": 4,
-    "fields": {
-      "user": 4,
-      "phone": "+1444444444",
-      "address": "789 Oak St, City C",
-      "drone_owner": false
-    }
-  },
-  {
-    "model": "Account.profile",
-    "pk": 5,
-    "fields": {
-      "user": 2,
-      "phone": "+1654321890",
-      "address": "890 Cedar St, City E",
-      "drone_owner": true
-    }
-  },
-  {
     "model": "DroneCustomer.drone",
     "pk": 1,
     "fields": {
@@ -329,14 +289,6 @@
     }
   },
   {
-    "model": "DroneCustomer.cart",
-    "pk": 1,
-    "fields": {
-      "user": 4,
-      "cones": []
-    }
-  },
-  {
     "model": "auth.user",
     "pk": 2,
     "fields": {
@@ -406,6 +358,33 @@
       "date_joined": "2023-10-30T05:50:11Z",
       "groups": [],
       "user_permissions": []
+    }
+  },
+  {
+    "model": "Account.profile",
+    "pk": 3,
+    "fields": {
+      "phone": "+1234567890",
+      "address": "123 Main St, City A",
+      "drone_owner": true
+    }
+  },
+  {
+    "model": "Account.profile",
+    "pk": 5,
+    "fields": {
+      "phone": "+1777777777",
+      "address": "567 Pine St, City D",
+      "drone_owner": false
+    }
+  },
+  {
+    "model": "Account.profile",
+    "pk": 4,
+    "fields": {
+      "phone": "+1444444444",
+      "address": "789 Oak St, City C",
+      "drone_owner": false
     }
   }
 ]
