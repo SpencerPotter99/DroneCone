@@ -7,53 +7,53 @@
     <table class="min-w-full divide-y divide-gray-200">
         <thead>
             <tr>
-                <th class="px-6 py-3 bg-gray-50"></th>
-                <th class="px-6 py-3 bg-gray-50">Name</th>
-                <th class="px-6 py-3 bg-gray-50">Owner</th>
-                <th class="px-6 py-3 bg-gray-50">Size</th>
-                <th class="px-6 py-3 bg-gray-50">Weight (g)</th>
-                <th class="px-6 py-3 bg-gray-50">Battery Capacity (mAh)</th>
-                <th class="px-6 py-3 bg-gray-50">Battery Voltage (V)</th>
-                <th class="px-6 py-3 bg-gray-50">Battery Level (%)</th>
-                <th class="px-6 py-3 bg-gray-50">Status</th>
-                <th class="px-6 py-3 bg-gray-50">Flight Range (km)</th>
-                <th class="px-6 py-3 bg-gray-50">Actions</th>
+                <th class="px-6 py-3 bg-white"></th>
+                <th class="px-6 py-3 bg-white">Name</th>
+                <th class="px-6 py-3 bg-white">Owner</th>
+                <th class="px-6 py-3 bg-white">Size</th>
+                <th class="px-6 py-3 bg-white">Weight (g)</th>
+                <th class="px-6 py-3 bg-white">Battery Capacity (mAh)</th>
+                <th class="px-6 py-3 bg-white">Battery Voltage (V)</th>
+                <th class="px-6 py-3 bg-white">Battery Level (%)</th>
+                <th class="px-6 py-3 bg-white">Status</th>
+                <th class="px-6 py-3 bg-white">Flight Range (km)</th>
+                <th class="px-6 py-3 bg-white">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for drone in drones %}
-                <tr class="{% if forloop.counter|divisibleby:2 %}bg-gray-50{% endif %}">
-                    <td class="px-6 py-4 whitespace-nowrap">
+                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         {{ forloop.counter }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         {{ drone.name }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         {{ drone.owner }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         {{ drone.get_size_display }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{ drone.drone_weight_g }}
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ drone.drone_weight_g }} g
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{ drone.battery_capacity_mAh }}
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ drone.battery_capacity_mAh }} mAh
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{ drone.battery_voltage }}
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ drone.battery_voltage }} v
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         {{ drone.get_battery_percentage }}%
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         {{ drone.get_drone_status }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{ drone.determine_flight_range_km }}
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ drone.determine_flight_range_km }} km
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap">
                         <button onclick="window.location.href='{% url 'add_drone' drone.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
                         <button onclick="window.location.href='{% url 'delete_drone' drone.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
                     </td>
