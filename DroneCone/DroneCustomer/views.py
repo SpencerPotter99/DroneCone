@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse
@@ -99,6 +99,7 @@ def index(request):
 
 def home(request):
     return render(request, 'DroneCustomer/home.html')
+
 
 def checkout(request):
     return render(request, 'DroneCustomer/checkout.html')
