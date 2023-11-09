@@ -26,7 +26,7 @@
         </div>
     </div>
     <h2 class="text-2xl font-semibold mb-4 mt-4">Cones</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {% for cone in cones %}
             <div class="bg-white p-4 shadow-lg rounded-lg">
                 <p class="text-xl font-semibold">{{ cone.name }}</p>
@@ -47,26 +47,24 @@
         </div>
     </div>
     <h2 class="text-2xl font-semibold mb-4 mt-4">Toppings</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {% for topping in toppings %}
             <div class="bg-white p-4 shadow-lg rounded-lg">
                 <p class="text-xl font-semibold">{{ topping.name }}</p>
                 <p class="text-gray-700">Quantity: {{ topping.qty }}</p>
                 <p class="text-gray-700">Price: ${{ topping.price }}</p>
                 <p class="text-gray-700">"{{ topping.description }}"</p>
-                 <button onclick="window.location.href='{% url 'add_topping' topping.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
+                <button onclick="window.location.href='{% url 'add_topping' topping.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
                 <button onclick="window.location.href='{% url 'delete_topping' topping.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
             </div>
         {% endfor %}
         <div class="bg-white p-4 shadow-lg rounded-lg">
             <h3 class="text-xl font-semibold">Add Topping</h3>
-            <div>
                 <form action="{% url 'add_topping' %}" method="post" class="space-y-2 ">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="block bg-green-500 text-white px-4 py-2 rounded-md mt-2">Add</button>
                 </form>
-            </div>
         </div>
     </div>
 </section>
