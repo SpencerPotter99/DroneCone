@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-import json
 from decimal import Decimal
 
 class Drone(models.Model):
@@ -125,7 +124,6 @@ class Order(models.Model):
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    delivered_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Order #{self.pk} - {self.status}"
@@ -140,6 +138,16 @@ class Order(models.Model):
 
         return total_price
 
+    def get_cone_info(self):
+        # Check if `self.cones` is a list of dictionaries (JSON data)
+        if isinstance(self.cones, list):
+            return self.cones
+        # If `self.cones` is a single dictionary, return it inside a list
+        elif isinstance(self.cones, dict):
+            return [self.cones]
+        # If `self.cones` is neither, return an empty list
+        else:
+            return []
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')

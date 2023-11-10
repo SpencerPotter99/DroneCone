@@ -112,22 +112,25 @@ def home(request):
     return render(request, 'DroneCustomer/home.html')
 
 
+@login_required
 def checkout(request):
     user = request.user
-    cart = Cart.objects.filter(user=user).first()  # Get the cart for the current user
+    # Get all orders for the current user with 'pending' status
+    pending_orders = Order.objects.filter(user=user, status='pending')
 
-    if cart is not None:
-        order_items = cart.get_cones_info()
-        total_price = sum(item['price'] for item in order_items)
-    else:
-        order_items = []
-        total_price = 0
+    order_items = []
+    total_price = Decimal('0.00')
+
+    # Iterate over pending orders to collect order items and compute the total price
+    for order in pending_orders:
+        cones_info = order.get_cone_info()
+        order_items.extend(cones_info)
+        total_price += order.get_order_total()
 
     context = {
         'order_items': order_items,
         'total_price': total_price,
     }
-
     return render(request, 'DroneCustomer/checkout.html', context)
 
 
