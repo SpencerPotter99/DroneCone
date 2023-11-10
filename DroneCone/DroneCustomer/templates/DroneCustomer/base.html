@@ -36,6 +36,7 @@
           countdown: 60000, // add an extra zero for 10 minutes
           orderId: null,
           orderStatus: null,
+          errorMessage: null,
           userId: null,
           selectedSize: 'small',
           selectedFlavor: null,
@@ -192,7 +193,24 @@
                 });
             },
 
+            errorHandling(message) {
+            //error checking
+            if(this.selectedFlavor == null){
+              this.errorMessage ="You Must Select a flavor before " + message
+              return 1
+            }
+            if(this.selectedCone == null){
+              this.errorMessage="You Must Select a cone before " + message
+              return 1
+            }
+            return 0
+          },
+
           addCone() {
+
+            if(this.errorHandling("adding another Ice Cream Cone") === 1){
+              return
+            }
               //this fromats the data for the cones model
               const iceCreamConeData = {
               size: this.selectedSize,
@@ -224,6 +242,10 @@
           },
 
           submitOrder() {
+            if(this.errorHandling("checkout") === 1){
+              return
+            }
+
             //this fromats the data for the cones model
             const iceCreamConeData = {
               size: this.selectedSize,
