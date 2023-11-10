@@ -18,29 +18,84 @@
                     <tr class="text-left" style="color: #CDB4DB;">
                         <th class="px-4 py-2">Order Number</th>
                         <th class="px-4 py-2">Date</th>
-                        <th class="px-4 py-2">Items</th>
+                        <th class="px-4 py-2">Cones</th>
                         <th class="px-4 py-2">Total Price</th>
                         <th class="px-4 py-2">Order Status</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
-                    {% for order in orders %}
-                    <tr class="border-b border-gray-200">
-                        <td class="px-4 py-2">{{ order.pk }}</td>
-                        <td class="px-4 py-2">{{ order.created_at|date:"F j, Y" }}</td>
-                        <td class="px-4 py-2">
-                            <ul class="list-disc list-inside">
-                                {% for cone_info in order.cones %}
-                                <li>{{ cone_info.flavor }} - ${{ cone_info.price }}</li>
+                {% for order in orders %}
+                <tr class="border-b border-gray-200">
+                    <td class="px-4 py-2">{{ order.pk }}</td>
+                    <td class="px-4 py-2">{{ order.created_at|date:"F j, Y" }}</td>
+                    <td class="px-4 py-2">
+                        <ul class="list-disc list-inside">
+                            Cone:
+                            {% if order.cones %}
+                                {% for key, value in order.cones.items %}
+                                    <!-- Handling display for each key -->
+                                    {% if key == 'size' %}
+                                        <li>Size: {{ value}}</li>
+                                    {% elif key == 'flavor' %}
+                                        <li>Flavor: {{ value.flavor }} - ${{ value.price }}</li>
+                                    {% elif key == 'toppings' %}
+                                        <li>Toppings:
+                                            <ul>
+                                                {% for topping in value %}
+                                                    <li>{{ topping.name }} - ${{ topping.price }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% elif key == 'cone' %}
+                                        <li>Cone: {{ value.name }} - ${{ value.price }}</li>
+                                    {% elif key == 'price' %}
+                                        <li>Price: ${{ value }}</li>
+                                    {% endif %}
                                 {% endfor %}
-                            </ul>
-                        </td>
-                        <td class="px-4 py-2">${{ order.get_order_total }}</td>
-                        <td class="px-4 py-2">${{ order.status }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
+                            {% else %}
+                                <li>No cones available</li>
+                            {% endif %}
+                        </ul>
+                    </td>
+                    <td class="px-4 py-2">${{ order.get_order_total }}</td>
+                         <td class="px-4 py-2">
+                            {% if order.status == 'delivering' and order.remaining_delivery_time_seconds %}
+                             Delivery will arrive in:
+                                <div id="countdown-{{ order.pk }}" data-remaining-time="{{ order.remaining_delivery_time_seconds }}"></div>
+                             {%else%}
+                             {{ order.status }}
+                             {% endif %}
+
+                         </td>
+                </tr>
+                {% endfor %}
+            </tbody>
             </table>
         </section>
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const countdownElements = document.querySelectorAll('[id^="countdown-"]');
+
+  countdownElements.forEach(function(el) {
+    let remainingTime = parseInt(el.getAttribute('data-remaining-time'), 10);
+
+    // Update the countdown every second
+    const intervalId = setInterval(function() {
+      remainingTime -= 1;
+
+      if (remainingTime <= 0) {
+        clearInterval(intervalId);
+        el.textContent = 'Delivery time elapsed';
+      } else {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        el.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+      }
+    }, 1000);
+  });
+});
+
+</script>
+
 {% endblock %}

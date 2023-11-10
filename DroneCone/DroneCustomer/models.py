@@ -125,19 +125,19 @@ class Order(models.Model):
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    delivered_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Order #{self.pk} - {self.status}"
 
     def get_order_total(self):
         total_price = Decimal('0.00')
-        try:
-            cone_data_list = json.loads(self.cones)
-            for cone_data in cone_data_list:
-                cone_price = Decimal(cone_data.get('price', '0.00'))
-                total_price += cone_price
-        except json.JSONDecodeError:
-            pass
+        cone_data_list = self.cones if isinstance(self.cones, list) else [self.cones]
+
+        for cone_data in cone_data_list:
+            cone_price = Decimal(cone_data.get('price', '0.00'))
+            total_price += cone_price
+
         return total_price
 
 

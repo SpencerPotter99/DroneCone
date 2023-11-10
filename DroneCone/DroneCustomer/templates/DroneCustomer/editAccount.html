@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 <div class="form-group mb-4">
                     <label for="email" class="block font-bold mb-2" style="color: #CDB4DB;">Email</label>
-                    <input type="text" name="email" id="email" class="w-full px-3 py-2 border rounded" placeholder="Email" value="{{ username }}">
+                    <input type="text" name="email" id="email" class="w-full px-3 py-2 border rounded" placeholder="Email" value="{{ email }}">
                 </div>
                 <div class="form-group mb-4">
                     <label for="address" class="block font-bold mb-2" style="color: #CDB4DB;">Address</label>
@@ -42,21 +42,22 @@
                 <div class="form-group mb-4">
                     <label class="block font-bold mb-2" style="color: #CDB4DB;">
                         <input type="checkbox" name="drone_owner" id="drone_owner" class="mr-2" {% if profile.drone_owner %}checked{% endif %}>
-                        Would you like to become a drone owner?
+                        Are you a drone owner?
                     </label>
                 </div>
                 <!-- Messages -->
                     {% if messages %}
-                    <ul class="mb-4 list-reset">
-                        {% for message in messages %}
-                        <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                        <ul class="mb-4 list-reset">
+                            {% for message in messages %}
+                                {% if 'error' in message.tags %}
+                                    <li class="{{ message.tags }}">{{ message }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
                     {% endif %}
                 <button type="submit" id="enter-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;">Update Account</button>
             </form>
         </section>
     </div>
-
 </body>
 </html>

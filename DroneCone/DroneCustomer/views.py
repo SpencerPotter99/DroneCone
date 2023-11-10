@@ -1,3 +1,6 @@
+import json
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django import forms
@@ -114,6 +117,27 @@ def account(request):
     user = request.user
     total_orders = Order.objects.filter(user=user).count()
     orders = Order.objects.filter(user=user).order_by('-created_at')
+
+    # Define delivery duration as 10 minutes
+    delivery_duration = timedelta(minutes=10)
+
+    # Go through orders and calculate remaining delivery time
+    for order in orders:
+        if order.status == 'delivering':
+            # Time since the order was last updated
+            time_since_update = timezone.now() - (timezone.now() - timezone.timedelta(minutes=5))
+
+            # Remaining delivery time is the delivery duration minus the time since last update
+            remaining_time = delivery_duration - time_since_update
+
+            # If the remaining time is negative, delivery should have been completed
+            remaining_time_seconds = max(remaining_time.total_seconds(), 0)
+
+            # Add remaining time in seconds to the order object for use in the template
+            order.remaining_delivery_time_seconds = int(remaining_time_seconds)
+        else:
+            # If the order is not delivering, set remaining time to None
+            order.remaining_delivery_time_seconds = None
 
     context = {
         'total_orders': total_orders,
