@@ -1,10 +1,10 @@
 {% extends 'DroneAdmin/base.html' %}
 
-{% block title %}Add Drone{% endblock %}
-{% block heading %}Add Drone{% endblock %}
+{% block title %}{{ action_title }} Drone{% endblock %}
+{% block heading %}{{ action_title }} Drone{% endblock %}
 
 {% block content %}
-    <div class="bg-white p-4 shadow-lg rounded-lg">
+    <div class="bg-white p-4 rounded-lg">
         <form method="post">
             {% csrf_token %}
             <label class="block font-semibold text-gray-700">Owner:</label>
@@ -38,6 +38,5 @@
             </div>
         </form>
     </div>
-
     <a href="{% url 'drone_management' %}" class="block mt-4">Cancel</a>
 {% endblock %}

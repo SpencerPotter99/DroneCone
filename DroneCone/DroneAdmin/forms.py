@@ -1,6 +1,28 @@
 from django import forms
+from django.contrib.auth.models import User
 from DroneCustomer.models import Drone, IceCream, Topping, Cone
+from Account.models import Profile
 from decimal import Decimal
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'is_staff']
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [ 'phone', 'address', 'drone_owner']
+
+        widgets = {
+            'phone': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
+            'address': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
+            'drone_owner': forms.CheckboxInput(attrs={'class': 'border border-gray-400 rounded'}),
+        }
+
+
 
 
 class CustomNumberInput(forms.NumberInput):
@@ -14,7 +36,7 @@ class DroneForm(forms.ModelForm):
     battery_level = forms.DecimalField(
         max_value=Decimal('1.0'),
         min_value=Decimal('0.0'),
-        widget=CustomNumberInput(),  # Use the custom widget with border style
+        widget=CustomNumberInput(),
     )
 
     class Meta:

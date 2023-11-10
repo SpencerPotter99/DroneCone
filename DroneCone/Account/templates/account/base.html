@@ -46,6 +46,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account:logout' %}">Log Out</a>
                         </li>
+                        {% if request.user.is_staff or request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'order_history' %}">Admin</a>
+                            </li>
+                        {% endif %}
                     {% else %}
                         <li class="nav-item">
                             <a id="sign-up-link" class="nav-link" href="{% url 'account:signup' %}">Sign Up</a>

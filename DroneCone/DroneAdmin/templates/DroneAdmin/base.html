@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
 <body class="bg-gray-100 flex">
     <aside class="w-1/8 bg-gray-300 p-4 min-h-screen">
-        <h2 class="text-lg font-semibold mb-4">Navigation</h2>
+        <h2 class="text-lg font-semibold mb-4">Administration</h2>
         <ul class="space-y-2 resolute">
-            <li><a href="{% url 'sales' %}">Sales</a></li>
+            <li><a href="{% url 'order_history' %}">Order History</a></li>
             <li><a href="{% url 'inventory' %}">Inventory</a></li>
+            <li><a href="{% url 'user_management' %}">User Management</a></li>
             <li><a href="{% url 'drone_management' %}">Drone Management</a></li>
-            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li><a href="{% url 'home' %}" class="underline absolute bottom-4">Order a Cone</a></li>
+            <li><a href="{% url 'sales' %}">Sales</a></li>
+            <li><a href="{% url 'home' %}" class="text-pink-600">Order a Cone</a></li>
+            <li><a href="{% url 'account:logout' %}" class="absolute bottom-4">Logout</a></li>
         </ul>
     </aside>
     <main class="w-7/8 p-8">
