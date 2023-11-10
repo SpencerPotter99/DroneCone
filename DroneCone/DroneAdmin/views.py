@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm
 from.decorators import admin_required
+# noinspection PyUnresolvedReferences
 from DroneCustomer.models import Drone, IceCream, Cone, Topping
+# noinspection PyUnresolvedReferences
 from Account.models import Profile
 
 @admin_required
 def index(request):
-    return render(request, "DroneAdmin/dashboard.html")
+    return render(request, "DroneAdmin/order_history.html")
 
 @admin_required
 def user_management(request):
@@ -17,34 +19,37 @@ def user_management(request):
 @admin_required
 def edit_user(request, user_id=None):
     if user_id:
-        curr_user = get_object_or_404(User, pk=user_id)
-        curr_profile = get_object_or_404(Profile, pk=user_id)
+        user = get_object_or_404(User, pk=user_id)
+        profile = get_object_or_404(Profile, pk=user_id)
     else:
-        curr_user = None
-        curr_profile = None
+        user = None
+        profile = None
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=curr_user)
-        profile_form = ProfileForm(request.POST, instance=curr_profile)
+        user_form = UserForm(request.POST, instance=user)
+        profile_form = ProfileForm(request.POST, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             return redirect('user_management')
     else:
-        user_form = UserForm(instance=curr_user)
-        profile_form = ProfileForm(instance=curr_profile)
+        user_form = UserForm(instance=user)
+        profile_form = ProfileForm(instance=profile)
     return render(request, 'DroneAdmin/edit_user.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
+# noinspection PyUnboundLocalVariable
 @admin_required
 def delete_user(request, user_id=None):
     if user_id:
-        user = get_object_or_404(Profile, pk=user_id)
+        user = get_object_or_404(User, pk=user_id)
+        profile = get_object_or_404(Profile, pk=user_id)
     else:
         user = None
     if request.method == 'POST':
+        profile.delete()
         user.delete()
         return redirect('user_management')
-    return render(request, 'DroneAdmin/delete_drone.html', {'user': user})
+    return render(request, 'DroneAdmin/delete_user.html', {'user': user, 'profile': profile})
 
 @admin_required
 def drone_management(request):
@@ -60,8 +65,10 @@ def drone_management(request):
 def add_drone(request, item_id=None):
     if item_id:
         drone = get_object_or_404(Drone, pk=item_id)
+        action_title = "Edit"
     else:
         drone = None
+        action_title = "Add"
     if request.method == 'POST':
         form = DroneForm(request.POST, instance=drone)
         if form.is_valid():
@@ -69,7 +76,7 @@ def add_drone(request, item_id=None):
             return redirect('drone_management')
     else:
         form = DroneForm(instance=drone)
-    return render(request, 'DroneAdmin/add_drone.html', {'form': form})
+    return render(request, 'DroneAdmin/add_drone.html', {'form': form, 'action_title': action_title})
 
 @admin_required
 def delete_drone(request, item_id=None):
@@ -88,15 +95,12 @@ def inventory(request):
     cones = Cone.objects.all()
     toppings = Topping.objects.all()
 
-    return render(
-        request,
-        "DroneAdmin/inventory.html",
+    return render(request, "DroneAdmin/inventory.html",
         {
             'ice_creams': ice_creams,
             'cones': cones,
             'toppings': toppings
-        }
-    )
+        })
 
 @admin_required
 def add_ice_cream(request, item_id=None):

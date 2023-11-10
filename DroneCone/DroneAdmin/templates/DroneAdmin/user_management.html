@@ -50,8 +50,8 @@
                         {% endif %}
                     </td>
                     <td class="px-6 py-3 whitespace-nowrap">
-                        <button onclick="window.location.href='{% if user.id %}{% url 'edit_user' user.id %}{% endif %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105">Edit</button>
-                        <button onclick="window.location.href='{% if user.id %}{% url 'delete_user' user.id %}{% endif %}'" class="bg-red-500 text-white px-4 py-2 rounded-md ml-2 transition duration-300 ease-in-out transform hover:scale-105">Delete</button>
+                        <button onclick="window.location.href='{% if user.id %}{% url 'edit_user' user.id %}{% endif %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
+                        <button onclick="window.location.href='{% if user.id %}{% url 'delete_user' user.id %}{% endif %}'" class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
                     </td>
                 </tr>
             {% endfor %}

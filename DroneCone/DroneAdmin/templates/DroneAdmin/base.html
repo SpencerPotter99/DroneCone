@@ -11,10 +11,10 @@
     <aside class="w-1/8 bg-gray-300 p-4 min-h-screen">
         <h2 class="text-lg font-semibold mb-4">Administration</h2>
         <ul class="space-y-2 resolute">
+            <li><a href="{% url 'order_history' %}">Order History</a></li>
             <li><a href="{% url 'inventory' %}">Inventory</a></li>
             <li><a href="{% url 'user_management' %}">User Management</a></li>
             <li><a href="{% url 'drone_management' %}">Drone Management</a></li>
-            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
             <li><a href="{% url 'sales' %}">Sales</a></li>
             <li><a href="{% url 'home' %}" class="text-pink-600">Order a Cone</a></li>
             <li><a href="{% url 'account:logout' %}" class="absolute bottom-4">Logout</a></li>
