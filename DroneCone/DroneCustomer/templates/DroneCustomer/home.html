@@ -6,6 +6,13 @@
     <h1 class="text-4xl font-bold">Welcome To Drone Cones</h1>
     <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
 </div>
+
+<div class="timer" v-if="countdown>=0 && orderStatus=='delivering'">
+  <div class="text-center">
+    <h2 class="text-2xl font-semibold">Time Until Cone Delivery</h2>
+</div>
+  [[ Math.floor(countdown / 60000) ]] minutes and [[ (countdown % 60000) / 1000 ]] seconds remaining
+</div>
 <div class="text-center mt-8">
   <h1 class="text-2xl font-semibold">Choose Your Size</h1>
 </div>
@@ -61,7 +68,10 @@
     </div>
     </div>
     <div class="text-center mt-8">
-      <button @click="submitOrder" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Order</button>
+      <button @click="addCone" class="bg-blue-500 text-white px-4 py-2 rounded">Add another Ice Cream Cone to the Order</button>
+    </div>
+    <div class="text-center mt-8">
+      <button @click="submitOrder" class="bg-blue-500 text-white px-4 py-2 rounded" href="{% url 'account' %}">Submit Order</button>
     </div>
 </div>
 {% endblock %}

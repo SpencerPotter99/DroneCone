@@ -32,15 +32,25 @@
         delimiters: ['[[', ']]'],
         data: {
           coneCount: 1,
+          timeTellDelivery: null,
+          countdown: 60000, // add an extra zero for 10 minutes
+          orderId: null,
+          orderStatus: null,
           userId: null,
           selectedSize: 'small',
-          menuItems: [],
           selectedFlavor: null,
           selectedCone: null,
+          selectedToppings: [],
+          menuItems: [],
           toppingItems: [],
           coneItems: [],
-          selectedToppings: [], // Define the selectedToppings array
           orderHistory: [],
+          orderData:  {
+              user: this.userId,
+              drone: null,
+              cones: [],
+              status: 'pending',
+            }
         },
         methods: {
             fetchData () {
@@ -81,30 +91,47 @@
                       // Handle the list of orders in the response.data
                       this.orderHistory = response.data
                       const currentTime = new Date();
-                    // Parse the 'updated_at' time from the order object (assuming it's in ISO 8601 format)
+                     
+                    // Parse the 'updated_at' time from the latest order
                     const updatedAtStr = response.data[response.data.length - 1].updated_at;
-                    console.log(updatedAtStr)
+                    this.orderId=response.data[response.data.length - 1].id
+                    this.orderStatus=response.data[response.data.length - 1].status
+                    startCountdown = 60000 //add another 0 to get 10 minutes
                     const updatedAtTime = new Date(updatedAtStr);
+
                     // Calculate the time difference in milliseconds
                     const timeDifference = currentTime - updatedAtTime;
-
-                    // Check if the time difference is less than or equal to 10 minutes (600,000 milliseconds)
-                    if (timeDifference <= 600000) {
-                      console.log("The 'updated_at' time is 10 minutes or less in the past.");
-                    } else {
-                      console.log("The 'updated_at' time is more than 10 minutes ago.");
+                    this.countdown= startCountdown - timeDifference
                     }
-                    })
+                    )
                     .catch(error => {
                       // Handle errors
                       console.error(error);
                     });
             },
+
+            selectSize(size) {
+            this.selectedSize = size;
+          },
+
             toggleCard(index) {
-              this.selectedFlavor = this.menuItems[index];
+              if(this.selectedFlavor === this.menuItems[index]){
+                console.log("TEST")
+                this.selectedFlavor=null
+              }
+              else{
+                this.selectedFlavor = this.menuItems[index];
+              }
             },
+
             toggleCone(index2) {
-              this.selectedCone = this.coneItems[index2];
+              if(this.selectedCone === this.coneItems[index2]){
+                this.selectedCone=null
+                console.log(this.selectedCone)
+              }
+              else{
+                this.selectedCone = this.coneItems[index2];
+              }
             },
 
             toggleTopping(topping) {
@@ -117,6 +144,7 @@
                 this.selectedToppings.splice(selectedIndex, 1);
               }
             },
+
             // creates the json format of the cones model for the order
             get_cone_info() {
                 return {
@@ -127,6 +155,7 @@
                     price: this.get_price().toString()
                 };
             },
+
           // gets the price of the cone for the order
           get_price() {
             // Convert the selectedCone price to a number
@@ -151,9 +180,49 @@
                 return conePrice + totalPrice;
             }
           },
-          selectSize(size) {
-            this.selectedSize = size;
+          
+          updateOrderStatus(orderId) {
+              // Make an API call to update the order status to "Delivered"
+              axios.patch(`/update_order_status/${orderId}/`, { status: 'delivered' })
+                .then(response => {
+                  console.log('Order status updated to "Delivered".');
+                })
+                .catch(error => {
+                  console.error('Error updating order status:', error);
+                });
+            },
+
+          addCone() {
+              //this fromats the data for the cones model
+              const iceCreamConeData = {
+              size: this.selectedSize,
+              flavor: this.selectedFlavor.id,
+              toppings: this.selectedToppings.map(topping => topping.id), 
+              cone: this.selectedCone.id,
+            };
+            //we then get the cone json data for the order model
+            jsonIceCreamCone = this.get_cone_info()
+            this.orderData.cones.push(jsonIceCreamCone)
+            console.log(jsonIceCreamCone)
+            console.log(this.orderData)
+                // Make a POST request to create the IceCreamCone
+            this.selectedCone = null
+            this.selectSize = "small"
+            this.selectedFlavor = null
+            this.selectedToppings = []
+
+            // Make a POST request to create the IceCreamCone
+            axios.post('{% url 'create_icecreamcone' %}', iceCreamConeData)
+              .then(response => {
+                // Handle success
+                console.log('IceCreamCone created:', response.data);
+              })
+              .catch(error => {
+                // Handle error
+                console.error('Error creating IceCreamCone:', error);
+              });
           },
+
           submitOrder() {
             //this fromats the data for the cones model
             const iceCreamConeData = {
@@ -164,12 +233,11 @@
             };
             //we then get the cone json data for the order model
             jsonIceCreamCone = this.get_cone_info()
-            const orderData = {
-              user: this.userId,
-              drone: null,
-              cones: jsonIceCreamCone,
-              status: 'pending',
-            };
+            this.orderData.cones.push(jsonIceCreamCone)
+
+            // this makes sure the userId is the logged in user
+            this.orderData.user = this.userId
+            console.log(this.orderData)
                 // Make a POST request to create the IceCreamCone
             axios.post('{% url 'create_icecreamcone' %}', iceCreamConeData)
               .then(response => {
@@ -180,10 +248,11 @@
                 // Handle error
                 console.error('Error creating IceCreamCone:', error);
               });
-              axios.post('{% url 'order_create' %}', orderData)
+              axios.post('{% url 'order_create' %}', this.orderData)
               .then(response => {
                 // Handle success
                 console.log('Order created:', response.data);
+                window.location.href = '/checkout/';
               })
               .catch(error => {
                 // Handle error
@@ -191,8 +260,19 @@
               });
             }
         },
+
         created() {
             this.fetchData(); // Call the fetchData method when the Vue instance is created
+            // This calculates if there is an order in delivery and how much time that order has left
+            this.timeTellDelivery = setInterval(() => {
+              if (this.countdown <= 0) {
+                clearInterval(this.timeTellDelivery);
+                this.updateOrderStatus(this.orderId); // Update the order status to "Delivered"
+                console.log("LETS GOOO")
+              } else {
+                this.countdown -= 1000; // Decrease the countdown by 1 second (1000 milliseconds)
+              }
+            }, 1000);
         }
       });
     </script>

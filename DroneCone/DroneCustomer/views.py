@@ -1,4 +1,4 @@
-import json
+
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -52,6 +52,24 @@ class OrderListView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user  # Get the currently logged-in user
         return Order.objects.filter(user=user)
+    
+class UpdateOrderStatusView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, order_id):
+        try:
+            # Retrieve the order with the specified order_id
+            order = Order.objects.get(pk=order_id)
+
+            # Update the order status to "Delivered"
+            order.status = 'delivered'
+            order.save()
+
+            return Response({'message': 'Order status updated to "Delivered".'}, status=status.HTTP_200_OK)
+        except Order.DoesNotExist:
+            return Response({'message': 'Order not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'message': 'Error updating order status.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CartView(generics.RetrieveUpdateAPIView):
     queryset = Cart.objects.all()
@@ -92,6 +110,7 @@ def index(request):
 
 def home(request):
     return render(request, 'DroneCustomer/home.html')
+
 
 def checkout(request):
     user = request.user

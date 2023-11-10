@@ -1,0 +1,60 @@
+{% extends 'DroneAdmin/base.html' %}
+
+{% block title %}Users{% endblock %}
+{% block heading %}Users{% endblock %}
+
+{% block content %}
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-white"></th>
+                <th class="px-6 py-3 bg-white">Username</th>
+                <th class="px-6 py-3 bg-white">Email</th>
+                <th class="px-6 py-3 bg-white">Phone</th>
+                <th class="px-6 py-3 bg-white">Address</th>
+                <th class="px-6 py-3 bg-white">Drone Owner</th>
+                <th class="px-6 py-3 bg-white">Admin</th>
+                <th class="px-6 py-3 bg-white">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in user_list %}
+                 <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ forloop.counter }}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ user.username }}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ user.email }}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ user.profile.phone }}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {{ user.profile.address }}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">
+                        {% if user.profile.drone_owner %}
+                            <span class="text-green-600">&#x2713;</span>
+                        {% else %}
+                            <span class="text-red-500">✘</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">
+                        {% if user.is_superuser or user.is_staff%}
+                            <span class="text-green-600">&#x2713;</span>
+                        {% else %}
+                            <span class="text-red-500">✘</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        <button onclick="window.location.href='{% if user.id %}{% url 'edit_user' user.id %}{% endif %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
+                        <button onclick="window.location.href='{% if user.id %}{% url 'delete_user' user.id %}{% endif %}'" class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

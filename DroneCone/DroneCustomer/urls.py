@@ -28,4 +28,5 @@ urlpatterns = [
     path('cone-items/', ConeItemsAPI.as_view(), name='cone_items_api'),
     path('orders/', OrderCreateView.as_view(), name='order_create'),
     path('submit_order/', views.submit_order, name='submit_order'),
+    path('update_order_status/<int:order_id>/', UpdateOrderStatusView.as_view(), name='update_order_status'),
 ]
