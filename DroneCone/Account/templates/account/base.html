@@ -48,7 +48,7 @@
                         </li>
                         {% if request.user.is_staff or request.user.is_superuser %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'dashboard' %}">Admin</a>
+                                <a class="nav-link" href="{% url 'order_history' %}">Admin</a>
                             </li>
                         {% endif %}
                     {% else %}
