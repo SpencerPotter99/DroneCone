@@ -10,6 +10,8 @@ urlpatterns = [
     path("checkout/", views.checkout, name="checkout"),
     path("account/", views.account, name="account"),
     path("signup/", views.signUp, name="signup"),
+    path("edit_account/", views.editAccount, name="editaccount"),
+    path('update-account/', views.update_account, name='update_account'),
     path('create_icecreamcone/', IceCreamConeCreateView.as_view(), name='create_icecreamcone'),
     path('cart/', CartView.as_view(), name='cart'),
     path('add_to_cart/', AddToCartView.as_view(), name='add_to_cart'),
@@ -25,5 +27,6 @@ urlpatterns = [
     path('topping-items/', ToppingsItemsAPI.as_view(), name='topping_items_api'),
     path('cone-items/', ConeItemsAPI.as_view(), name='cone_items_api'),
     path('orders/', OrderCreateView.as_view(), name='order_create'),
+    path('submit_order/', views.submit_order, name='submit_order'),
     path('update_order_status/<int:order_id>/', UpdateOrderStatusView.as_view(), name='update_order_status'),
 ]
