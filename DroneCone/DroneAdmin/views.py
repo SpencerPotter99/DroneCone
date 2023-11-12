@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.db.models import Sum
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm
 from.decorators import admin_required
 # noinspection PyUnresolvedReferences
-from DroneCustomer.models import Drone, IceCream, Cone, Topping, Order
+from DroneCustomer.models import Drone, IceCream, Cone, Topping, Order, IceCreamCone
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
 
 @admin_required
 def index(request):
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-created_at')
     return render(request, "DroneAdmin/order_history.html", {'orders': orders})
 
 @admin_required

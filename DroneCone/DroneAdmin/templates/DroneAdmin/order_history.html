@@ -11,6 +11,7 @@
                 <th class="px-6 py-3 bg-white">User</th>
                 <th class="px-6 py-3 bg-white">Ice Cream Cones</th>
                 <th class="px-6 py-3 bg-white">Status</th>
+                <th class="px-6 py-3 bg-white">Drone</th>
                 <th class="px-6 py-3 bg-white">Created At</th>
                 <th class="px-6 py-3 bg-white">Updated At</th>
             </tr>
@@ -39,6 +40,7 @@
                         {% endfor %}
                     </td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ order.get_status_display }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.drone }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ order.created_at }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ order.updated_at }}</td>
                 </tr>
