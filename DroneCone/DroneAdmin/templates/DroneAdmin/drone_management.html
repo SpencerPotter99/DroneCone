@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {% for drone in drones %}
-                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                <tr class="{% cycle '' 'bg-white' %}">
                     <td class="px-6 py-3 whitespace-nowrap">
                         {{ forloop.counter }}
                     </td>

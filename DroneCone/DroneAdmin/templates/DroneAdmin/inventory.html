@@ -17,7 +17,7 @@
         </thead>
         <tbody>
             {% for ice_cream in ice_creams %}
-                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                <tr class="{% cycle '' 'bg-white' %}">
                     <td class="px-6 py-3 whitespace-nowrap">{{ ice_cream.flavor }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ ice_cream.qty }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">${{ ice_cream.price }}</td>
@@ -40,7 +40,7 @@
         </thead>
         <tbody>
             {% for cone in cones %}
-                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                <tr class="{% cycle '' 'bg-white' %}">
                    <td class="px-6 py-3 whitespace-nowrap">{{ cone.name }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ cone.qty }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">${{ cone.price }}</td>
@@ -63,7 +63,7 @@
         </thead>
         <tbody>
             {% for topping in toppings %}
-                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                <tr class="{% cycle '' 'bg-white' %}">
                     <td class="px-6 py-3 whitespace-nowrap">{{ topping.name }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ topping.qty }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">${{ topping.price }}</td>
