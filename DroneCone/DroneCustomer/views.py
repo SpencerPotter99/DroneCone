@@ -190,23 +190,45 @@ def editAccount(request):
 
 
 def submit_order(request):
-    cart = Cart.objects.filter(user=request.user).first()
-    if cart is None or not cart.cones.exists():
-        return redirect('some-page')
+    user = request.user
+    pending_orders = Order.objects.filter(user=user, status='pending')
+
+    if not pending_orders.exists():
+        return redirect('home')
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            order = form.save(commit=False)
-            order.user = request.user
-            order.cones = cart.get_cones_info()  # Assuming the cones data is JSON serializable
-            order.save()
-            cart.remove_all_cones()  # Clear the cart after order is placed
-            return redirect('order-success-page')
+            for order in pending_orders:
+                # Assign a drone
+                num_cones = len(order.cones)  # Replace with actual method to count cones
+                drone = find_available_drone(num_cones)
+                if drone:
+                    order.drone = drone
+                    order.status = "delivering"
+                    order.updated_at = timezone.now()
+                    order.save()
+
+                    # Mark drone as in-flight and schedule availability
+                    drone.in_flight = True
+                    drone.save()
+
+            return redirect('home')
     else:
         form = OrderForm()
 
     return render(request, 'submit_order.html', {'form': form})
+
+def find_available_drone(num_cones):
+    # Logic to find an appropriate available drone based on the number of cones
+    if num_cones <= 1:
+        size = 'small'
+    elif num_cones <= 4:
+        size = 'medium'
+    else:
+        size = 'large'
+
+    return Drone.objects.filter(size=size, enabled=True, in_flight=False).first()
 
 
 def update_account(request):
