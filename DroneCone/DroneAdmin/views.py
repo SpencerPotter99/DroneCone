@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm
 from.decorators import admin_required
 # noinspection PyUnresolvedReferences
-from DroneCustomer.models import Drone, IceCream, Cone, Topping
+from DroneCustomer.models import Drone, IceCream, Cone, Topping, Order
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
 
 @admin_required
 def index(request):
-    return render(request, "DroneAdmin/order_history.html")
+    orders = Order.objects.all()
+    return render(request, "DroneAdmin/order_history.html", {'orders': orders})
 
 @admin_required
 def user_management(request):
