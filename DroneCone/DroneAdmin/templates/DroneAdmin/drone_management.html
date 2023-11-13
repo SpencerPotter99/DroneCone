@@ -4,7 +4,7 @@
 {% block heading %}Drone Management{% endblock %}
 
 {% block content %}
-    <table class="min-w-full divide-y divide-gray-200">
+    <table class="min-w-full divide-y divide-gray-200 shadow">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-white"></th>
@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {% for drone in drones %}
-                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                <tr class="{% cycle '' 'bg-white' %}">
                     <td class="px-6 py-3 whitespace-nowrap">
                         {{ forloop.counter }}
                     </td>

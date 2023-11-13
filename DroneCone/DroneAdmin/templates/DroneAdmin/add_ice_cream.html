@@ -4,20 +4,34 @@
 {% block heading %}{{ action_title }} Flavor{% endblock %}
 
 {% block content %}
-    <div class="bg-white p-4 rounded-lg">
+    <div class="bg-white p-4 shadow rounded-lg">
         <form method="post">
             {% csrf_token %}
-            <label class="block font-semibold text-gray-700">Flavor:</label>
-            {{ form.flavor }}
+            <table class="table-auto w-full">
+                <tr>
+                    <td class="font-semibold text-gray-700">Flavor:</td>
+                    <td>{{ form.flavor }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Price:</td>
+                    <td>
+                        {{ form.price }}
+                        <small class="text-gray-500">per oz</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Quantity:</td>
+                    <td>
+                        {{ form.qty }}
+                        <small class="text-gray-500">oz</small>
+                    </td>
+                </tr>
+            </table>
 
-            <label class="block font-semibold text-gray-700">Price: $</label>
-            {{ form.price }}
-
-            <label class="block font-semibold text-gray-700">Quantity:</label>
-            {{ form.qty }}
-
-            <button type="submit" class=" flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
+            <div class="mt-4 flex items-center">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+                <a href="{% url 'inventory' %}" class="ml-2 text-gray-500">Cancel</a>
+            </div>
         </form>
     </div>
-    <a href="{% url 'inventory' %}" class="block mt-4">Cancel</a>
 {% endblock %}

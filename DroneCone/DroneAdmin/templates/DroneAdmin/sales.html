@@ -4,6 +4,80 @@
 {% block heading %}Sales{% endblock %}
 
 {% block content %}
+<section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Ice Cream Flavors Sales</h2>
+    <table class="min-w-full divide-y divide-gray-200 shadow">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-white">Flavor</th>
+                <th class="px-6 py-3 bg-white">Quantity Sold</th>
+                <th class="px-6 py-3 bg-white">Price per Unit</th>
+                <th class="px-6 py-3 bg-white">Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flavor, sale in ice_cream_sales.items %}
+                <tr class="{% cycle '' 'bg-white' %}">
+                    <td class="px-6 py-3 whitespace-nowrap">{{ flavor }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ sale.qty_sold }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">${{ sale.price_per_unit }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">${{ sale.total_revenue }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 
+<section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Cones Sales</h2>
+    <table class="min-w-full divide-y divide-gray-200 shadow">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-white">Name</th>
+                <th class="px-6 py-3 bg-white">Quantity Sold</th>
+                <th class="px-6 py-3 bg-white">Price per Unit</th>
+                <th class="px-6 py-3 bg-white">Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, sale in cone_sales.items %}
+                <tr class="{% cycle '' 'bg-white' %}">
+                    <td class="px-6 py-3 whitespace-nowrap">{{ name }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ sale.qty_sold }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">${{ sale.price_per_unit }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">${{ sale.total_revenue }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 
+<section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Toppings Sales</h2>
+    <table class="min-w-full divide-y divide-gray-200 shadow">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-white">Name</th>
+                <th class="px-6 py-3 bg-white">Quantity Sold</th>
+                <th class="px-6 py-3 bg-white">Price per Unit</th>
+                <th class="px-6 py-3 bg-white">Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, sale in topping_sales.items %}
+                <tr class="{% cycle '' 'bg-white' %}">
+                    <td class="px-6 py-3 whitespace-nowrap">{{ name }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ sale.qty_sold }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">${{ sale.price_per_unit }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">${{ sale.total_revenue }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Total Sales</h2>
+    <p class="text-xl bg-white shadow">Total Revenue: ${{ total_revenue }}</p>
+</section>
 {% endblock %}

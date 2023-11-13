@@ -4,30 +4,47 @@
 {% block heading %}Orders{% endblock %}
 
 {% block content %}
-    <table class="min-w-full divide-y divide-gray-200">
+    <table class="min-w-full divide-y divide-gray-200 shadow">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-white">Order ID</th>
                 <th class="px-6 py-3 bg-white">User</th>
-                <th class="px-6 py-3 bg-white">Drone</th>
-                <th class="px-6 py-3 bg-white">Cones</th>
+                <th class="px-6 py-3 bg-white">Ice Cream Cones</th>
                 <th class="px-6 py-3 bg-white">Status</th>
+                <th class="px-6 py-3 bg-white">Drone</th>
                 <th class="px-6 py-3 bg-white">Created At</th>
                 <th class="px-6 py-3 bg-white">Updated At</th>
             </tr>
         </thead>
         <tbody>
-{#            {% for order in order_list %}#}
-{#                <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.pk }}</td>#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.user.name }}</td>#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.drone.name }}</td>#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.cones }}</td>#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.get_status_display }}</td>#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.created_at }}</td>#}
-{#                    <td class="px-6 py-3 whitespace-nowrap">{{ order.updated_at }}</td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
+            {% for order in orders %}
+                <tr class="{% cycle '' 'bg-white' %}">
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.pk }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.user.email }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">
+                        {% for cone_details in order.cones %}
+                            <p><strong>Size:</strong> {{ cone_details.size }}</p>
+                            <p><strong>Flavor:</strong> {{ cone_details.flavor.flavor }}</p>
+                            <p><strong>Flavor Price:</strong> ${{ cone_details.flavor.price }}</p>
+                            <p><strong>Toppings:</strong></p>
+                            <ul>
+                                {% for topping in cone_details.toppings %}
+                                    <li>{{ topping.name }} - ${{ topping.price }}</li>
+                                {% endfor %}
+                            </ul>
+                            <p><strong>Cone:</strong> {{ cone_details.cone.name }}</p>
+                            <p><strong>Cone Price:</strong> ${{ cone_details.cone.price }}</p>
+
+                            <p><strong>Total Price:</strong> ${{ cone_details.price }}</p>
+                            <hr>
+                        {% endfor %}
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.get_status_display }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.drone }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.created_at }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap">{{ order.updated_at }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

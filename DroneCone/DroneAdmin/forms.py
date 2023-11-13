@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
+# noinspection PyUnresolvedReferences
 from DroneCustomer.models import Drone, IceCream, Topping, Cone
+# noinspection PyUnresolvedReferences
 from Account.models import Profile
 from decimal import Decimal
 
@@ -11,7 +13,6 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['name', 'email', 'is_staff']
-
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -24,15 +25,11 @@ class ProfileForm(forms.ModelForm):
             'drone_owner': forms.CheckboxInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
 
-
-
-
 class CustomNumberInput(forms.NumberInput):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('attrs', {})
         kwargs['attrs'].update({'class': 'border border-gray-400 rounded'})
         super().__init__(*args, **kwargs)
-
 
 class DroneForm(forms.ModelForm):
     battery_level = forms.DecimalField(
@@ -63,7 +60,6 @@ class DroneForm(forms.ModelForm):
             'in_flight': forms.CheckboxInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
 
-
 class IceCreamForm(forms.ModelForm):
     class Meta:
         model = IceCream
@@ -74,7 +70,6 @@ class IceCreamForm(forms.ModelForm):
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
 
-
 class ToppingForm(forms.ModelForm):
     class Meta:
         model = Topping
@@ -84,7 +79,6 @@ class ToppingForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
-
 
 class ConeForm(forms.ModelForm):
     class Meta:
