@@ -93,7 +93,6 @@
                       // Handle the list of orders in the response.data
                       this.orderHistory = response.data
                       const currentTime = new Date();
-                      console.log(this.orderHistory)
                      
                     // Parse the 'updated_at' time from the latest order
                     const updatedAtStr = response.data[response.data.length - 1].updated_at;
@@ -119,7 +118,6 @@
 
             toggleCard(index) {
               if(this.selectedFlavor === this.menuItems[index]){
-                console.log("TEST")
                 this.selectedFlavor=null
               }
               else{
@@ -130,7 +128,6 @@
             toggleCone(index2) {
               if(this.selectedCone === this.coneItems[index2]){
                 this.selectedCone=null
-                console.log(this.selectedCone)
               }
               else{
                 this.selectedCone = this.coneItems[index2];
@@ -179,7 +176,6 @@
               case 'large':
                 return conePrice + totalPrice + parseFloat(this.selectedFlavor.price) * 3;
               default:
-                console.log("TEST DEFAULT")
                 return conePrice + totalPrice;
             }
           },
@@ -223,8 +219,6 @@
             //we then get the cone json data for the order model
             jsonIceCreamCone = this.get_cone_info()
             this.orderData.cones.push(jsonIceCreamCone)
-            console.log(jsonIceCreamCone)
-            console.log(this.orderData)
                 // Make a POST request to create the IceCreamCone
             this.selectedCone = null
             this.selectSize = "small"
@@ -259,10 +253,8 @@
             jsonIceCreamCone = this.get_cone_info()
             this.orderData.cones.push(jsonIceCreamCone)
 
-            console.log(this.orderData)
             // this makes sure the userId is the logged in user
             this.orderData.user = this.userId
-            console.log(this.orderData)
                 // Make a POST request to create the IceCreamCone
             axios.post('{% url 'create_icecreamcone' %}', iceCreamConeData)
               .then(response => {

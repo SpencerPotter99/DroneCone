@@ -20,21 +20,18 @@ class MenuItemsAPI(APIView):
     def get(self, request):
         menu_items = IceCream.objects.all()
         serializer = IceCreamSerializer(menu_items, many=True)
-        print(menu_items)
         return Response(serializer.data)
 
 class ToppingsItemsAPI(APIView):
     def get(self, request):
         topping_items = Topping.objects.all()
         serializer = ToppingSerializer(topping_items, many=True)
-        print(topping_items)
         return Response(serializer.data)
 
 class ConeItemsAPI(APIView):
     def get(self, request):
         cone_items = Cone.objects.all()
         serializer = ConeSerializer(cone_items, many=True)
-        print(cone_items)
         return Response(serializer.data)
 
 class IceCreamConeCreateView(generics.CreateAPIView):
@@ -51,7 +48,6 @@ class OrderListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        print(user)
         return Order.objects.filter(user=user)
 
 class UpdateOrderStatusView(APIView):
@@ -231,7 +227,6 @@ def submit_order(request):
 
                 # Update quantities in the database
                 for cone in order.cones:
-                    print(cone)
                     # Subtract Ice Cream quantity
                     ice_cream = IceCream.objects.get(flavor=cone['flavor']['flavor'])
                     ice_cream.qty -= 5
