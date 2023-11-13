@@ -16,7 +16,6 @@
                 <th class="px-6 py-3 bg-white">Battery Voltage (V)</th>
                 <th class="px-6 py-3 bg-white">Battery Level (%)</th>
                 <th class="px-6 py-3 bg-white">Status</th>
-                <th class="px-6 py-3 bg-white">Flight Range (km)</th>
                 <th class="px-6 py-3 bg-white">Actions</th>
             </tr>
         </thead>
@@ -45,13 +44,10 @@
                         {{ drone.battery_voltage }} v
                     </td>
                     <td class="px-6 py-3 whitespace-nowrap">
-                        {{ drone.get_battery_percentage }}%
+                        {{ drone.battery_level }}%
                     </td>
                     <td class="px-6 py-3 whitespace-nowrap">
                         {{ drone.get_drone_status }}
-                    </td>
-                    <td class="px-6 py-3 whitespace-nowrap">
-                        {{ drone.determine_flight_range_km }} km
                     </td>
                     <td class="px-6 py-3 whitespace-nowrap">
                         <button onclick="window.location.href='{% url 'add_drone' drone.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
