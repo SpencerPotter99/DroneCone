@@ -1,8 +1,9 @@
 
 from datetime import timedelta
+from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 from rest_framework.views import APIView
 from rest_framework import status
@@ -14,6 +15,7 @@ from .serializers import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import make_password
+from .forms import DroneForm
 
 
 class MenuItemsAPI(APIView):
@@ -260,4 +262,26 @@ def update_account(request):
         return redirect('../account/')
 
     return redirect('editaccount')
+    
+
+def manageMyDrone(request):
+    user_drones = Drone.objects.filter(owner=request.user)
+    return render(request, "manageMyDrone.html", {'drones': user_drones})
+
+def customer_add_drone(request, item_id=None):
+    if item_id:
+        drone = get_object_or_404(Drone, pk=item_id)
+        action_title = "Edit"
+    else:
+        drone = None
+        action_title = "Add"
+    if request.method == 'POST':
+        form = DroneForm(request.POST, instance=drone)
+        if form.is_valid():
+            form.save()
+            return redirect('manageMyDrone')
+    else:
+        form = DroneForm(instance=drone)
+    return render(request, 'DroneCustomer/customer_add_drone.html', {'form': form, 'action_title': action_title})
+
 

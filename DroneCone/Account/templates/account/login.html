@@ -9,7 +9,7 @@
     {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
     {% else %}
-        <p>Please either <a href="{% url 'account:login' %}">Log In</a> or <a href="{% url 'account:signup' %}">Sign Up</a></p>
+        <p>Don't Have an Account? <a href="{% url 'account:signup' %}">Sign Up</a></p>
     {% endif %}
     <form class="login" method="post" action="{% url 'account:login' %}">
         {% csrf_token %}
