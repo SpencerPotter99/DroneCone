@@ -33,7 +33,8 @@
         data: {
           coneCount: 1,
           timeTellDelivery: null,
-          countdown: 60000, // add an extra zero for 10 minutes
+          countdown: 600000, // add an extra zero for 10 minutes
+          minutes: null,
           orderId: null,
           orderStatus: null,
           errorMessage: null,
@@ -87,17 +88,18 @@
                         console.error('Error fetching menu items', error);
                     });
               
-                axios.get('{% url 'order_history' %}')
+                axios.get('/order_history/')
                     .then(response => {
                       // Handle the list of orders in the response.data
                       this.orderHistory = response.data
                       const currentTime = new Date();
+                      console.log(this.orderHistory)
                      
                     // Parse the 'updated_at' time from the latest order
                     const updatedAtStr = response.data[response.data.length - 1].updated_at;
                     this.orderId=response.data[response.data.length - 1].id
                     this.orderStatus=response.data[response.data.length - 1].status
-                    startCountdown = 60000 //add another 0 to get 10 minutes
+                    startCountdown = 600000 //add another 0 to get 10 minutes
                     const updatedAtTime = new Date(updatedAtStr);
 
                     // Calculate the time difference in milliseconds
@@ -291,9 +293,13 @@
               if (this.countdown <= 0) {
                 clearInterval(this.timeTellDelivery);
                 this.updateOrderStatus(this.orderId); // Update the order status to "Delivered"
-                console.log("LETS GOOO")
+                console.log("LETS GOOO");
               } else {
+                const minutes = Math.floor(this.countdown / 60000); // Calculate minutes
                 this.countdown -= 1000; // Decrease the countdown by 1 second (1000 milliseconds)
+
+                // Update your component property or state to hold the minutes value
+                this.minutes = minutes;
               }
             }, 1000);
         }

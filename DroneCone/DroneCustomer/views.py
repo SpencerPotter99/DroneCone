@@ -50,7 +50,8 @@ class OrderListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user  # Get the currently logged-in user
+        user = self.request.user
+        print(user)
         return Order.objects.filter(user=user)
 
 class UpdateOrderStatusView(APIView):

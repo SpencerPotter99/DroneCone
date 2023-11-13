@@ -11,9 +11,7 @@
   <div class="text-center space-y-2">
     <h2 class="text-2xl font-semibold">Time Until Cone Delivery</h2>
     <div class="text-3xl font-bold">
-      <span class="mr-1" x-text="Math.floor(countdown / 60000)"></span>minutes
-      and
-      <span class="ml-1" x-text="(countdown % 60000) / 1000"></span>seconds remaining
+      <span class="mr-1" v-bind:x-text="Math.floor(countdown / 60000)"></span>[[minutes]] minutes
     </div>
   </div>
 </div>
