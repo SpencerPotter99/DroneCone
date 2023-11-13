@@ -1,15 +1,19 @@
+from collections import defaultdict
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.db.models import Sum
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm
 from.decorators import admin_required
 # noinspection PyUnresolvedReferences
-from DroneCustomer.models import Drone, IceCream, Cone, Topping
+from DroneCustomer.models import Drone, IceCream, Cone, Topping, Order, IceCreamCone
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
 
 @admin_required
 def index(request):
-    return render(request, "DroneAdmin/order_history.html")
+    orders = Order.objects.all().order_by('-created_at')
+    return render(request, "DroneAdmin/order_history.html", {'orders': orders})
 
 @admin_required
 def user_management(request):
@@ -189,4 +193,63 @@ def delete_topping(request, item_id=None):
 
 @admin_required
 def sales(request):
-    return render(request, "DroneAdmin/sales.html")
+    orders = Order.objects.all()
+    total_revenue = 0
+    ice_cream_sales = defaultdict(dict)
+    cone_sales = defaultdict(dict)
+    topping_sales = defaultdict(dict)
+
+    for order in orders:
+        total_revenue += order.get_order_total()
+        json_data = order.get_cone_info()
+
+        try:
+            for item in json_data:
+                flavor = item['flavor']['flavor']
+                cone_name = item['cone']['name']
+                toppings = [topping['name'] for topping in item['toppings']]
+                quantity_sold = 1  # TO BE CHANGED
+
+                flavor_price = float(item['flavor']['price'])
+                flavor_revenue = flavor_price * quantity_sold
+
+                cone_price = float(item['cone']['price'])
+                cone_revenue = cone_price * quantity_sold
+
+                topping_price = float(item['toppings'][0]['price']) if item['toppings'] else 0
+                topping_revenue = topping_price * quantity_sold
+
+                if flavor not in ice_cream_sales:
+                    ice_cream_sales[flavor] = {'qty_sold': 0, 'total_revenue': 0, 'price_per_unit': 0}
+                ice_cream_sales[flavor]['qty_sold'] += quantity_sold
+                ice_cream_sales[flavor]['total_revenue'] += flavor_revenue
+                ice_cream_sales[flavor]['price_per_unit'] = flavor_price
+
+                if cone_name not in cone_sales:
+                    cone_sales[cone_name] = {'qty_sold': 0, 'total_revenue': 0, 'price_per_unit': 0}
+                cone_sales[cone_name]['qty_sold'] += quantity_sold
+                cone_sales[cone_name]['total_revenue'] += cone_revenue
+                cone_sales[cone_name]['price_per_unit'] = cone_price
+
+                for topping in toppings:
+                    if topping not in topping_sales:
+                        topping_sales[topping] = {'qty_sold': 0, 'total_revenue': 0, 'price_per_unit': 0}
+                    topping_sales[topping]['qty_sold'] += quantity_sold
+                    topping_sales[topping]['total_revenue'] += topping_revenue
+                    topping_sales[topping]['price_per_unit'] = topping_price
+
+        except (KeyError, TypeError) as e:
+            print(f"Error processing order {order.id}: {e}")
+
+    ice_cream_sales = dict(ice_cream_sales)
+    cone_sales = dict(cone_sales)
+    topping_sales = dict(topping_sales)
+
+    context = {
+        'ice_cream_sales': ice_cream_sales,
+        'cone_sales': cone_sales,
+        'topping_sales': topping_sales,
+        'total_revenue': total_revenue,
+    }
+
+    return render(request, "DroneAdmin/sales.html", context)
