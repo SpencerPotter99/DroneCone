@@ -4,27 +4,40 @@
 {% block heading %}{{ action_title }} User{% endblock %}
 
 {% block content %}
-    <div class="bg-white p-4 shadow-lg rounded-lg">
+    <div class="bg-white p-4 shadow rounded-lg">
         <form method="post">
             {% csrf_token %}
-            <label class="block font-semibold text-gray-700">Username:</label>
-            {{ user_form.username }}
-             <label class="block font-semibold text-gray-700">Email:</label>
-            {{ user_form.email }}
-             <label class="block font-semibold text-gray-700">Admin:</label>
-            {{ user_form.is_staff }}
-
-            <label class="block font-semibold text-gray-700">Phone:</label>
-            {{ profile_form.phone }}
-
-            <label class="block font-semibold text-gray-700">Address:</label>
-            {{ profile_form.address }}
-
-            <label class="block font-semibold text-gray-700">Drone owner:</label>
-            {{ profile_form.drone_owner }}
-
-            <button type="submit" class="flex bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
+            <table class="table-auto w-full">
+                <tr>
+                    <td class="font-semibold text-gray-700">Username:</td>
+                    <td>{{ user_form.username }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Email:</td>
+                    <td>{{ user_form.email }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Admin:</td>
+                    <td>{{ user_form.is_staff }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Phone:</td>
+                    <td>{{ profile_form.phone }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Address:</td>
+                    <td>{{ profile_form.address }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Drone owner:</td>
+                    <td>{{ profile_form.drone_owner }}</td>
+                </tr>
+            </table>
+            <div class="mt-4 flex items-center">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+                <a href="{% url 'user_management' %}" class="ml-2 text-gray-500">Cancel</a>
+            </div>
         </form>
     </div>
-    <a href="{% url 'user_management' %}" class="block mt-4">Cancel</a>
+
 {% endblock %}
