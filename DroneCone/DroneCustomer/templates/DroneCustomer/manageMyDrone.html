@@ -1,3 +1,5 @@
+{% include './topBar.html' %}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +12,7 @@
 <body class="bg-gray-100">
     <main class="w-7/8 p-8 mx-auto">
         <h1 class="text-4xl font-bold mb-8">Manage My Drones</h1>
-        {% if drones %}
+        {% if user_drones %}
         <table class="w-full border-collapse border">
             <thead>
                 <tr>
@@ -28,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for drone in drones %}
+                {% for drone in user_drones %}
                     <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% else %}bg-gray-100{% endif %} border">
                         <td class="border p-2">
                             {{ forloop.counter }}

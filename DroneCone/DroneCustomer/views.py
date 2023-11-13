@@ -263,11 +263,12 @@ def update_account(request):
 
     return redirect('editaccount')
     
-
+@login_required
 def manageMyDrone(request):
     user_drones = Drone.objects.filter(owner=request.user)
-    return render(request, "manageMyDrone.html", {'drones': user_drones})
+    return render(request, "DroneCustomer/manageMyDrone.html", {'drones': user_drones})
 
+@login_required
 def customer_add_drone(request, item_id=None):
     if item_id:
         drone = get_object_or_404(Drone, pk=item_id)
