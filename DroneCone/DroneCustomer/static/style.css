@@ -68,6 +68,7 @@
   }
 
   .card-container {
+      border-radius: 25px;
       display: flex; /* Use flexbox to create a horizontal layout */
       justify-content: center; /* Center the cards horizontally */
       gap: 10px;
@@ -75,6 +76,7 @@
 
   .card {
     background-color: #CDB4DB;
+    border-radius: 15px;
       border: 1px solid #ccc;
       padding: 10px;
       margin: 5px;
