@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from decimal import Decimal
 
+
 class Drone(models.Model):
     SIZE_CHOICES = [
         ('small', 'Small'),

@@ -9,11 +9,11 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import IceCream, IceCreamCone, Topping, Cone, Order
 from .serializers import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.hashers import make_password
+import threading
+from .models import IceCream, Topping, Cone
 
 
 class MenuItemsAPI(APIView):
@@ -52,7 +52,7 @@ class OrderListView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user  # Get the currently logged-in user
         return Order.objects.filter(user=user)
-    
+
 class UpdateOrderStatusView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -117,6 +117,7 @@ def checkout(request):
     user = request.user
     # Get all orders for the current user with 'pending' status
     pending_orders = Order.objects.filter(user=user, status='pending')
+    address = user.profile.address
 
     order_items = []
     total_price = Decimal('0.00')
@@ -124,15 +125,36 @@ def checkout(request):
     # Iterate over pending orders to collect order items and compute the total price
     for order in pending_orders:
         cones_info = order.get_cone_info()
-        order_items.extend(cones_info)
+        for cone in cones_info:
+            cone['order_id'] = order.id  # Add order ID to each cone item
+            order_items.append(cone)
         total_price += order.get_order_total()
 
     context = {
+        'address': address,
         'order_items': order_items,
         'total_price': total_price,
     }
     return render(request, 'DroneCustomer/checkout.html', context)
 
+
+@login_required
+def delete_order(request, order_id):
+    try:
+        # Fetch the order to be deleted
+        order_to_delete = Order.objects.get(id=order_id, user=request.user)
+
+        # Delete the order
+        order_to_delete.delete()
+
+        # Optionally, you can add a success message
+        messages.success(request, "Order deleted successfully.")
+    except Order.DoesNotExist:
+        # Handle the case where the order does not exist or does not belong to the user
+        messages.error(request, "Order not found or not accessible.")
+
+    # Redirect back to the checkout page
+    return redirect('checkout')
 
 @login_required
 def account(request):
@@ -147,7 +169,7 @@ def account(request):
     for order in orders:
         if order.status == 'delivering':
             # Time since the order was last updated
-            time_since_update = timezone.now() - (timezone.now() - timezone.timedelta(minutes=5))
+            time_since_update = timezone.now() - order.updated_at
 
             # Remaining delivery time is the delivery duration minus the time since last update
             remaining_time = delivery_duration - time_since_update
@@ -188,47 +210,85 @@ def editAccount(request):
     }
     return render(request, 'DroneCustomer/editAccount.html', context)
 
-
+@login_required
 def submit_order(request):
     user = request.user
     pending_orders = Order.objects.filter(user=user, status='pending')
 
     if not pending_orders.exists():
-        return redirect('home')
+        return redirect('../home')
 
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            for order in pending_orders:
-                # Assign a drone
-                num_cones = len(order.cones)  # Replace with actual method to count cones
-                drone = find_available_drone(num_cones)
-                if drone:
-                    order.drone = drone
-                    order.status = "delivering"
-                    order.updated_at = timezone.now()
-                    order.save()
+        for order in pending_orders:
+            num_cones = len(order.cones)
+            drone = find_available_drone(num_cones)
+            if drone:
+                order.drone = drone
+                order.status = "delivering"
+                order.updated_at = timezone.now()
+                order.save()
 
-                    # Mark drone as in-flight and schedule availability
-                    drone.in_flight = True
-                    drone.save()
+                # Update quantities in the database
+                for cone in order.cones:
+                    print(cone)
+                    # Subtract Ice Cream quantity
+                    ice_cream = IceCream.objects.get(flavor=cone['flavor']['flavor'])
+                    ice_cream.qty -= 5
+                    ice_cream.save()
 
-            return redirect('home')
-    else:
-        form = OrderForm()
+                    # Subtract Cone quantity
+                    cone_item = Cone.objects.get(name=cone['cone']['name'])
+                    cone_item.qty -= 1
+                    cone_item.save()
 
-    return render(request, 'submit_order.html', {'form': form})
+                    # Subtract Toppings quantity
+                    for topping in cone['toppings']:
+                        topping_item = Topping.objects.get(name=topping['name'])
+                        topping_item.qty -= 1
+                        topping_item.save()
+
+                drone.in_flight = True
+                drone.save()
+
+                timer = threading.Timer(600, update_drone_status, args=[drone.id])
+                timer.start()
+
+                order_timer = threading.Timer(600, update_order_status, args=[order.id])
+                order_timer.start()
+
+            else:
+                messages.error(request, 'No drones are available for delivery right now. Please try again later.')
+
+            if not messages.get_messages(request):
+                return redirect('../home')
+
+    return redirect('../checkout')
+
+
+def update_order_status(order_id):
+    print("updating order to delivered")
+    order = Order.objects.get(id=order_id)
+    order.status = "delivered"
+    order.save()
+
+
+def update_drone_status(drone_id):
+    print("updating drone to available")
+    Drone.objects.filter(id=drone_id).update(in_flight=False)
+
 
 def find_available_drone(num_cones):
-    # Logic to find an appropriate available drone based on the number of cones
+    # Define drone size based on the number of cones
     if num_cones <= 1:
-        size = 'small'
+        size_options = ['small', 'medium', 'large']
     elif num_cones <= 4:
-        size = 'medium'
+        size_options = ['medium', 'large']
     else:
-        size = 'large'
+        size_options = ['large']
 
-    return Drone.objects.filter(size=size, enabled=True, in_flight=False).first()
+    # Query for available drones of the appropriate size or larger
+    return Drone.objects.filter(size__in=size_options, enabled=True, in_flight=False).first()
+
 
 
 def update_account(request):
