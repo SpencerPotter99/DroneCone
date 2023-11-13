@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from decimal import Decimal
 
+
 class Drone(models.Model):
     SIZE_CHOICES = [
         ('small', 'Small'),
@@ -27,20 +28,6 @@ class Drone(models.Model):
         if self.enabled:
             return "Available" if not self.in_flight else "In Flight"
         return "Disabled"
-
-    def get_battery_percentage(self):
-        return int(self.battery_level * 100)
-
-    def determine_flight_range_km(self):
-        """
-        Dummy method to determine how far the drone can go.
-        """
-        watts_per_kg = 150  # Estimating it takes 170 watts of power to lift one kilogram of equipment.
-        aad = (self.drone_weight_g / 1000) * (
-                    watts_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
-        flight_time_hrs = (self.battery_capacity_mAh / 1000) * float(
-            self.battery_level) / aad  # time = capacity × discharge / AAD
-        return f"{flight_time_hrs * 100 / 2:.2f}"  # Max travel distance = time * kph / 2(round-trip)
 
     def __str__(self):
         return f"{self.name}"

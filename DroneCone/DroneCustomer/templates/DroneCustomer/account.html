@@ -30,33 +30,27 @@
                     <td class="px-4 py-2">{{ order.created_at|date:"F j, Y" }}</td>
                     <td class="px-4 py-2">
                         <ul class="list-disc list-inside">
-                            Cone:
                             {% if order.cones %}
-                                {% for key, value in order.cones.items %}
-                                    <!-- Handling display for each key -->
-                                    {% if key == 'size' %}
-                                        <li>Size: {{ value}}</li>
-                                    {% elif key == 'flavor' %}
-                                        <li>Flavor: {{ value.flavor }} - ${{ value.price }}</li>
-                                    {% elif key == 'toppings' %}
-                                        <li>Toppings:
-                                            <ul>
-                                                {% for topping in value %}
-                                                    <li>{{ topping.name }} - ${{ topping.price }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                    {% elif key == 'cone' %}
-                                        <li>Cone: {{ value.name }} - ${{ value.price }}</li>
-                                    {% elif key == 'price' %}
-                                        <li>Price: ${{ value }}</li>
-                                    {% endif %}
+                                {% for cone in order.cones %}
+                                    Cone:
+                                    <li>Size: {{ cone.size }}</li>
+                                    <li>Flavor: {{ cone.flavor.flavor }} - ${{ cone.flavor.price }}</li>
+                                    <li>Toppings:
+                                        <ul>
+                                            {% for topping in cone.toppings %}
+                                                <li>{{ topping.name }} - ${{ topping.price }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li>Cone: {{ cone.cone.name }} - ${{ cone.cone.price }}</li>
+                                    <li>Price: ${{ cone.price }}</li>
                                 {% endfor %}
                             {% else %}
                                 <li>No cones available</li>
                             {% endif %}
                         </ul>
                     </td>
+
                     <td class="px-4 py-2">${{ order.get_order_total }}</td>
                          <td class="px-4 py-2">
                             {% if order.status == 'delivering' and order.remaining_delivery_time_seconds %}
