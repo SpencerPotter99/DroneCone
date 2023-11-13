@@ -1,6 +1,10 @@
-from django.contrib.auth.models import User
-from django.db import models
 from decimal import Decimal
+
+from django.contrib.auth import get_user_model
+from django.db import models
+
+User = get_user_model()
+
 
 class Drone(models.Model):
     SIZE_CHOICES = [
@@ -37,7 +41,7 @@ class Drone(models.Model):
         """
         watts_per_kg = 150  # Estimating it takes 170 watts of power to lift one kilogram of equipment.
         aad = (self.drone_weight_g / 1000) * (
-                    watts_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
+                watts_per_kg / float(self.battery_voltage))  # Calculate the average amp draw AAD = AUW * (P / V)
         flight_time_hrs = (self.battery_capacity_mAh / 1000) * float(
             self.battery_level) / aad  # time = capacity × discharge / AAD
         return f"{flight_time_hrs * 100 / 2:.2f}"  # Max travel distance = time * kph / 2(round-trip)
@@ -149,8 +153,9 @@ class Order(models.Model):
         else:
             return []
 
+
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart', primary_key=True)
     cones = models.ManyToManyField('IceCreamCone', blank=True)
 
     def remove_all_cones(self):
@@ -160,4 +165,4 @@ class Cart(models.Model):
         return [cone.cone_to_json() for cone in self.cones.all()]
 
     def __str__(self):
-        return f"{self.user.username}'s cart"
+        return f"{self.user.get_display_name()}'s cart"

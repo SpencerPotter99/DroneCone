@@ -7,8 +7,8 @@
     <div class="bg-white p-4 shadow-lg rounded-lg">
         <form method="post">
             {% csrf_token %}
-            <label class="block font-semibold text-gray-700">Username:</label>
-            {{ user_form.username }}
+            <label class="block font-semibold text-gray-700">Name:</label>
+            {{ user_form.name }}
              <label class="block font-semibold text-gray-700">Email:</label>
             {{ user_form.email }}
              <label class="block font-semibold text-gray-700">Admin:</label>

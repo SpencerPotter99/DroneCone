@@ -1,11 +1,11 @@
 {% extends "account/base.html" %}
 
 {% block head_title %}
-    {{ user.username }}
+    {{ user.email }}
 {% endblock head_title %}
 
 {% block inner %}
-    <h1>{{ user.username }}</h1>
+    <h1>{{ user.get_display_name }}'s Profile</h1>
     {% if user_form.errors %}
         <div class="alert alert-danger alert-dismissible" role="alert">
             <div id="form_errors">

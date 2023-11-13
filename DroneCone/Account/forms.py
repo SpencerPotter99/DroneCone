@@ -1,23 +1,41 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.forms import EmailField, ModelForm
+from django.contrib.auth import forms as admin_forms
+from django.contrib.auth import get_user_model
+from django.forms import ModelForm, EmailField
+from django.utils.translation import gettext_lazy as _
+
 from .models import Profile
 
-
-class CustomUserCreationForm(UserCreationForm):
-    email = EmailField(required=True)
-
-    class Meta(UserCreationForm.Meta):
-        model = User
-        fields = UserCreationForm.Meta.fields + ("email",)
+User = get_user_model()
 
 
-class CustomUserForm(ModelForm):
-    email = EmailField(required=True)
-
+class UserAdminChangeForm(admin_forms.UserChangeForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = "__all__"
+        field_classes = {"email": EmailField}
+
+
+class UserAdminCreationForm(admin_forms.BaseUserCreationForm):
+    class Meta:
+        model = User
+        fields = ("email",)
+        field_classes = {"email": EmailField}
+        error_messages = {
+            "email": {"unique": _("This email has already been taken.")},
+        }
+
+
+class UserCreationForm(admin_forms.BaseUserCreationForm):
+    class Meta:
+        model = User
+        fields = ("email",)
+        field_classes = {"email": EmailField}
+
+
+class UserProfileForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'name')
 
 
 class ProfileForm(ModelForm):

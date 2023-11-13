@@ -289,15 +289,13 @@
     }
   },
   {
-    "model": "auth.user",
+    "model": "Account.user",
     "pk": 2,
     "fields": {
-      "password": "pbkdf2_sha256$600000$Xyo5nOAdG96s0SJh0Esve4$prjs+SXyhfFej+1/0FF+6BN0y2wQDr8/XTLMnmaPM7Q=",
+      "password": "pbkdf2_sha256$600000$Tki55JyD1luPUDmdIYAVQy$rWHv2MF7U3RWxVpac/OhVetDsTuTEUxQa3H546TnbL0=",
       "last_login": null,
       "is_superuser": false,
-      "username": "user123",
-      "first_name": "John",
-      "last_name": "Smith",
+      "name": "John Smith",
       "email": "john@example.com",
       "is_staff": true,
       "is_active": true,
@@ -307,16 +305,14 @@
     }
   },
   {
-    "model": "auth.user",
+    "model": "Account.user",
     "pk": 3,
     "fields": {
-      "password": "pbkdf2_sha256$600000$n0z5ETujEh7GXmYJYrRAQE$nkUHgM/AlXfDnw6WvfkFtiajIMMs1IGi1Vo1y44WCBc=",
+      "password": "pbkdf2_sha256$600000$IpQC4jFEB7OrphRPoOufDw$jQRNCu/e6px6O57kcsyk5TB9ZabmrJonVJHWhZQrm1o=",
       "last_login": null,
       "is_superuser": true,
-      "username": "admin007",
-      "first_name": "Emily",
-      "last_name": "Johnson",
-      "email": "emily@example.com",
+      "name": "David Lee",
+      "email": "admin@example.com",
       "is_staff": true,
       "is_active": true,
       "date_joined": "2023-10-30T05:49:42Z",
@@ -325,16 +321,14 @@
     }
   },
   {
-    "model": "auth.user",
+    "model": "Account.user",
     "pk": 4,
     "fields": {
-      "password": "pbkdf2_sha256$600000$xXEz0ASP0r4fth4rXIFYck$CBna8100ITBgLM0qK7p9wTWlPvEkeDELqX8xUAMNyoI=",
+      "password": "pbkdf2_sha256$600000$wKeCgqjjCZ2joC8X5v1Uo3$fCEMprEPyibIhzXLd9rYb8jkKjtvD6TdeBlznqga9nQ=",
       "last_login": null,
       "is_superuser": false,
-      "username": "iceCreamLover",
-      "first_name": "David",
-      "last_name": "Lee",
-      "email": "david@example.com",
+      "name": "Emily Johnson",
+      "email": "emily@example.com",
       "is_staff": false,
       "is_active": true,
       "date_joined": "2023-10-30T05:49:57Z",
@@ -343,15 +337,13 @@
     }
   },
   {
-    "model": "auth.user",
+    "model": "Account.user",
     "pk": 5,
     "fields": {
-      "password": "pbkdf2_sha256$600000$WK9yWycnXa1NAzlt6faD8C$mJcXJyn9jDH+0FmKFO5rVP85aB4407UbOuc5xcnIEGQ=",
+      "password": "pbkdf2_sha256$600000$OuO6aVib0Hpfj96FDali0W$RnZhAiu7HzCx20H5uDTMVvFwqc03Wa5R55M11oNqfFk=",
       "last_login": null,
       "is_superuser": false,
-      "username": "chocoFan",
-      "first_name": "Michael",
-      "last_name": "Davis",
+      "name": "Michael Davis",
       "email": "michael@example.com",
       "is_staff": false,
       "is_active": true,

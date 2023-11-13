@@ -6,4 +6,7 @@ class DronecustomerConfig(AppConfig):
     name = 'DroneCustomer'
 
     def ready(self):
-        import DroneCustomer.signals  # noqa
+        try:
+            import DroneCustomer.signals  # noqa
+        except ImportError:
+            pass

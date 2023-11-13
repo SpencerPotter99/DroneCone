@@ -1,14 +1,16 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from DroneCustomer.models import Drone, IceCream, Topping, Cone
 from Account.models import Profile
 from decimal import Decimal
+
+User = get_user_model()
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'is_staff']
+        fields = ['name', 'email', 'is_staff']
 
 
 class ProfileForm(forms.ModelForm):

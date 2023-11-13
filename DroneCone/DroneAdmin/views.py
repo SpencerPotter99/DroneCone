@@ -1,11 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
 from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm
 from.decorators import admin_required
 # noinspection PyUnresolvedReferences
 from DroneCustomer.models import Drone, IceCream, Cone, Topping
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
+
+User = get_user_model()
 
 @admin_required
 def index(request):

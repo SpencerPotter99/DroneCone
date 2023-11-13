@@ -1,24 +1,28 @@
 from django.contrib import messages
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import (
+    logout as auth_logout,
+    views as auth_views,
+    get_user_model,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import CreateView
-from .forms import CustomUserCreationForm, ProfileForm, CustomUserForm
+
+from .forms import UserCreationForm, ProfileForm, UserProfileForm
+
+User = get_user_model()
 
 
 class RegisterView(CreateView):
     model = User
-    form_class = CustomUserCreationForm
+    form_class = UserCreationForm
     success_url = reverse_lazy('account:login')
     template_name = "account/register.html"
 
@@ -37,7 +41,6 @@ class LogoutView(auth_views.LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        """Logout may be done via POST."""
         auth_logout(request)
         messages.success(request, 'Successfully logged out.')
         redirect_to = self.get_success_url()
@@ -86,7 +89,7 @@ class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
 
 class ProfileView(LoginRequiredMixin, View):
     template_name = 'account/user_profile.html'
-    user_form_class = CustomUserForm
+    user_form_class = UserProfileForm
     profile_form_class = ProfileForm
 
     def get(self, request, *args, **kwargs):
@@ -101,7 +104,7 @@ class ProfileView(LoginRequiredMixin, View):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
+            messages.success(request, 'Your profile updated successfully')
             return redirect('account:profile')
 
         return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
