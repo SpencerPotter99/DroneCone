@@ -9,12 +9,18 @@
     <title>Drone ManageMent</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<style>
+    #contentContainer {
+        display:flex;
+        justify-content: center;
+    }
+</style>
 <body class="bg-gray-100">
     <main class="w-7/8 p-8 mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Manage My Drones</h1>
-            
-        <h1 class="text-sm font-semibold mb-2">{% block heading %}{% endblock %}</h1>
-        {% block content %}{% endblock %}
+        <h1 class="text-2xl font-bold mb-8">Manage My Drones</h1>
+        <container id="contentContainer">
+            {% block content %}{% endblock %}
+        </container>
     </main>
 </body>
 </html>

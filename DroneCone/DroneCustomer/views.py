@@ -265,35 +265,42 @@ def update_account(request):
     
 @login_required
 def manageMyDrone(request):
-    user_drones = Drone.objects.filter(owner=request.user)
-    return render(request, "DroneCustomer/manageMyDrone.html", {'user_drones': user_drones})
+    drones = Drone.objects.filter(owner=request.user)
+    return render(request, "DroneCustomer/manageMyDrone.html", {'drones': drones})
+
 
 @login_required
-def customer_add_drone(request, item_id=None):
-    if item_id:
-        drone = get_object_or_404(Drone, pk=item_id)
-        action_title = "Edit"
+def customerCreateDrone(request):
+    if request.method == 'POST':
+        form = DroneForm(request.POST)
+        if form.is_valid():
+            drone = form.save(commit=False)
+            drone.owner = request.user
+            drone.save()
+            return redirect('manage_my_drone')
     else:
-        drone = None
-        action_title = "Add"
+        form = DroneForm()
+    return render(request, 'DroneCustomer/customer_create_drone.html', {'form': form, 'action_title': 'Add'})
+
+
+@login_required
+def customerEditDrone(request, drone_id):
+    drone = get_object_or_404(Drone, pk=drone_id, owner=request.user)
     if request.method == 'POST':
         form = DroneForm(request.POST, instance=drone)
         if form.is_valid():
             form.save()
-            return redirect('manageMyDrone')
+            return redirect('manage_my_drone')
     else:
         form = DroneForm(instance=drone)
-    
-    return render(request, 'DroneCustomer/customer_add_drone.html', {'form': form, 'action_title': action_title})
 
-def customer_delete_drone(request, item_id=None):
-    if item_id:
-        user_drone = get_object_or_404(Drone, pk=item_id)
-    else:
-        user_drone = None
+    return render(request, 'DroneCustomer/customer_create_drone.html', {'form': form, 'action_title': 'Edit'})
+
+
+@login_required
+def customerDeleteDrone(request, drone_id):
+    drone = get_object_or_404(Drone, pk=drone_id, owner=request.user)
     if request.method == 'POST':
-        user_drone.delete()
-        return redirect('manageMyDrone')
-    return render(request, 'DroneCustomer/customer_delete_drone', {'user_drone': user_drone})
-
-
+        drone.delete()
+        return redirect('manage_my_drone')
+    return render(request, 'DroneCustomer/customer_delete_drone.html', {'drone': drone})

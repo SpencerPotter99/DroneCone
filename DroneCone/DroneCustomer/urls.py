@@ -19,12 +19,11 @@ urlpatterns = [
     path('get_user_id/', GetUserIdView.as_view(), name='get_user_id'),
     path("manage-drones/", views.droneManagement, name="my_drones"),
     # Remove ?
-    path("drone-owner-creation/", views.droneOwnerCreation, name="drone_owner_creation"),
-    path("drone-owner-signup/", views.droneOwnerCreation, name="drone_owner_signup"),
-    path("manageMyDrone/", views.manageMyDrone, name="manageMyDrone"),
-    path('manageMyDrone/customer_add_drone/', views.customer_add_drone, name='customer_add_drone'),
-    path('manageMyDrone/customer_add_drone/<int:item_id>/', views.customer_add_drone, name='customer_add_drone'),
-    path('manageMyDrone/customer_delete_drone/<int:item_id>/', views.customer_delete_drone, name='customer_delete_drone'),
+    path("manage-my-drone/", views.manageMyDrone, name="manage_my_drone"),
+    path('manage-my-drone/create/', views.customerCreateDrone, name='customer_create_drone'),
+    path('manage-my-drone/<int:drone_id>/update', views.customerEditDrone, name='customer_edit_drone'),
+    path('manage-my-drone/<int:drone_id>/delete', views.customerDeleteDrone, name='customer_delete_drone'),
+    path('drone-owner-creation/', views.droneOwnerCreation, name='drone_owner_creation'),
     #
     path("edit-account/", views.editAccount, name="edit_account"),
     path('menu-items/', MenuItemsAPI.as_view(), name='menu_items_api'),
