@@ -11,7 +11,7 @@
 </head>
 <body class="bg-gray-100">
     <main class="w-7/8 p-8 mx-auto">
-        <h1 class="text-4xl font-bold mb-8">Manage My Drones</h1>
+        <h1 class="text-3xl font-bold mb-8">Manage My Drones</h1>
         {% if user_drones %}
         <table class="w-full border-collapse border">
             <thead>
@@ -64,7 +64,7 @@
                         </td>
                         <td class="border p-2">
                             <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="window.location.href='{% url 'customer_add_drone' drone.id %}'">Edit</button>
-                            <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="window.location.href='{% url 'delete_drone' drone.id %}'">Delete</button>
+                            <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="window.location.href='{% url 'customer_delete_drone' drone.id %}'">Delete</button>
                         </td>
                     </tr>
                 {% endfor %}

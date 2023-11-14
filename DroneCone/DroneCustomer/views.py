@@ -293,6 +293,6 @@ def customer_delete_drone(request, item_id=None):
     if request.method == 'POST':
         user_drone.delete()
         return redirect('manageMyDrone')
-    return render(request, 'DroneCustomer/manageMyDrone', {'user_drone': user_drone})
+    return render(request, 'DroneCustomer/customer_delete_drone', {'user_drone': user_drone})
 
 

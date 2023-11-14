@@ -1,0 +1,12 @@
+{% extends 'DroneCustomer/manageMyDrone.html' %}
+
+{% block heading %}Delete Drone{% endblock %}
+
+{% block content %}
+    <p>Are you sure you want to delete this drone?</p>
+    <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'manageMyDrone' %}">Cancel</a>
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md mt-2">Delete</button>
+    </form>
+{% endblock %}
