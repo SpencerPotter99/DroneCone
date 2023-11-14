@@ -2,6 +2,10 @@ from django import forms
 from DroneCustomer.models import Drone, IceCream, Topping, Cone
 from Account.models import Profile
 from decimal import Decimal
+from django.forms import Form, ModelChoiceField
+from django.contrib.auth.models import User
+
+
 
 
 
@@ -31,6 +35,7 @@ class DroneForm(forms.ModelForm):
             'enabled',
             'in_flight'
         ]
+
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
             'drone_weight_g': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),

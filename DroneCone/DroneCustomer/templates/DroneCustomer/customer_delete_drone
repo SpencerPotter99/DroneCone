@@ -1,6 +1,5 @@
-{% extends 'DroneCustomer/manageMyDrone.html' %}
+{% extends 'DroneCustomer/base.html' %}
 
-{% block heading %}Delete Drone{% endblock %}
 
 {% block content %}
     <p>Are you sure you want to delete this drone?</p>

@@ -1,9 +1,18 @@
-{% extends 'DroneCustomer/manageMyDrone.html' %}
+{% extends 'DroneCustomer/base.html' %}
 
 {% block content %}
     <div class="bg-white p-4 shadow rounded-lg">
         <form method="POST">
             {% csrf_token %}
+
+            {% if form.errors %}
+                <ul class="text-red-500">
+                    {% for error in form.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             <table class="table-auto w-full">
                 <tr>
                     <td class="font-semibold text-gray-700">Owner:</td>
@@ -53,6 +62,7 @@
                     <td class="font-semibold text-gray-700">Drone is in-flight:</td>
                     <td>{{ form.in_flight }}</td>
                 </tr>
+     
             </table>
 
             <div class="mt-4 flex items-center">

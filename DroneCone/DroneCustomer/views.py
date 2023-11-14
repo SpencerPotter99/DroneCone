@@ -283,6 +283,7 @@ def customer_add_drone(request, item_id=None):
             return redirect('manageMyDrone')
     else:
         form = DroneForm(instance=drone)
+    
     return render(request, 'DroneCustomer/customer_add_drone.html', {'form': form, 'action_title': action_title})
 
 def customer_delete_drone(request, item_id=None):
