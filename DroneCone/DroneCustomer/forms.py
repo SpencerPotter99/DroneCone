@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
 from DroneCustomer.models import Drone, IceCream, Topping, Cone
 from Account.models import Profile
 from decimal import Decimal

@@ -24,6 +24,7 @@ urlpatterns = [
     path("manageMyDrone/", views.manageMyDrone, name="manageMyDrone"),
     path('manageMyDrone/customer_add_drone/', views.customer_add_drone, name='customer_add_drone'),
     path('manageMyDrone/customer_add_drone/<int:item_id>/', views.customer_add_drone, name='customer_add_drone'),
+    path('manageMyDrone/customer_delete_drone/<int:item_id>/', views.customer_delete_drone, name='customer_delete_drone'),
     #
     path("edit-account/", views.editAccount, name="edit_account"),
     path('menu-items/', MenuItemsAPI.as_view(), name='menu_items_api'),

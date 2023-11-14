@@ -266,7 +266,7 @@ def update_account(request):
 @login_required
 def manageMyDrone(request):
     user_drones = Drone.objects.filter(owner=request.user)
-    return render(request, "DroneCustomer/manageMyDrone.html", {'drones': user_drones})
+    return render(request, "DroneCustomer/manageMyDrone.html", {'user_drones': user_drones})
 
 @login_required
 def customer_add_drone(request, item_id=None):
@@ -284,5 +284,15 @@ def customer_add_drone(request, item_id=None):
     else:
         form = DroneForm(instance=drone)
     return render(request, 'DroneCustomer/customer_add_drone.html', {'form': form, 'action_title': action_title})
+
+def customer_delete_drone(request, item_id=None):
+    if item_id:
+        user_drone = get_object_or_404(Drone, pk=item_id)
+    else:
+        user_drone = None
+    if request.method == 'POST':
+        user_drone.delete()
+        return redirect('manageMyDrone')
+    return render(request, 'DroneCustomer/manageMyDrone', {'user_drone': user_drone})
 
 
