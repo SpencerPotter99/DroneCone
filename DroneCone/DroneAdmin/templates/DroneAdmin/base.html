@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
-    <header class="bg-gray-300 p-4">
+    <header class="bg-pink-300 p-4">
         <div class="flex justify-start items-end space-x-4">
             <a href="{% url 'home' %}" class="text-xl">Drone Cones</a>
             <a href="{% url 'account:profile' %}" class="mb-0">My Profile</a>
             <a href="{% url 'home' %}" class="mb-0">Order a Cone</a>
-            <a href="{% url 'account:logout' %}" class="mb-0">Logout</a>
+            <a href="{% url 'account:logout' %}" class="mb-0">Log Out</a>
         </div>
     </header>
 
     <div class="flex flex-grow">
         <aside class="w-1/8 bg-gray-200 p-4 min-h-screen">
-            <h2 class="text-lg font-semibold mb-4">Administration</h2>
+            <h2 class="text-lg font-semibold mb-4 text-pink-600">Administration</h2>
             <ul class="space-y-2 resolute">
                 <li><a href="{% url 'order_history' %}">Order History</a></li>
                 <li><a href="{% url 'inventory' %}">Inventory</a></li>
@@ -29,7 +29,7 @@
             </ul>
         </aside>
         <main class="w-7/8 p-8">
-            <h1 class="text-3xl font-semibold mb-4">{% block heading %}{% endblock %}</h1>
+            <h1 class="text-3xl font-semibold mb-4 text-pink-600">{% block heading %}{% endblock %}</h1>
             {% block content %}{% endblock %}
         </main>
     </div>
