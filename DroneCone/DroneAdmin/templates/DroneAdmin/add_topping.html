@@ -4,21 +4,21 @@
 {% block heading %}{{ action_title }} Topping{% endblock %}
 
 {% block content %}
-    <div class="bg-white p-4 shadow rounded-lg">
+    <div class="bg-white p-4 shadow bg-gray-100">
         <form method="post">
             {% csrf_token %}
 
             <table class="table-auto w-full">
                 <tr>
-                    <td class="font-semibold text-gray-700">Name:</td>
+                    <td class="font-semibold">Name:</td>
                     <td>{{ form.name }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold text-gray-700">Price:</td>
+                    <td class="font-semibold">Price:</td>
                     <td>{{ form.price }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold text-gray-700">Quantity:</td>
+                    <td class="font-semibold">Quantity:</td>
                     <td>{{ form.qty }}</td>
                 </tr>
             </table>

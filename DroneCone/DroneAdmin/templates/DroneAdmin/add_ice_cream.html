@@ -4,23 +4,23 @@
 {% block heading %}{{ action_title }} Flavor{% endblock %}
 
 {% block content %}
-    <div class="bg-white p-4 shadow rounded-lg">
+    <div class="bg-white p-4 shadow bg-gray-100">
         <form method="post">
             {% csrf_token %}
             <table class="table-auto w-full">
                 <tr>
-                    <td class="font-semibold text-gray-700">Flavor:</td>
+                    <td class="font-semibold">Flavor:</td>
                     <td>{{ form.flavor }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold text-gray-700">Price:</td>
+                    <td class="font-semibold">Price:</td>
                     <td>
                         {{ form.price }}
                         <small class="text-gray-500">per oz</small>
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-semibold text-gray-700">Quantity:</td>
+                    <td class="font-semibold">Quantity:</td>
                     <td>
                         {{ form.qty }}
                         <small class="text-gray-500">oz</small>

@@ -4,24 +4,24 @@
 {% block heading %}Drone Management{% endblock %}
 
 {% block content %}
-    <table class="min-w-full divide-y divide-gray-200 shadow">
+    <table class="min-w-full divide-y divide-gray-200 shadow bg-gray-100">
         <thead>
             <tr>
-                <th class="px-6 py-3 bg-white"></th>
-                <th class="px-6 py-3 bg-white">Name</th>
-                <th class="px-6 py-3 bg-white">Owner</th>
-                <th class="px-6 py-3 bg-white">Size</th>
-                <th class="px-6 py-3 bg-white">Weight (g)</th>
-                <th class="px-6 py-3 bg-white">Battery Capacity (mAh)</th>
-                <th class="px-6 py-3 bg-white">Battery Voltage (V)</th>
-                <th class="px-6 py-3 bg-white">Battery Level (%)</th>
-                <th class="px-6 py-3 bg-white">Status</th>
-                <th class="px-6 py-3 bg-white">Actions</th>
+                <th class="px-6 py-3"></th>
+                <th class="px-6 py-3">Name</th>
+                <th class="px-6 py-3">Owner</th>
+                <th class="px-6 py-3">Size</th>
+                <th class="px-6 py-3">Weight (g)</th>
+                <th class="px-6 py-3">Battery Capacity (mAh)</th>
+                <th class="px-6 py-3">Battery Voltage (V)</th>
+                <th class="px-6 py-3">Battery Level (%)</th>
+                <th class="px-6 py-3">Status</th>
+                <th class="px-6 py-3">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for drone in drones %}
-                <tr class="{% cycle '' 'bg-white' %}">
+                <tr>
                     <td class="px-6 py-3 whitespace-nowrap">
                         {{ forloop.counter }}
                     </td>
