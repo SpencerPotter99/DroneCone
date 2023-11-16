@@ -1,10 +1,5 @@
-{% extends "account/base.html" %}
 
-{% block head_title %}
-    Log In
-{% endblock head_title %}
-
-{% block inner %}
+<!-- 
     <h1>Log In</h1>
     {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
@@ -17,4 +12,43 @@
         <a class="button secondaryAction" href="{% url 'account:password_reset' %}">Forgot Password?</a>
         <button class="primaryAction btn btn-primary" type="submit">Log In</button>
     </form>
-{% endblock inner %}
+ -->
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Drone Cones</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex items-center justify-center" style="background-image: url('{% static 'Icecreambackground.png' %}'); background-size: cover; background-repeat: no-repeat;">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg; text-center">
+        
+    <h1 class="text-4xl mb-4 font-bold" style="color: #CDB4DB;">Log In</h1>
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% else %}
+     <p style="padding-bottom: 7px">Don't Have an Account? <a href="{% url 'account:signup' %}" ><strong>Sign Up</strong></a>.</p>
+    {% endif %}
+    <form class="login" method="post" action="{% url 'account:login' %}">
+        {% csrf_token %}
+        <table>        <tr>
+            <td class="font-semibold text-gray-700">Username:</td>
+            <td style="border: 1px solid gray; width:110px; border-radius: 3px;">{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td class="font-semibold text-gray-700">Password:</td>
+            <td style="border: 1px solid gray; width:110px; border-radius: 3px;">{{ form.password }}</td>
+        </tr>        
+        </table>
+
+        <a class="button secondaryAction" href="{% url 'account:password_reset' %}">Forgot Password?</a>
+        <button class="primaryAction btn btn-primary" style="padding-top: 7px;" type="submit">Log In</button>
+    </form>
+    </div>
+
+</body>
+</html>
