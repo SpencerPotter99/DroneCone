@@ -6,18 +6,18 @@
 {% block content %}
 <section class="mb-8">
     <h2 class="text-2xl font-semibold mb-4">Ice Cream Flavors</h2>
-    <table class="min-w-full divide-y divide-gray-200 shadow">
+    <table class="min-w-full divide-y divide-gray-200 shadow bg-gray-100">
         <thead>
             <tr>
-                <th class="px-6 py-3 bg-white">Flavor</th>
-                <th class="px-6 py-3 bg-white">Quantity</th>
-                <th class="px-6 py-3 bg-white">Price</th>
-                <th class="px-6 py-3 bg-white">Actions</th>
+                <th class="px-6 py-3">Flavor</th>
+                <th class="px-6 py-3">Quantity</th>
+                <th class="px-6 py-3">Price</th>
+                <th class="px-6 py-3">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for ice_cream in ice_creams %}
-                <tr class="{% cycle '' 'bg-white' %}">
+                <tr>
                     <td class="px-6 py-3 whitespace-nowrap">{{ ice_cream.flavor }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ ice_cream.qty }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">${{ ice_cream.price }}</td>
@@ -31,16 +31,16 @@
     </table>
     <button onclick="window.location.href='{% url 'add_ice_cream' %}'" class="bg-green-500 text-white px-4 py-2 my-2 rounded-md">Add</button>
     <h2 class="text-2xl font-semibold mb-4 mt-4">Cones</h2>
-    <table class="min-w-full divide-y divide-gray-200 shadow">
+    <table class="min-w-full divide-y divide-gray-200 shadow bg-gray-100">
         <thead>
-            <th class="px-6 py-3 bg-white">Name</th>
-            <th class="px-6 py-3 bg-white">Quantity</th>
-            <th class="px-6 py-3 bg-white">Price</th>
-            <th class="px-6 py-3 bg-white">Actions</th>
+            <th class="px-6 py-3">Name</th>
+            <th class="px-6 py-3">Quantity</th>
+            <th class="px-6 py-3">Price</th>
+            <th class="px-6 py-3">Actions</th>
         </thead>
         <tbody>
             {% for cone in cones %}
-                <tr class="{% cycle '' 'bg-white' %}">
+                <tr>
                    <td class="px-6 py-3 whitespace-nowrap">{{ cone.name }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ cone.qty }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">${{ cone.price }}</td>
@@ -54,16 +54,16 @@
     </table>
     <button onclick="window.location.href='{% url 'add_cone' %}'" class="bg-green-500 text-white px-4 py-2 my-2 rounded-md">Add</button>
     <h2 class="text-2xl font-semibold mb-4 mt-4">Toppings</h2>
-    <table class="min-w-full divide-y divide-gray-200 shadow">
+    <table class="min-w-full divide-y divide-gray-200 shadow bg-gray-100">
         <thead>
-            <th class="px-6 py-3 bg-white">Name</th>
-            <th class="px-6 py-3 bg-white">Quantity</th>
-            <th class="px-6 py-3 bg-white">Price</th>
-            <th class="px-6 py-3 bg-white">Actions</th>
+            <th class="px-6 py-3">Name</th>
+            <th class="px-6 py-3">Quantity</th>
+            <th class="px-6 py-3">Price</th>
+            <th class="px-6 py-3">Actions</th>
         </thead>
         <tbody>
             {% for topping in toppings %}
-                <tr class="{% cycle '' 'bg-white' %}">
+                <tr>
                     <td class="px-6 py-3 whitespace-nowrap">{{ topping.name }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ topping.qty }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">${{ topping.price }}</td>

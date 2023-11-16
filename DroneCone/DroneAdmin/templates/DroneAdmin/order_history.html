@@ -4,21 +4,21 @@
 {% block heading %}Orders{% endblock %}
 
 {% block content %}
-    <table class="min-w-full divide-y divide-gray-200 shadow">
+    <table class="min-w-full divide-y divide-gray-200 shadow bg-gray-100">
         <thead>
             <tr>
-                <th class="px-6 py-3 bg-white">Order ID</th>
-                <th class="px-6 py-3 bg-white">User</th>
-                <th class="px-6 py-3 bg-white">Ice Cream Cones</th>
-                <th class="px-6 py-3 bg-white">Status</th>
-                <th class="px-6 py-3 bg-white">Drone</th>
-                <th class="px-6 py-3 bg-white">Created At</th>
-                <th class="px-6 py-3 bg-white">Updated At</th>
+                <th class="px-6 py-3">Order ID</th>
+                <th class="px-6 py-3">User</th>
+                <th class="px-6 py-3">Ice Cream Cones</th>
+                <th class="px-6 py-3">Status</th>
+                <th class="px-6 py-3">Drone</th>
+                <th class="px-6 py-3">Created At</th>
+                <th class="px-6 py-3">Updated At</th>
             </tr>
         </thead>
         <tbody>
             {% for order in orders %}
-                <tr class="{% cycle '' 'bg-white' %}">
+                <tr>
                     <td class="px-6 py-3 whitespace-nowrap">{{ order.pk }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">{{ order.user.username }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">

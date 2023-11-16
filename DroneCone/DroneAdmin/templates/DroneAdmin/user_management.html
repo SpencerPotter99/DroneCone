@@ -4,22 +4,22 @@
 {% block heading %}Users{% endblock %}
 
 {% block content %}
-    <table class="min-w-full divide-y divide-gray-200 shadow">
+    <table class="min-w-full divide-y divide-gray-200 shadow bg-gray-100">
         <thead>
             <tr>
-                <th class="px-6 py-3 bg-white"></th>
-                <th class="px-6 py-3 bg-white">Username</th>
-                <th class="px-6 py-3 bg-white">Email</th>
-                <th class="px-6 py-3 bg-white">Phone</th>
-                <th class="px-6 py-3 bg-white">Address</th>
-                <th class="px-6 py-3 bg-white">Drone Owner</th>
-                <th class="px-6 py-3 bg-white">Admin</th>
-                <th class="px-6 py-3 bg-white">Actions</th>
+                <th class="px-6 py-3"></th>
+                <th class="px-6 py-3">Username</th>
+                <th class="px-6 py-3">Email</th>
+                <th class="px-6 py-3">Phone</th>
+                <th class="px-6 py-3">Address</th>
+                <th class="px-6 py-3">Drone Owner</th>
+                <th class="px-6 py-3">Admin</th>
+                <th class="px-6 py-3">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for user in user_list %}
-                 <tr class="{% if forloop.counter|divisibleby:2 %}bg-white{% endif %}">
+                 <tr>
                     <td class="px-6 py-3 whitespace-nowrap">
                         {{ forloop.counter }}
                     </td>
