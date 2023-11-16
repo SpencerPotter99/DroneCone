@@ -111,6 +111,7 @@ class OrderForm(forms.ModelForm):
 def index(request):
     return render(request, 'DroneCustomer/index.html')
 
+@login_required
 def home(request):
     return render(request, 'DroneCustomer/home.html')
 
