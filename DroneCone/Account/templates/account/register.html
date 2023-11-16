@@ -11,9 +11,36 @@
     </p>
     <form class="signup" id="signup_form" method="post" action="{% url 'account:signup' %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        <table class="table-auto w-full">
+            <tr>
+                <td class="font-semibold text-gray-700">Username:</td>
+                <td>{{ user_form.username }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Password:</td>
+                <td>{{ user_form.password1 }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Confirm Password:</td>
+                <td>{{ user_form.password2 }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Email:</td>
+                <td>{{ user_form.email }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Phone:</td>
+                <td>{{ profile_form.phone }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Address:</td>
+                <td>{{ profile_form.address }}</td>
+            </tr>
+        </table>
+        
         <button class="btn btn-primary" type="submit">Sign Up »</button>
     </form>
-    <p>Click to <a href="{% url 'drone_owner_creation' %}">Register as Drone Owner</a></p>
+    <p>Click to <a href="{% url 'account:signup' %}">Register as Drone Owner</a></p>
 
 {% endblock inner %}
+

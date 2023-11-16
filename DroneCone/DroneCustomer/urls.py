@@ -23,7 +23,6 @@ urlpatterns = [
     path('manage-my-drone/create/', views.customerCreateDrone, name='customer_create_drone'),
     path('manage-my-drone/<int:drone_id>/update', views.customerEditDrone, name='customer_edit_drone'),
     path('manage-my-drone/<int:drone_id>/delete', views.customerDeleteDrone, name='customer_delete_drone'),
-    path('drone-owner-creation/', views.droneOwnerCreation, name='drone_owner_creation'),
     #
     path("edit-account/", views.editAccount, name="edit_account"),
     path('menu-items/', MenuItemsAPI.as_view(), name='menu_items_api'),

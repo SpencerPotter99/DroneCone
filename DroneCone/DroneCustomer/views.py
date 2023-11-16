@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import make_password
 from .forms import DroneForm
+from .customerDecorators import drone_owner_required
 
 
 class MenuItemsAPI(APIView):
@@ -173,8 +174,6 @@ def account(request):
 def droneManagement(request):
     return render(request, 'DroneCustomer/droneManager.html')
 
-def droneOwnerCreation(request):
-    return render(request, 'DroneCustomer/droneOwnerCreation.html')
 
 def signUp(request):
     return render(request, 'DroneCustomer/customerCreation.html')
@@ -263,13 +262,13 @@ def update_account(request):
 
     return redirect('editaccount')
     
-@login_required
+@drone_owner_required
 def manageMyDrone(request):
     drones = Drone.objects.filter(owner=request.user)
     return render(request, "DroneCustomer/manageMyDrone.html", {'drones': drones})
 
 
-@login_required
+@drone_owner_required
 def customerCreateDrone(request):
     if request.method == 'POST':
         form = DroneForm(request.POST)
@@ -283,7 +282,7 @@ def customerCreateDrone(request):
     return render(request, 'DroneCustomer/customer_create_drone.html', {'form': form, 'action_title': 'Add'})
 
 
-@login_required
+@drone_owner_required
 def customerEditDrone(request, drone_id):
     drone = get_object_or_404(Drone, pk=drone_id, owner=request.user)
     if request.method == 'POST':
@@ -297,7 +296,7 @@ def customerEditDrone(request, drone_id):
     return render(request, 'DroneCustomer/customer_create_drone.html', {'form': form, 'action_title': 'Edit'})
 
 
-@login_required
+@drone_owner_required
 def customerDeleteDrone(request, drone_id):
     drone = get_object_or_404(Drone, pk=drone_id, owner=request.user)
     if request.method == 'POST':

@@ -1,63 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Blogs</title>
-    <meta charset="UTF-8">
-    <style>
-        input[type=text], select {
-          width: 100%;
-          padding: 12px 20px;
-          margin: 8px 0;
-          display: inline-block;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
-}
-        input[type=password], select {
-          width: 100%;
-          padding: 12px 20px;
-          margin: 8px 0;
-          display: inline-block;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
-}
+{% extends "account/base.html" %}
 
-        input[type=submit] {
-            width: 100%;
-            background-color: red;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-}
-        div{
-             border-radius: 5px;
-             background-color: bisque;
-             padding: 20px;
-            margin: 100px;
-        }
-    </style>
-</head>
-<body>
-<h1>
-    Please create an account as a drone owner.
-</h1>
-<div >
-<form action="submit">
-    <label for="fName">First Name:</label>
-    <input type="text" id="fName" name="fName" placeholder="First Name">
-    <label for="lName">Last Name:</label>
-    <input type="text" id="lName" name="lName" placeholder="Last Name">
-    <label for="userName">Email:</label>
-    <input type="text" id="userName" name="userName" placeholder="Email Address">
-    <label for="password">Password: </label>
-    <input type="password" id="password" name="password" placeholder="Password">
+{% block head_title %}
+    Signup
+{% endblock head_title %}
 
-    <input type="submit" value="Sign Up">
-</form>
-</div>
-</body>
-</html>
+{% block inner %}
+    <h1>Sign Up</h1>
+    <p>
+        If you already have an account. Click here to <a href="{% url 'account:login' %}">Log in</a>.
+    </p>
+    <form class="signup" id="signup_form" method="post" action="{% url 'account:drone_owner_creation' %}">
+        {% csrf_token %}
+        <table class="table-auto w-full">
+            <tr>
+                <td class="font-semibold text-gray-700">Username:</td>
+                <td>{{ user_form.username }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Password:</td>
+                <td>{{ user_form.password1 }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Confirm Password:</td>
+                <td>{{ user_form.password2 }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Email:</td>
+                <td>{{ user_form.email }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Drone Owner:</td>
+                <td> {{ profile_form.drone_owner }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Phone:</td>
+                <td>{{ profile_form.phone }}</td>
+            </tr>
+            <tr>
+                <td class="font-semibold text-gray-700">Address:</td>
+                <td>{{ profile_form.address }}</td>
+            </tr>
+        </table>
+        <button class="btn btn-primary" type="submit">Sign Up »</button>
+    </form>
+    <p>Click to <a href="{% url 'account:signup' %}">Register as DroneCone Customer</a></p>
+
+{% endblock inner %}
