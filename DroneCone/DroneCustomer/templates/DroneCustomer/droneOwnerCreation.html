@@ -1,55 +1,101 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome to Drone Cones</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="min-h-screen flex items-center justify-center" style="background-image: url('{% static 'Icecreambackground.png' %}'); background-size: cover; background-repeat: no-repeat;">
 
-    <div class="bg-white p-6 rounded-lg shadow-lg; text-center">
-        <h1 class="text-4xl mb-4 font-bold" style="color: #CDB4DB;">Drone Owner Sign Up</h1>
-        <p>
-            Already have an account? Click here to <a href="{% url 'account:login' %}" ><strong>Log in</strong></a>.
-        </p>
-        <form class="signup" id="signup_form" method="post" action="{% url 'account:drone_owner_creation' %}">
-            {% csrf_token %}
-            <table class="table-auto w-full">
-                <tr>
-                    <td class="font-semibold text-gray-700">Username:</td>
-                    <td>{{ user_form.username }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold text-gray-700">Password:</td>
-                    <td style="border: 1px solid gray; width:110px; border-radius: 3px;">{{ user_form.password1 }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold text-gray-700">Confirm Password:</td>
-                    <td style="border: 1px solid gray; width:110px; border-radius: 3px;">{{ user_form.password2 }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold text-gray-700">Email:</td>
-                    <td>{{ user_form.email }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold text-gray-700">Drone Owner:</td>
-                    <td>{{ profile_form.drone_owner }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold text-gray-700">Phone:</td>
-                    <td>{{ profile_form.phone }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold text-gray-700">Address:</td>
-                    <td>{{ profile_form.address }}</td>
-                </tr>
-            </table>
-            
-            <button class="btn btn-primary" type="submit"><strong>Sign Up »</strong></button>
-        </form>
-        <p>Click to <a href="{% url 'account:signup' %}">Register as Customer</a></p>
+    <div class="container">
+        <div class="card">
+            <h1 class="text-4xl mb-4 font-bold" style="color: #CDB4DB; text-align: center;">Drone Owner Sign Up</h1>
+            <p style="text-align: center;">
+                Already have an account? Click here to <a href="{% url 'account:login' %}" ><strong>Log in</strong></a>.
+            </p>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 100vh;
+                    background-color: #f0f0f0;
+                }
+
+                .card {
+                    background-color: #fff;
+                    padding: 8px;
+                    padding-left:30px;
+                    padding-right:30px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    text-align: center;
+                }
+
+                .inputLabel {
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                    font-weight: lighter;
+                    color: #210631;
+                    font-size: 14px;
+                    text-align: left;
+                }
+
+                .required {
+                    color: red;
+                }
+
+                .button-link {
+                    display: inline-block;
+                    border: none;
+                    background-color: white;
+                    color: #000000; /* Change this to your desired text color */
+
+                    
+                }
+            </style>
+
+            <form class="signup" id="signup_form" method="post" action="{% url 'account:drone_owner_creation' %}">
+                {% csrf_token %}
+                <table class="table-auto w-full">
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Username:</td>
+                        <td>{{ user_form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Password:</td>
+                        <td>{{ user_form.password1 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Confirm Password:</td>
+                        <td>{{ user_form.password2 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Email:</td>
+                        <td>{{ user_form.email }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="inputLabel">Phone:</td>
+                        <td>{{ profile_form.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel">Address:</td>
+                        <td>{{ profile_form.address }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel">Drone Owner:</td>
+                        <td style="text-align:left;">{{ profile_form.drone_owner }}</td>
+                    </tr>
+                </table>
+                
+                <button class= "button-link" style="cursor: pointer; padding-top:8px" type="submit"><strong>Sign Up »</strong></button>
+            </form>
+            <p>Click to <a href="{% url 'account:signup' %}"><strong>Register as Customer</strong></a></p>
+        </div>
     </div>
 
 </body>
