@@ -1,0 +1,74 @@
+{% extends 'DroneCustomer/base.html' %}
+<!--- Comment -->
+{% block content %}
+    <div class="bg-white p-4 shadow rounded-lg">
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <ul class="text-red-500">
+                    {% for error in form.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <table class="table-auto w-full">
+                <tr>
+                    <td class="font-semibold text-gray-700">Owner:</td>
+                    <td>{{ form.owner }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Name:</td>
+                    <td>{{ form.name }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Size:</td>
+                    <td>{{ form.size }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Weight:</td>
+                    <td>
+                        {{ form.drone_weight_g }}
+                        <small class="text-gray-500">g</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Battery Capacity:</td>
+                    <td>
+                        {{ form.battery_capacity_mAh }}
+                        <small class="text-gray-500">mAh</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Battery Voltage:</td>
+                    <td>
+                        {{ form.battery_voltage }}
+                        <small class="text-gray-500">v</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Battery Level:</td>
+                    <td>
+                        {{ form.battery_level }}
+                        <small class="text-gray-500">% (Must be a decimal between 1.0 and 0.0)</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Drone is Enabled:</td>
+                    <td>{{ form.enabled }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold text-gray-700">Drone is in-flight:</td>
+                    <td>{{ form.in_flight }}</td>
+                </tr>
+     
+            </table>
+
+            <div class="mt-4 flex items-center">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+                <a href="{% url 'manageMyDrone' %}" class="ml-2 text-gray-500">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

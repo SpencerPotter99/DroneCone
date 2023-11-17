@@ -1,63 +1,102 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Blogs</title>
     <meta charset="UTF-8">
-    <style>
-        input[type=text], select {
-          width: 100%;
-          padding: 12px 20px;
-          margin: 8px 0;
-          display: inline-block;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
-}
-        input[type=password], select {
-          width: 100%;
-          padding: 12px 20px;
-          margin: 8px 0;
-          display: inline-block;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
-}
-
-        input[type=submit] {
-            width: 100%;
-            background-color: red;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-}
-        div{
-             border-radius: 5px;
-             background-color: bisque;
-             padding: 20px;
-            margin: 100px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Drone Cones</title>
 </head>
-<body>
-<h1>
-    Please create an account as a drone owner.
-</h1>
-<div >
-<form action="submit">
-    <label for="fName">First Name:</label>
-    <input type="text" id="fName" name="fName" placeholder="First Name">
-    <label for="lName">Last Name:</label>
-    <input type="text" id="lName" name="lName" placeholder="Last Name">
-    <label for="userName">Email:</label>
-    <input type="text" id="userName" name="userName" placeholder="Email Address">
-    <label for="password">Password: </label>
-    <input type="password" id="password" name="password" placeholder="Password">
 
-    <input type="submit" value="sign up">
-</form>
-</div>
+<body class="min-h-screen flex items-center justify-center" style="background-image: url('{% static 'Icecreambackground.png' %}'); background-size: cover; background-repeat: no-repeat;">
+
+    <div class="container">
+        <div class="card">
+            <h1 class="text-4xl mb-4 font-bold" style="color: #CDB4DB; text-align: center;">Drone Owner Sign Up</h1>
+            <p style="text-align: center;">
+                Already have an account? Click here to <a href="{% url 'account:login' %}" ><strong>Log in</strong></a>.
+            </p>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 100vh;
+                    background-color: #f0f0f0;
+                }
+
+                .card {
+                    background-color: #fff;
+                    padding: 8px;
+                    padding-left:30px;
+                    padding-right:30px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    text-align: center;
+                }
+
+                .inputLabel {
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                    font-weight: lighter;
+                    color: #210631;
+                    font-size: 14px;
+                    text-align: left;
+                }
+
+                .required {
+                    color: red;
+                }
+
+                .button-link {
+                    display: inline-block;
+                    border: none;
+                    background-color: white;
+                    color: #000000; /* Change this to your desired text color */
+
+                    
+                }
+            </style>
+
+            <form class="signup" id="signup_form" method="post" action="{% url 'account:drone_owner_creation' %}">
+                {% csrf_token %}
+                <table class="table-auto w-full">
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Username:</td>
+                        <td>{{ user_form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Password:</td>
+                        <td>{{ user_form.password1 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Confirm Password:</td>
+                        <td>{{ user_form.password2 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel"><span class="required">*</span>Email:</td>
+                        <td>{{ user_form.email }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="inputLabel">Phone:</td>
+                        <td>{{ profile_form.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel">Address:</td>
+                        <td>{{ profile_form.address }}</td>
+                    </tr>
+                    <tr>
+                        <td class="inputLabel">Drone Owner:</td>
+                        <td style="text-align:left;">{{ profile_form.drone_owner }}</td>
+                    </tr>
+                </table>
+                
+                <button class= "button-link" style="cursor: pointer; padding-top:8px" type="submit"><strong>Sign Up »</strong></button>
+            </form>
+            <p>Click to <a href="{% url 'account:signup' %}"><strong>Register as Customer</strong></a></p>
+        </div>
+    </div>
+
 </body>
 </html>

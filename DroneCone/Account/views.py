@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -13,15 +13,49 @@ from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import CreateView
-from .forms import CustomUserCreationForm, ProfileForm, CustomUserForm
+from .forms import CustomUserCreationForm, CustomUserForm
+from django.contrib.auth import login
+from DroneAdmin.forms import ProfileForm
 
 
-class RegisterView(CreateView):
-    model = User
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('account:login')
-    template_name = "account/register.html"
 
+def RegisterView(request):
+    if request.method == 'POST':
+        user_form = CustomUserCreationForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()  # Save the User instance
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            login(request, user) 
+            return redirect('home')
+    else:
+        user_form = CustomUserCreationForm()
+        profile_form = ProfileForm()
+        profile_form.drone_owner = False
+
+    return render(request, 'Account/register.html', {'user_form': user_form, 'profile_form': profile_form})
+
+def DroneOwnerRegisterView(request):
+    if request.method == 'POST':
+        user_form = CustomUserCreationForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()  # Save the User instance
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            login(request, user) 
+            return redirect('manage_my_drone')
+    else:
+        initial_data = {'drone_owner': True}
+
+        # Create an instance of the ProfileForm with the initial data
+        profile_form = ProfileForm(initial=initial_data)
+        user_form = CustomUserCreationForm()
+
+    return render(request, 'DroneCustomer/droneOwnerCreation.html', {'user_form': user_form, 'profile_form': profile_form})
 
 class LoginView(auth_views.LoginView):
     template_name = 'account/login.html'

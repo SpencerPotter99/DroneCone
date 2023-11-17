@@ -1,8 +1,9 @@
 
 from datetime import timedelta
+from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 from rest_framework.views import APIView
 from rest_framework import status
@@ -12,6 +13,9 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import make_password
+from .forms import DroneForm
+from .customerDecorators import drone_owner_required
 import threading
 from .models import IceCream, Topping, Cone
 
@@ -105,6 +109,7 @@ class OrderForm(forms.ModelForm):
 def index(request):
     return render(request, 'DroneCustomer/index.html')
 
+@login_required
 def home(request):
     return render(request, 'DroneCustomer/home.html')
 
@@ -190,8 +195,6 @@ def account(request):
 def droneManagement(request):
     return render(request, 'DroneCustomer/droneManager.html')
 
-def droneOwnerCreation(request):
-    return render(request, 'DroneCustomer/droneOwnerCreation.html')
 
 def signUp(request):
     return render(request, 'DroneCustomer/customerCreation.html')
@@ -338,4 +341,45 @@ def update_account(request):
         return redirect('../account/')
 
     return redirect('editaccount')
+    
+@drone_owner_required
+def manageMyDrone(request):
+    drones = Drone.objects.filter(owner=request.user)
+    return render(request, "DroneCustomer/manageMyDrone.html", {'drones': drones})
 
+
+@drone_owner_required
+def customerCreateDrone(request):
+    if request.method == 'POST':
+        form = DroneForm(request.POST)
+        if form.is_valid():
+            drone = form.save(commit=False)
+            drone.owner = request.user
+            drone.save()
+            return redirect('manage_my_drone')
+    else:
+        form = DroneForm()
+    return render(request, 'DroneCustomer/customer_create_drone.html', {'form': form, 'action_title': 'Add'})
+
+
+@drone_owner_required
+def customerEditDrone(request, drone_id):
+    drone = get_object_or_404(Drone, pk=drone_id, owner=request.user)
+    if request.method == 'POST':
+        form = DroneForm(request.POST, instance=drone)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_my_drone')
+    else:
+        form = DroneForm(instance=drone)
+
+    return render(request, 'DroneCustomer/customer_create_drone.html', {'form': form, 'action_title': 'Edit'})
+
+
+@drone_owner_required
+def customerDeleteDrone(request, drone_id):
+    drone = get_object_or_404(Drone, pk=drone_id, owner=request.user)
+    if request.method == 'POST':
+        drone.delete()
+        return redirect('manage_my_drone')
+    return render(request, 'DroneCustomer/customer_delete_drone.html', {'drone': drone})
