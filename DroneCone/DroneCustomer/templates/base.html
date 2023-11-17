@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DroneCones{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS files -->
+    {% block css %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style type="text/tailwindcss">
+            @layer utilities {
+                .nav-item {
+                    @apply rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white
+                }
+
+                .nav-item:not([aria-current='page']) {
+                    @apply text-gray-300 hover:bg-gray-700 hover:text-white
+                }
+
+                .nav-item[aria-current='page'] {
+                    @apply text-white bg-gray-900
+                }
+            }
+        </style>
+    {% endblock %}
+    <!-- Javascript Files -->
+    {% block javascript %}
+    {% endblock %}
+</head>
+<body>
+<nav class="bg-gray-800">
+    <div class="mx-auto px-2 sm:px-6">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex flex-shrink-0 items-center">
+                    {% block nav_left_side %}
+                    <img class="h-10 w-auto"
+                         src="{% static 'DroneLogo.png' %}"
+                         alt="DroneCones">
+                    {% endblock %}
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                    {% block nav_desktop_only_left_side %}
+                    <div class="flex space-x-4" role="navigation">
+                        {% include "base_navbar_links.html" %}
+                    </div>
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                {% block nav_right_side %}
+                    <div class="relative">
+                    <!-- Profile Dropdown Button -->
+                    <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
+                            class="relative flex rounded-full bg-gray-800 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
+                             stroke-width="3" stroke="black" fill="none">
+                            <circle cx="24" cy="18" r="8" fill="black"></circle>
+                            <circle cx="24" cy="24" r="22"></circle>
+                            <path d="M 8 38 C 10 32 14 30 18 30 L 30 30 C 34 30 38 32 40 38 L 24 45 L 8 38"
+                                  fill="black"></path>
+                        </svg>
+                    </button>
+                    <!-- Profile Dropdown Links -->
+                    <div role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
+                         class="invisible transform absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1
+                                    shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out duration-100
+                                    [&>a]:block [&>a]:px-4 [&>a]:py-2 [&>a]:text-sm hover:[&>a]:bg-gray-100
+                                    data-[expanded=false]:opacity-0 data-[expanded=false]:scale-90
+                                    data-[expanded=true]:opacity-100 data-[expanded=true]:scale-100"
+                         data-expanded="false">
+                        {% if request.user.is_authenticated %}
+                            <a class="text-gray-700" role="menuitem" href="{% url 'account:profile' %}">My Profile</a>
+                            <a class="text-red-600" role="menuitem" href="{% url 'account:logout' %}">Log out</a>
+                        {% else %}
+                            <a class="text-gray-700" role="menuitem" href="{% url 'account:login' %}">Log In</a>
+                            <a class="text-gray-700" role="menuitem" href="{% url 'account:signup' %}">Sign Up</a>
+                        {% endif %}
+                    </div>
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+        <div class="sm:hidden">
+            {% block nav_mobile %}
+                <div class="space-y-1 p-2 [&>a]:block" role="navigation">
+                    {% include "base_navbar_links.html" %}
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+</nav>
+<div class="mx-auto px-3 w-full pt-3">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="relative block w-full rounded-lg border p-4 alert-success {% if message.tags %}alert-{{ message.tags }}{% endif %}
+                        [&.alert-success]:bg-green-100 [&.alert-success]:border-green-400
+                        [&.alert-info]:bg-blue-100 [&.alert-info]:border-blue-400
+                        [&.alert-debug]:bg-yellow-100 [&.alert-debug]:border-yellow-400
+                        [&.alert-warning]:bg-orange-100 [&.alert-warning]:border-orange-400
+                        [&.alert-error]:bg-red-100 [&.alert-error]:border-red-400" data-dismissible="alert-{{ loop.index }}">
+                <div class="mr-12">{{ message }}This is a Success Alert</div>
+                <button class="absolute top-2.5 right-3 w-max rounded-lg p-1 hover:bg-white hover:bg-opacity-30"
+                        data-dismissible-target="alert-{{ loop.index }}" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="flex flex-wrap mx-4 ">
+        {% block inner %}
+        {% endblock inner %}
+    </div>
+</div>
+{% block inline_javascript %}
+    <script>
+        class MenuButtonLinks {
+            constructor(button) {
+                this.button = button;
+                this.menu = document.querySelector('[aria-labelledby="' + button.id + '"]');
+
+                this.button.addEventListener('click', this.onButtonClick.bind(this));
+
+                this.menu.addEventListener("transitionend", () => {
+                    this.removeVisibility()
+                });
+                this.menu.addEventListener("transitioncancel", () => {
+                    this.removeVisibility()
+                });
+
+                window.addEventListener('mousedown', this.onBackgroundMousedown.bind(this), true);
+            }
+
+            openPopup() {
+                this.menu.classList.add('[&&]:visible');
+                this.button.setAttribute('aria-expanded', 'true');
+                this.menu.setAttribute('data-expanded', 'true');
+            }
+
+            closePopup() {
+                this.button.setAttribute('aria-expanded', 'false');
+                this.menu.setAttribute('data-expanded', 'false');
+            }
+
+            isOpen() {
+                return this.button.getAttribute('aria-expanded') === 'true';
+            }
+
+            removeVisibility() {
+                if (!this.isOpen()) {
+                    this.menu.classList.remove('[&&]:visible');
+                }
+            }
+
+            onButtonClick(event) {
+                if (!this.isOpen()) {
+                    this.openPopup();
+                } else {
+                    this.closePopup();
+                }
+            }
+
+            onBackgroundMousedown(event) {
+                if (!this.button.contains(event.target)) {
+                    if (this.isOpen()) {
+                        this.closePopup();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('load', function () {
+            // Set link between buttons and their pop-up menus through aria-labelledby and buttons id.
+            let menuButtons = document.querySelectorAll('button[id][aria-haspopup="true"]');
+            menuButtons.forEach(menuButton => new MenuButtonLinks(menuButton))
+
+            // Highlight current tab.
+            document.querySelectorAll("a.nav-item").forEach(link => {
+                if (link.href.includes(`${window.location.pathname}`)) {
+                    link.setAttribute('aria-current', 'page');
+                }
+            })
+        });
+
+        // Dismiss Alert
+        (function () {
+            var dismissible = document.querySelectorAll("[data-dismissible]");
+            var targets = document.querySelectorAll("[data-dismissible-target]");
+            if (dismissible && targets) {
+                dismissible.forEach(function (dismiss) {
+                    return targets.forEach(function (target) {
+                        if (dismiss.dataset.dismissible === target.dataset.dismissibleTarget) {
+                            target.addEventListener("click", function () {
+                                dismiss.classList.toggle("hidden")
+                            })
+                        }
+                    })
+                })
+            }
+        })();
+    </script>
+{% endblock inline_javascript %}
+</body>
+</html>
