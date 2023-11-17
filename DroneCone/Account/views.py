@@ -47,7 +47,7 @@ def DroneOwnerRegisterView(request):
             profile.user = user
             profile.save()
             login(request, user) 
-            return redirect('home')
+            return redirect('manage_my_drone')
     else:
         initial_data = {'drone_owner': True}
 

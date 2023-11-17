@@ -1,27 +1,28 @@
-{% include './topBar.html' %}
-
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drone ManageMent</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    {% csrf_token %}
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
-<style>
-    #contentContainer {
-        display:flex;
-        justify-content: center;
-    }
-</style>
-<body class="bg-gray-100">
-    <main class="w-7/8 p-8 mx-auto">
-        <h1 class="text-2xl font-bold mb-8">Manage My Drones</h1>
-        <container id="contentContainer">
-            {% block content %}{% endblock %}
-        </container>
-    </main>
+<body class="bodyBackground">
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="left">
+            <img src="{% static 'DroneLogo.png' %}" height="50" width="50" alt="Drone Logo">
+        </a>
+        <a href="{% url 'account' %}" class="right">
+            <img src="{% static 'user-account-icon.webp' %}" height="50" width="50" alt="Settings">
+        </a>
+    </div>
+
+<div class="content" id="app">
+    {% block content %}{% endblock %}
+</div>
 </body>
 <script>
     axios.defaults.xsrfCookieName = 'csrftoken';
