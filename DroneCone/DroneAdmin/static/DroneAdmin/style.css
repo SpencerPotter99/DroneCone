@@ -1,0 +1,20 @@
+:root {
+    --primary-color: #CDB4DB;
+    --secondary-color: #FFC8DD;
+    --accent-color: #FFAFCC;
+    --highlight-color: #BDE0FE;
+    --text-color: #A2D2FF;
+}
+
+header {
+    background-color: var(--primary-color);
+}
+
+aside {
+    background-color: var(--accent-color);
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #BDE0FE;
+}
+

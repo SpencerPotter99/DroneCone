@@ -7,16 +7,19 @@
     <h2 class="text-lg text-gray-600">Get your favorite ice cream cone delivered right to your hand</h2>
 </div>
 
-<div class="timer" v-if="countdown>=0 && orderStatus=='delivering'">
-  <div class="text-center">
+<div class="timer" v-if="countdown >= 0 && orderStatus === 'delivering'">
+  <div class="text-center space-y-2">
     <h2 class="text-2xl font-semibold">Time Until Cone Delivery</h2>
+    <div class="text-3xl font-bold">
+      <span class="mr-1" v-bind:x-text="Math.floor(countdown / 60000)"></span>[[minutes]] minutes
+    </div>
+  </div>
 </div>
-  [[ Math.floor(countdown / 60000) ]] minutes and [[ (countdown % 60000) / 1000 ]] seconds remaining
-</div>
+
 <div class="timer" v-if="errorMessage !== null">
   <div class="text-center">
     <h2 class="text-2xl font-semibold">[[errorMessage]]</h2>
-</div>
+  </div>
 </div>
 <div class="text-center mt-8">
   <h1 class="text-2xl font-semibold">Choose Your Size</h1>

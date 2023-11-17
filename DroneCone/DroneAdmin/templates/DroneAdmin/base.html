@@ -6,24 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="{% static 'DroneAdmin/style.css' %}">
 </head>
-<body class="bg-gray-100 flex">
-    <aside class="w-1/8 bg-gray-300 p-4 min-h-screen">
-        <h2 class="text-lg font-semibold mb-4">Administration</h2>
-        <ul class="space-y-2 resolute">
-            <li><a href="{% url 'order_history' %}">Order History</a></li>
-            <li><a href="{% url 'inventory' %}">Inventory</a></li>
-            <li><a href="{% url 'user_management' %}">User Management</a></li>
-            <li><a href="{% url 'drone_management' %}">Drone Management</a></li>
-            <li><a href="{% url 'sales' %}">Sales</a></li>
-            <li><a href="{% url 'account:profile' %}">My Profile</a></li>
-            <li><a href="{% url 'account:logout' %}">Logout</a></li>
-            <li><a href="{% url 'home' %}" class="text-pink-600">Order a Cone</a></li>
-        </ul>
-    </aside>
-    <main class="w-7/8 p-8">
-        <h1 class="text-3xl font-semibold mb-4">{% block heading %}{% endblock %}</h1>
-        {% block content %}{% endblock %}
-    </main>
+<body class="flex flex-col min-h-screen">
+    <header class="p-4 border-b border-gray-400">
+        <div class="flex justify-start items-end space-x-4">
+            <p class="text-xl font-semibold pr-10">Drone Cones</p>
+            <a href="{% url 'account:profile' %}" class="mb-0">My Profile</a>
+            <a href="{% url 'home' %}" class="mb-0">Order a Cone</a>
+            <a href="{% url 'account:logout' %}" class="mb-0">Log Out</a>
+        </div>
+    </header>
+    <div class="flex flex-grow">
+        <aside class="w-1/8 p-4 min-h-screen border-r border-gray-400">
+            <h2 class="text-lg font-semibold mb-4">Administration</h2>
+            <ul class="space-y-2 resolute">
+                <li class="{% if request.resolver_match.url_name == 'order_history' %}border-l-4 border-blue-400{% endif %}">
+                    <a href="{% url 'order_history' %}">Order History</a>
+                </li>
+                <li class="{% if 'drone_management' in request.resolver_match.url_name %}border-l-4 border-blue-400{% endif %}">
+                    <a href="{% url 'drone_management' %}">Drone Management</a>
+                </li>
+                <li class="{% if 'inventory' in request.resolver_match.url_name %}border-l-4 border-blue-400{% endif %}">
+                    <a href="{% url 'inventory' %}">Inventory</a>
+                </li>
+                <li class="{% if 'user_management' in request.resolver_match.url_name %}border-l-4 border-blue-400{% endif %}">
+                    <a href="{% url 'user_management' %}">User Management</a>
+                </li>
+                <li class="{% if 'sales' in request.resolver_match.url_name %}border-l-4 border-blue-400{% endif %}">
+                    <a href="{% url 'sales' %}">Sales</a>
+                </li>
+            </ul>
+        </aside>
+        <main class="w-7/8 p-8">
+            <h1 class="text-3xl font-semibold mb-4">{% block heading %}{% endblock %}</h1>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 </body>
 </html>
