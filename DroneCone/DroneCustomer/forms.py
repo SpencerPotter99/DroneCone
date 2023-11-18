@@ -9,7 +9,15 @@ class DroneForm(forms.ModelForm):
 
     class Meta:
         model = Drone
-        fields = ['name', 'size', 'drone_weight_g', 'battery_capacity_mAh', 'battery_voltage', 'battery_percentage', 'enabled']
+        fields = [
+            'name',
+            'size',
+            'drone_weight_g',
+            'battery_capacity_mAh',
+            'battery_voltage',
+            'battery_percentage',
+            'enabled',
+            ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

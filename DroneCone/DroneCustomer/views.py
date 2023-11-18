@@ -355,6 +355,8 @@ def customerCreateDrone(request):
         if form.is_valid():
             drone = form.save(commit=False)
             drone.owner = request.user
+            drone.hours_worked = 0.0
+            drone.dollar_revenue = 0.00
             drone.save()
             return redirect('manage_my_drone')
     else:
