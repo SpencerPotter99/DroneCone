@@ -345,6 +345,15 @@ def update_account(request):
 @drone_owner_required
 def manageMyDrone(request):
     drones = Drone.objects.filter(owner=request.user)
+    for drone in drones:
+        droneOrders = Order.objects.filter(drone=drone)
+        total_drone_revenue = 0
+        total_drone_minutes_worked = 0
+        for order in droneOrders:
+            total_drone_revenue += order.get_order_total()
+            total_drone_minutes_worked += 10
+        drone.hours_worked = round(total_drone_minutes_worked / 60, 2)
+        drone.dollar_revenue = total_drone_revenue / 2
     return render(request, "DroneCustomer/manageMyDrone.html", {'drones': drones})
 
 
