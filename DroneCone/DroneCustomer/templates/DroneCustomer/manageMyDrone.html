@@ -1,0 +1,145 @@
+{% include './topBar.html' %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Management</title>
+    <!-- You can include your static files here if needed -->
+    <style>
+        body {
+            background-color: #f0f4f8;
+        }
+
+        main {
+            width: 90%;
+            padding: 20px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 1.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.875rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+        }
+
+        th {
+            background-color: #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #edf2f7;
+        }
+
+        td:last-child {
+            border-right: 0;
+        }
+
+        .action-buttons {
+            display: inline-block;
+            background-color: #4299e1;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            margin: 0.2rem;
+            text-decoration: none;
+        }
+
+        .action-buttons:hover {
+            background-color: #337fbe;
+            color: #ffffff;
+        }
+
+        #add-drone-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 7px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }   
+
+        #add-drone-button:hover {
+            background-color: #39823c;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Manage My Drones</h1>
+
+    {% if drones %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Owner</th>
+                    <th>Size</th>
+                    <th>Weight (g)</th>
+                    <th>Battery Capacity (mAh)</th>
+                    <th>Battery Voltage (V)</th>
+                    <th>Battery Level (%)</th>
+                    <th>Status</th>
+                    <th>Flight Range (km)</th>
+                    <th>Hours Worked</th>
+                    <th>Dollar Revenue</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for drone in drones %}
+                    <tr>
+                        <th>{{ forloop.counter }}</th>
+                        <td>{{ drone.name }}</td>
+                        <td>{{ drone.owner }}</td>
+                        <td>{{ drone.get_size_display }}</td>
+                        <td>{{ drone.drone_weight_g }} g</td>
+                        <td>{{ drone.battery_capacity_mAh }} mAh</td>
+                        <td>{{ drone.battery_voltage }} v</td>
+                        <td>{{ drone.get_battery_percentage }}%</td>
+                        <td>{{ drone.get_drone_status }}</td>
+                        <td>{{ drone.determine_flight_range_km }} km</td>
+                        <td>{{ drone.hours_worked }}</td>
+                        <td>{{ drone.dollar_revenue }}</td>
+                        <td>
+                            <a href="{% url 'customer_edit_drone' drone.id %}" class="action-buttons" role="button">Edit</a>
+                            <a href="{% url 'customer_delete_drone' drone.id %}" class="action-buttons" role="button">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-xl font-semibold text-center">You don't have any drones yet.</p>
+    {% endif %}
+
+    <td class="action-buttons">
+        <a href="{% url 'customer_create_drone' %}" id="add-drone-button" role="button">Add</a>
+    </td>
+
+    <h1>{% block heading %}{% endblock %}</h1>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>
