@@ -17,6 +17,8 @@ class Drone(models.Model):
     battery_capacity_mAh = models.PositiveIntegerField()
     battery_voltage = models.DecimalField(max_digits=5, decimal_places=2)
     battery_level = models.DecimalField(max_digits=3, decimal_places=2)  # 1.0 - 0.0
+    hours_worked = models.DecimalField(max_digits=4, decimal_places=1, default=Decimal('0.0'))
+    dollar_revenue = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal('0.00'))
 
     enabled = models.BooleanField(default=True)
     in_flight = models.BooleanField(default=False)

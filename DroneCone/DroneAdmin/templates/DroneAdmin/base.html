@@ -9,14 +9,7 @@
     <link rel="stylesheet" href="{% static 'DroneAdmin/style.css' %}">
 </head>
 <body class="flex flex-col min-h-screen">
-    <header class="p-4 border-b border-gray-400">
-        <div class="flex justify-start items-end space-x-4">
-            <p class="text-xl font-semibold pr-10">Drone Cones</p>
-            <a href="{% url 'account:profile' %}" class="mb-0">My Profile</a>
-            <a href="{% url 'home' %}" class="mb-0">Order a Cone</a>
-            <a href="{% url 'account:logout' %}" class="mb-0">Log Out</a>
-        </div>
-    </header>
+    {% include 'DroneCustomer/topBar.html' %}
     <div class="flex flex-grow">
         <aside class="w-1/8 p-4 min-h-screen border-r border-gray-400">
             <h2 class="text-lg font-semibold mb-4">Administration</h2>

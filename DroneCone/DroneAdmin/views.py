@@ -58,6 +58,12 @@ def delete_user(request, user_id=None):
 @admin_required
 def drone_management(request):
     drones = Drone.objects.all()
+    for drone in drones:
+        droneOrders = Order.objects.filter(drone=drone)
+        total_drone_minutes_worked = 0
+        for order in droneOrders:
+            total_drone_minutes_worked += 10
+        drone.hours_worked = round(total_drone_minutes_worked / 60, 2)
 
     return render(
         request,

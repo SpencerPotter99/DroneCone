@@ -102,6 +102,8 @@
                     <th>Battery Level (%)</th>
                     <th>Status</th>
                     <th>Flight Range (km)</th>
+                    <th>Hours Worked</th>
+                    <th>Dollar Revenue</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -118,6 +120,8 @@
                         <td>{{ drone.get_battery_percentage }}%</td>
                         <td>{{ drone.get_drone_status }}</td>
                         <td>{{ drone.determine_flight_range_km }} km</td>
+                        <td>{{ drone.hours_worked }}</td>
+                        <td>{{ drone.dollar_revenue }}</td>
                         <td>
                             <a href="{% url 'customer_edit_drone' drone.id %}" class="action-buttons" role="button">Edit</a>
                             <a href="{% url 'customer_delete_drone' drone.id %}" class="action-buttons" role="button">Delete</a>

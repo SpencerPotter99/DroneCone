@@ -1,5 +1,6 @@
 
 from datetime import timedelta
+import decimal
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -223,6 +224,7 @@ def submit_order(request):
             num_cones = len(order.cones)
             drone = find_available_drone(num_cones)
             if drone:
+                drone.dollar_revenue += order.get_order_total() / 2
                 order.drone = drone
                 order.status = "delivering"
                 order.updated_at = timezone.now()
@@ -246,7 +248,7 @@ def submit_order(request):
                         topping_item.qty -= 1
                         topping_item.save()
 
-                drone.in_flight = True
+                drone.in_flight = True                
                 drone.save()
 
                 timer = threading.Timer(600, update_drone_status, args=[drone.id])
@@ -344,7 +346,13 @@ def update_account(request):
     
 @drone_owner_required
 def manageMyDrone(request):
-    drones = Drone.objects.filter(owner=request.user)
+    drones = Drone.objects.filter(owner=request.user)        
+    for drone in drones:
+        droneOrders = Order.objects.filter(drone=drone)
+        total_drone_minutes_worked = 0
+        for order in droneOrders:
+            total_drone_minutes_worked += 10
+        drone.hours_worked = round(total_drone_minutes_worked / 60, 2)
     return render(request, "DroneCustomer/manageMyDrone.html", {'drones': drones})
 
 
@@ -355,6 +363,8 @@ def customerCreateDrone(request):
         if form.is_valid():
             drone = form.save(commit=False)
             drone.owner = request.user
+            drone.minutes_worked = 0.0
+            drone.dollar_revenue = 0.00
             drone.save()
             return redirect('manage_my_drone')
     else:
