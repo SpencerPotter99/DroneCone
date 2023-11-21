@@ -58,6 +58,10 @@ class DroneForm(forms.ModelForm):
             'in_flight': forms.CheckboxInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['owner'].queryset = User.objects.filter(profile__drone_owner=True)
+
 class IceCreamForm(forms.ModelForm):
     class Meta:
         model = IceCream
