@@ -10,17 +10,38 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <style type="text/tailwindcss">
             @layer utilities {
-                .nav-item {
-                    @apply rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white
+                .alert-success {
+                    @apply bg-green-100 border-green-400
                 }
 
-                .nav-item:not([aria-current='page']) {
-                    @apply text-gray-300 hover:bg-gray-700 hover:text-white
+                .alert-info {
+                    @apply bg-blue-100 border-blue-400
                 }
 
-                .nav-item[aria-current='page'] {
-                    @apply text-white bg-gray-900
+                .alert-debug {
+                    @apply bg-yellow-100 border-yellow-400
                 }
+
+                .alert-warning {
+                    @apply bg-orange-100 border-orange-400
+                }
+
+                .alert-error {
+                    @apply bg-red-100 border-red-400
+                }
+
+                .nav-li {
+                    @apply inline-block py-2 pr-4 pl-3 md:px-4 rounded text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-pink-700
+                }
+
+                .dropdown-item {
+                    @apply py-2 px-4 text-sm hover:bg-gray-100 w-full text-left block whitespace-nowrap
+                }
+
+                .dropdown-divider {
+                    @apply my-1 h-px bg-gray-100
+                }
+
             }
         </style>
     {% endblock %}
@@ -28,168 +49,155 @@
     {% block javascript %}
     {% endblock %}
 </head>
-<body>
-<nav class="bg-gray-800">
-    <div class="mx-auto px-2 sm:px-6">
-        <div class="relative flex h-16 items-center justify-between">
-            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div class="flex flex-shrink-0 items-center">
-                    {% block nav_left_side %}
-                    <img class="h-10 w-auto"
-                         src="{% static 'DroneLogo.png' %}"
-                         alt="DroneCones">
-                    {% endblock %}
-                </div>
-                <div class="hidden sm:ml-6 sm:block">
-                    {% block nav_desktop_only_left_side %}
-                    <div class="flex space-x-4" role="navigation">
-                        {% include "base_navbar_links.html" %}
-                    </div>
-                    {% endblock %}
-                </div>
-            </div>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {% block nav_right_side %}
-                    <div class="relative">
-                    <!-- Profile Dropdown Button -->
-                    <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
-                            class="relative flex rounded-full bg-gray-800 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
-                             stroke-width="3" stroke="black" fill="none">
-                            <circle cx="24" cy="18" r="8" fill="black"></circle>
-                            <circle cx="24" cy="24" r="22"></circle>
-                            <path d="M 8 38 C 10 32 14 30 18 30 L 30 30 C 34 30 38 32 40 38 L 24 45 L 8 38"
-                                  fill="black"></path>
-                        </svg>
+<body {% block bg_class %}{% endblock %}>
+<nav class="bg-gray-300 text-gray-700 px-2 py-3 w-full">
+    <div class="max-w-screen-2xl mx-auto flex flex-wrap justify-between items-center">
+        <!-- NavBar Brand -->
+        {% block nav_brand %}
+            <a href="{% url 'home' %}" class="flex items-center">
+                <img src="{% static 'DroneLogo.png' %}" class="mr-3 h-9" alt="DroneCone Logo">
+                <span class="whitespace-nowrap text-xl font-semibold">DroneCones</span>
+            </a>
+        {% endblock nav_brand %}
+        <div class="relative md:order-2">
+            <div class="flex items-center">
+                <!-- Avatar Button -->
+                {% block nav_avatar_button %}
+                    <button id="nav-avatar-button" class="rounded-full w-10 h-10 bg-gray-100 overflow-clip">
+                        <img alt="" src="{% static 'user-account-icon.webp' %}">
                     </button>
-                    <!-- Profile Dropdown Links -->
-                    <div role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
-                         class="invisible transform absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1
-                                    shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out duration-100
-                                    [&>a]:block [&>a]:px-4 [&>a]:py-2 [&>a]:text-sm hover:[&>a]:bg-gray-100
-                                    data-[expanded=false]:opacity-0 data-[expanded=false]:scale-90
-                                    data-[expanded=true]:opacity-100 data-[expanded=true]:scale-100"
-                         data-expanded="false">
-                        {% if request.user.is_authenticated %}
-                            <a class="text-gray-700" role="menuitem" href="{% url 'account:profile' %}">My Profile</a>
-                            <a class="text-red-600" role="menuitem" href="{% url 'account:logout' %}">Log out</a>
-                        {% else %}
-                            <a class="text-gray-700" role="menuitem" href="{% url 'account:login' %}">Log In</a>
-                            <a class="text-gray-700" role="menuitem" href="{% url 'account:signup' %}">Sign Up</a>
-                        {% endif %}
-                    </div>
-                {% endblock %}
-                </div>
-            </div>
-        </div>
-        <div class="sm:hidden">
-            {% block nav_mobile %}
-                <div class="space-y-1 p-2 [&>a]:block" role="navigation">
-                    {% include "base_navbar_links.html" %}
-                </div>
-            {% endblock %}
-        </div>
-    </div>
-</nav>
-<div class="mx-auto px-3 w-full pt-3">
-    {% if messages %}
-        {% for message in messages %}
-            <div class="relative block w-full rounded-lg border p-4 alert-success {% if message.tags %}alert-{{ message.tags }}{% endif %}
-                        [&.alert-success]:bg-green-100 [&.alert-success]:border-green-400
-                        [&.alert-info]:bg-blue-100 [&.alert-info]:border-blue-400
-                        [&.alert-debug]:bg-yellow-100 [&.alert-debug]:border-yellow-400
-                        [&.alert-warning]:bg-orange-100 [&.alert-warning]:border-orange-400
-                        [&.alert-error]:bg-red-100 [&.alert-error]:border-red-400" data-dismissible="alert-{{ loop.index }}">
-                <div class="mr-12">{{ message }}This is a Success Alert</div>
-                <button class="absolute top-2.5 right-3 w-max rounded-lg p-1 hover:bg-white hover:bg-opacity-30"
-                        data-dismissible-target="alert-{{ loop.index }}" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                {% endblock nav_avatar_button %}
+                <!-- NavBar Mobile Hamburger -->
+                <button id="nav-hamburger"
+                        class="outline-none rounded-lg p-1.5 hover:bg-gray-100 ml-3 md:hidden ring-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
-        {% endfor %}
+            <!-- Avatar Popup -->
+            <div id="nav-avatar-popup"
+                 class="hidden origin-top bg-white text-gray-700 rounded-lg border-gray-100 shadow-md z-50 absolute right-0 mt-1
+                 transition ease-in-out duration-100 opacity-0 scale-90 data-[expanded=true]:opacity-100 data-[expanded=true]:scale-100"
+                 data-expanded="false" role="tooltip" tabindex="-1">
+                <ul class="py-1">
+                    {% block nav_avatar_links %}
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <div class="py-2 px-4 text-gray-700">
+                                    {% if request.user.get_full_name %}
+                                        <span class="block text-sm">{{ request.user.get_full_name }}</span>
+                                    {% endif %}
+                                    <span class="block text-xs font-medium truncate">{{ request.user.email }}</span>
+                                </div>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'account:profile' %}">My Profile</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'account:logout' %}">Log out</a></li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="{% url 'account:login' %}">Log In</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'account:signup' %}">Sign Up</a></li>
+                        {% endif %}
+                    {% endblock nav_avatar_links %}
+                </ul>
+            </div>
+        </div>
+        <!-- NavBar Links -->
+        <div id="nav-links" class="hidden md:block w-full md:w-auto">
+            <ul class="flex flex-col px-4 md:mt-0 md:flex-row md:space-x-2 md:font-semibold">
+                {% block navbar_links %}
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.profile.drone_owner %}
+                        {% endif %}
+                        {% if request.user.is_staff %}
+                            <li><a class="nav-li" href="{% url 'order_history' %}">Admin</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endblock navbar_links %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="max-w-screen-2xl mx-auto px-3 pt-3">
+    {% if messages %}
+        <ul id="messages flex flex-col justify-between">
+            {% for message in messages %}
+                <li class="relative block w-full rounded-lg border p-4 m-1 {% if message.tags %}alert-{{ message.tags }}{% endif %}"
+                    data-dismissible="alert-{{ forloop.counter }}">
+                    <div class="mr-12 overflow-hidden">{{ message }}</div>
+                    <button class="absolute top-2.5 right-3 w-max rounded-lg p-1 hover:bg-white hover:bg-opacity-30"
+                            data-dismissible-target="alert-{{ forloop.counter }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
-    <div class="flex flex-wrap mx-4 ">
+    <div class="place-content-center">
         {% block inner %}
         {% endblock inner %}
     </div>
 </div>
 {% block inline_javascript %}
     <script>
-        class MenuButtonLinks {
-            constructor(button) {
-                this.button = button;
-                this.menu = document.querySelector('[aria-labelledby="' + button.id + '"]');
+        function initializeAvatarMenu(buttonSelector, menuSelector) {
+            let avatarButton = document.querySelector(buttonSelector);
+            let avatarMenu = document.querySelector(menuSelector);
 
-                this.button.addEventListener('click', this.onButtonClick.bind(this));
-
-                this.menu.addEventListener("transitionend", () => {
-                    this.removeVisibility()
-                });
-                this.menu.addEventListener("transitioncancel", () => {
-                    this.removeVisibility()
-                });
-
-                window.addEventListener('mousedown', this.onBackgroundMousedown.bind(this), true);
-            }
-
-            openPopup() {
-                this.menu.classList.add('[&&]:visible');
-                this.button.setAttribute('aria-expanded', 'true');
-                this.menu.setAttribute('data-expanded', 'true');
-            }
-
-            closePopup() {
-                this.button.setAttribute('aria-expanded', 'false');
-                this.menu.setAttribute('data-expanded', 'false');
-            }
-
-            isOpen() {
-                return this.button.getAttribute('aria-expanded') === 'true';
-            }
-
-            removeVisibility() {
-                if (!this.isOpen()) {
-                    this.menu.classList.remove('[&&]:visible');
-                }
-            }
-
-            onButtonClick(event) {
-                if (!this.isOpen()) {
-                    this.openPopup();
+            avatarButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                if (avatarMenu.getAttribute('data-expanded') === 'false') {
+                    avatarMenu.classList.add('[&&]:block');
+                    setTimeout(function () {
+                        avatarMenu.setAttribute('data-expanded', 'true');
+                    }, 1);
                 } else {
-                    this.closePopup();
+                    avatarMenu.setAttribute('data-expanded', 'false');
                 }
-            }
+            });
 
-            onBackgroundMousedown(event) {
-                if (!this.button.contains(event.target)) {
-                    if (this.isOpen()) {
-                        this.closePopup();
+            avatarMenu.addEventListener("transitionend", () => {
+                if (avatarMenu.getAttribute('data-expanded') === 'false') {
+                    avatarMenu.classList.remove('[&&]:block');
+                }
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!avatarMenu.contains(event.target)) {
+                    if (avatarMenu.getAttribute('data-expanded') === 'true') {
+                        avatarMenu.setAttribute('data-expanded', 'false');
+                        event.stopPropagation();
                     }
                 }
-            }
+            });
         }
 
         window.addEventListener('load', function () {
-            // Set link between buttons and their pop-up menus through aria-labelledby and buttons id.
-            let menuButtons = document.querySelectorAll('button[id][aria-haspopup="true"]');
-            menuButtons.forEach(menuButton => new MenuButtonLinks(menuButton))
+            initializeAvatarMenu('[id="nav-avatar-button"]', '[id="nav-avatar-popup"]');
+            const navHamburger = document.querySelector('[id="nav-hamburger"]');
+            const navDropdown = document.querySelector('[id="nav-links"]');
 
-            // Highlight current tab.
-            document.querySelectorAll("a.nav-item").forEach(link => {
-                if (link.href.includes(`${window.location.pathname}`)) {
-                    link.setAttribute('aria-current', 'page');
-                }
-            })
-        });
+            navHamburger.addEventListener('click', () => {
+                navHamburger.classList.toggle('ring-2');
+                navDropdown.classList.toggle('hidden');
+            });
 
-        // Dismiss Alert
-        (function () {
-            var dismissible = document.querySelectorAll("[data-dismissible]");
-            var targets = document.querySelectorAll("[data-dismissible-target]");
+            {# // Highlight current tab. #}
+            {# document.querySelectorAll("a.nav-li").forEach(link => { #}
+            {#    if (link.href.includes(`${window.location.pathname}`)) { #}
+            {#        link.setAttribute('aria-current', 'page'); #}
+            {#    } #}
+            {# }) #}
+
+            // Dismiss Alert
+            let dismissible = document.querySelectorAll("[data-dismissible]");
+            let targets = document.querySelectorAll("[data-dismissible-target]");
             if (dismissible && targets) {
                 dismissible.forEach(function (dismiss) {
                     return targets.forEach(function (target) {
@@ -201,7 +209,7 @@
                     })
                 })
             }
-        })();
+        });
     </script>
 {% endblock inline_javascript %}
 </body>
