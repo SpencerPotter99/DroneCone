@@ -8,6 +8,21 @@
     <!-- CSS files -->
     {% block css %}
         <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            'primary-purple': '#CDB4DB',
+                            'primary-light-pink': '#FFC8DD',
+                            'primary-pink': '#FFAFCC',
+                            'primary-light-blue': '#BDE0FE',
+                            'primary-blue': '#A2D2FF'
+                        }
+                    }
+                }
+            }
+        </script>
         <style type="text/tailwindcss">
             @layer utilities {
                 .alert-success {
@@ -31,7 +46,7 @@
                 }
 
                 .nav-li {
-                    @apply inline-block py-2 pr-4 pl-3 md:px-4 rounded text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-pink-700
+                    @apply transition ease-in-out duration-100 inline-block w-full py-2 pr-4 pl-2 md:px-4 rounded md:rounded-full text-gray-700 hover:bg-gray-200 md:border-0 hover:text-black md:hover:scale-105
                 }
 
                 .dropdown-item {
@@ -50,20 +65,20 @@
     {% endblock %}
 </head>
 <body {% block bg_class %}{% endblock %}>
-<nav class="bg-gray-300 text-gray-700 px-2 py-3 w-full">
+<nav class="bg-white text-black px-2 py-3 w-full shadow-xl shadow-inner">
     <div class="max-w-screen-2xl mx-auto flex flex-wrap justify-between items-center">
         <!-- NavBar Brand -->
         {% block nav_brand %}
-            <a href="{% url 'home' %}" class="flex items-center">
+            <a href="{% url 'home' %}" class="flex items-top">
                 <img src="{% static 'DroneLogo.png' %}" class="mr-3 h-9" alt="DroneCone Logo">
-                <span class="whitespace-nowrap text-xl font-semibold">DroneCones</span>
+                <span class="whitespace-nowrap text-2xl font-semibold">DroneCones</span>
             </a>
         {% endblock nav_brand %}
         <div class="relative md:order-2">
             <div class="flex items-center">
                 <!-- Avatar Button -->
                 {% block nav_avatar_button %}
-                    <button id="nav-avatar-button" class="rounded-full w-10 h-10 bg-gray-100 overflow-clip">
+                    <button id="nav-avatar-button" class="rounded-full w-10 h-10 overflow-clip hover:bg-gray-200">
                         <img alt="" src="{% static 'user-account-icon.webp' %}">
                     </button>
                 {% endblock nav_avatar_button %}
@@ -107,7 +122,7 @@
         </div>
         <!-- NavBar Links -->
         <div id="nav-links" class="hidden md:block w-full md:w-auto">
-            <ul class="flex flex-col px-4 md:mt-0 md:flex-row md:space-x-2 md:font-semibold">
+            <ul class="flex flex-col px-4 mt-2 md:mt-0 md:flex-row md:space-x-2 md:font-semibold">
                 {% block navbar_links %}
                     {% if request.user.is_authenticated %}
                         {% if request.user.profile.drone_owner %}
@@ -145,72 +160,7 @@
     </div>
 </div>
 {% block inline_javascript %}
-    <script>
-        function initializeAvatarMenu(buttonSelector, menuSelector) {
-            let avatarButton = document.querySelector(buttonSelector);
-            let avatarMenu = document.querySelector(menuSelector);
-
-            avatarButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                if (avatarMenu.getAttribute('data-expanded') === 'false') {
-                    avatarMenu.classList.add('[&&]:block');
-                    setTimeout(function () {
-                        avatarMenu.setAttribute('data-expanded', 'true');
-                    }, 1);
-                } else {
-                    avatarMenu.setAttribute('data-expanded', 'false');
-                }
-            });
-
-            avatarMenu.addEventListener("transitionend", () => {
-                if (avatarMenu.getAttribute('data-expanded') === 'false') {
-                    avatarMenu.classList.remove('[&&]:block');
-                }
-            });
-
-            document.addEventListener('click', (event) => {
-                if (!avatarMenu.contains(event.target)) {
-                    if (avatarMenu.getAttribute('data-expanded') === 'true') {
-                        avatarMenu.setAttribute('data-expanded', 'false');
-                        event.stopPropagation();
-                    }
-                }
-            });
-        }
-
-        window.addEventListener('load', function () {
-            initializeAvatarMenu('[id="nav-avatar-button"]', '[id="nav-avatar-popup"]');
-            const navHamburger = document.querySelector('[id="nav-hamburger"]');
-            const navDropdown = document.querySelector('[id="nav-links"]');
-
-            navHamburger.addEventListener('click', () => {
-                navHamburger.classList.toggle('ring-2');
-                navDropdown.classList.toggle('hidden');
-            });
-
-            {# // Highlight current tab. #}
-            {# document.querySelectorAll("a.nav-li").forEach(link => { #}
-            {#    if (link.href.includes(`${window.location.pathname}`)) { #}
-            {#        link.setAttribute('aria-current', 'page'); #}
-            {#    } #}
-            {# }) #}
-
-            // Dismiss Alert
-            let dismissible = document.querySelectorAll("[data-dismissible]");
-            let targets = document.querySelectorAll("[data-dismissible-target]");
-            if (dismissible && targets) {
-                dismissible.forEach(function (dismiss) {
-                    return targets.forEach(function (target) {
-                        if (dismiss.dataset.dismissible === target.dataset.dismissibleTarget) {
-                            target.addEventListener("click", function () {
-                                dismiss.classList.toggle("hidden")
-                            })
-                        }
-                    })
-                })
-            }
-        });
-    </script>
+    <script src="{% static 'js/navBar.js' %}"></script>
 {% endblock inline_javascript %}
 </body>
 </html>
