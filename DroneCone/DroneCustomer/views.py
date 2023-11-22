@@ -19,6 +19,8 @@ from .forms import DroneForm
 from .customerDecorators import drone_owner_required
 import threading
 from .models import IceCream, Topping, Cone
+from django.db.models import Sum, Avg
+
 
 
 class MenuItemsAPI(APIView):
@@ -346,14 +348,28 @@ def update_account(request):
     
 @drone_owner_required
 def manageMyDrone(request):
-    drones = Drone.objects.filter(owner=request.user)        
+    drones = Drone.objects.filter(owner=request.user)   
+    total_minutes = 0     
     for drone in drones:
         droneOrders = Order.objects.filter(drone=drone)
         total_drone_minutes_worked = 0
         for order in droneOrders:
             total_drone_minutes_worked += 10
+            total_minutes += 10
         drone.hours_worked = round(total_drone_minutes_worked / 60, 2)
-    return render(request, "DroneCustomer/manageMyDrone.html", {'drones': drones})
+    
+    total_drones = drones.count()
+    total_hours_worked = round((total_minutes / 60), 2)
+    total_revenue = drones.aggregate(Sum('dollar_revenue'))['dollar_revenue__sum']
+    avg_hours_per_drone = round((total_hours_worked / total_drones), 2)
+    avg_rev_per_drone = round((total_revenue / total_drones), 2) if total_drones > 0 else 0
+
+    return render(request, "DroneCustomer/manageMyDrone.html", {
+        'drones': drones,
+        'total_revenue':total_revenue,
+        'avg_hours_per_drone': avg_hours_per_drone,
+        'avg_rev_per_drone': avg_rev_per_drone,
+        })
 
 
 @drone_owner_required
