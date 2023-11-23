@@ -49,11 +49,11 @@
                     @apply transition ease-in-out duration-100 inline-block w-full py-2 pr-4 pl-2 md:px-4 rounded md:rounded-full text-gray-700 hover:bg-gray-200 md:border-0 hover:text-black md:hover:scale-105
                 }
 
-                .dropdown-item {
+                .nav-popup-item {
                     @apply py-2 px-4 text-sm hover:bg-gray-100 w-full text-left block whitespace-nowrap
                 }
 
-                .dropdown-divider {
+                .nav-popup-divider {
                     @apply my-1 h-px bg-gray-100
                 }
 
@@ -64,13 +64,13 @@
     {% block javascript %}
     {% endblock %}
 </head>
-<body {% block bg_class %}{% endblock %}>
+<body class="{% block bg_class %}min-h-screen h-auto bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-300 to-purple-400{% endblock %}">
 <nav class="bg-white text-black px-2 py-3 w-full shadow-xl shadow-inner">
     <div class="max-w-screen-2xl mx-auto flex flex-wrap justify-between items-center">
         <!-- NavBar Brand -->
         {% block nav_brand %}
             <a href="{% url 'home' %}" class="flex items-top">
-                <img src="{% static 'DroneLogo.png' %}" class="mr-3 h-9" alt="DroneCone Logo">
+                <img src="{% static 'images/DroneLogo.png' %}" class="mr-3 h-9" alt="DroneCone Logo">
                 <span class="whitespace-nowrap text-2xl font-semibold">DroneCones</span>
             </a>
         {% endblock nav_brand %}
@@ -79,7 +79,7 @@
                 <!-- Avatar Button -->
                 {% block nav_avatar_button %}
                     <button id="nav-avatar-button" class="rounded-full w-10 h-10 overflow-clip hover:bg-gray-200">
-                        <img alt="" src="{% static 'user-account-icon.webp' %}">
+                        <img alt="" src="{% static 'images/user-account-icon.webp' %}">
                     </button>
                 {% endblock nav_avatar_button %}
                 <!-- NavBar Mobile Hamburger -->
@@ -107,14 +107,17 @@
                                     <span class="block text-xs font-medium truncate">{{ request.user.email }}</span>
                                 </div>
                             </li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'account:profile' %}">My Profile</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'account:logout' %}">Log out</a></li>
+                            <li class="nav-popup-divider"></li>
+                            <li><a class="nav-popup-item" href="{% url 'account' %}">My Profile</a></li>
+                            {% if request.user.profile.drone_owner %}
+                                <li><a class="nav-popup-item" href="{% url 'manage_my_drone' %}">Manage Drones</a></li>
+                            {% endif %}
+                            <li class="nav-popup-divider"></li>
+                            <li><a class="nav-popup-item" href="{% url 'account:logout' %}">Log out</a></li>
                         {% else %}
-                            <li><a class="dropdown-item" href="{% url 'account:login' %}">Log In</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'account:signup' %}">Sign Up</a></li>
+                            <li><a class="nav-popup-item" href="{% url 'account:login' %}">Log In</a></li>
+                            <li class="nav-popup-divider"></li>
+                            <li><a class="nav-popup-item" href="{% url 'account:signup' %}">Sign Up</a></li>
                         {% endif %}
                     {% endblock nav_avatar_links %}
                 </ul>
@@ -125,8 +128,6 @@
             <ul class="flex flex-col px-4 mt-2 md:mt-0 md:flex-row md:space-x-2 md:font-semibold">
                 {% block navbar_links %}
                     {% if request.user.is_authenticated %}
-                        {% if request.user.profile.drone_owner %}
-                        {% endif %}
                         {% if request.user.is_staff %}
                             <li><a class="nav-li" href="{% url 'order_history' %}">Admin</a></li>
                         {% endif %}
