@@ -64,7 +64,7 @@
     {% block javascript %}
     {% endblock %}
 </head>
-<body class="{% block bg_class %}min-h-screen h-auto bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-300 to-purple-400{% endblock %}">
+<body class="{% block bg_class %}min-h-screen h-auto bg-gradient-to-b from-[#fbc2eb] via-[#a6c1ee] to-[#a6c1ee]{% endblock %}">
 <nav class="bg-white text-black px-2 py-3 w-full shadow-xl shadow-inner">
     <div class="max-w-screen-2xl mx-auto flex flex-wrap justify-between items-center">
         <!-- NavBar Brand -->
@@ -137,11 +137,11 @@
         </div>
     </div>
 </nav>
-<div class="max-w-screen-2xl mx-auto px-3 pt-3">
+<div class="w-full mx-auto">
     {% if messages %}
-        <ul id="messages flex flex-col justify-between">
+        <ul class="w-full flex flex-col justify-between items-center">
             {% for message in messages %}
-                <li class="relative block w-full rounded-lg border p-4 m-1 {% if message.tags %}alert-{{ message.tags }}{% endif %}"
+                <li class="max-w-screen-2xl relative block w-full rounded-lg border p-4 m-1 {% if message.tags %}alert-{{ message.tags }}{% endif %}"
                     data-dismissible="alert-{{ forloop.counter }}">
                     <div class="mr-12 overflow-hidden">{{ message }}</div>
                     <button class="absolute top-2.5 right-3 w-max rounded-lg p-1 hover:bg-white hover:bg-opacity-30"
@@ -155,7 +155,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <div class="place-content-center">
+    <div class="overflow-x-auto">
         {% block inner %}
         {% endblock inner %}
     </div>

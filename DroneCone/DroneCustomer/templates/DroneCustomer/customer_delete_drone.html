@@ -2,12 +2,14 @@
 
 
 {% block inner %}
-    <div class="text-center">
-        <p>Are you sure you want to delete this drone?</p>
-        <form method="post" class="mt-4">
-            {% csrf_token %}
-            <a href="{% url 'manage_my_drone' %}" class="text-blue-500">Cancel</a>
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md ml-2">Delete</button>
-        </form>
+    <div class="flex justify-center">
+        <div class="relative max-w-fit bg-white rounded-xl overflow-hidden p-4 m-4">
+            <p class="text-center text-bold text-xl">Are you sure you want to delete this drone?</p>
+            <form method="post" class="mt-4 flex justify-end">
+                {% csrf_token %}
+                <a href="{% url 'manage_my_drone' %}" class="text-blue-500 px-4 py-2 rounded-md transition ease-in-out duration-100 hover:scale-105 hover:bg-gray-100">Cancel</a>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md ml-2 transition ease-in-out duration-100 hover:scale-105 hover:bg-red-600">Delete</button>
+            </form>
+        </div>
     </div>
 {% endblock %}
