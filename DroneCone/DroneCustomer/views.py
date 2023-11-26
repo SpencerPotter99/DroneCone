@@ -359,9 +359,9 @@ def manageMyDrone(request):
         drone.hours_worked = round(total_drone_minutes_worked / 60, 2)
     
     total_drones = drones.count()
-    total_hours_worked = round((total_minutes / 60), 2)
-    total_revenue = drones.aggregate(Sum('dollar_revenue'))['dollar_revenue__sum']
-    avg_hours_per_drone = round((total_hours_worked / total_drones), 2)
+    total_hours_worked = round((total_minutes / 60), 2) if total_drones > 0 else 0
+    total_revenue = drones.aggregate(Sum('dollar_revenue'))['dollar_revenue__sum'] if total_drones > 0 else 0
+    avg_hours_per_drone = round((total_hours_worked / total_drones), 2) if total_drones > 0 else 0
     avg_rev_per_drone = round((total_revenue / total_drones), 2) if total_drones > 0 else 0
 
     return render(request, "DroneCustomer/manageMyDrone.html", {

@@ -101,6 +101,16 @@
                         <td style="text-align:left;">{{ profile_form.drone_owner }}</td>
                     </tr>
                 </table>
+                {% if user_form.errors %}
+                <div class="error-box"
+                    style="background-color: #FFBABA; color: #D8000C; padding: 10px; margin-top: 15px;">
+                    {% for field, errors in user_form.errors.items %}
+                    {% for error in errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+                {% endif %}
 
                 <button class="button-link" style="cursor: pointer; padding-top:8px" type="submit"><strong>Sign Up
                         »</strong></button>

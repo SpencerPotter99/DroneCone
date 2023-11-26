@@ -16,7 +16,7 @@ from django.views.generic import CreateView
 from .forms import CustomUserCreationForm, CustomUserForm
 from django.contrib.auth import login
 from DroneAdmin.forms import ProfileForm
-
+from django.contrib.auth.decorators import user_passes_test
 
 
 def RegisterView(request):
@@ -37,6 +37,7 @@ def RegisterView(request):
 
     return render(request, 'Account/register.html', {'user_form': user_form, 'profile_form': profile_form})
 
+
 def DroneOwnerRegisterView(request):
     if request.method == 'POST':
         user_form = CustomUserCreationForm(request.POST)
@@ -56,6 +57,7 @@ def DroneOwnerRegisterView(request):
         user_form = CustomUserCreationForm()
 
     return render(request, 'DroneCustomer/droneOwnerCreation.html', {'user_form': user_form, 'profile_form': profile_form})
+
 
 class LoginView(auth_views.LoginView):
     template_name = 'account/login.html'
