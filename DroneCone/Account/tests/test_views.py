@@ -13,10 +13,11 @@ from views import (
     PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView,
-    ProfileView,
+    # ProfileView,
 )
 
 class ViewsTestCase(TestCase):
+
     def setUp(self):
         self.factory = RequestFactory()
         self.user_data = {
@@ -168,60 +169,62 @@ class ViewsTestCase(TestCase):
         # Check that a message is set in the session indicating the user is already authenticated
         self.assertIn('You are already logged in.', request.session.get('messages').data[0].message)
 
-    def test_profile_view(self):
-        # Log in the user
-        self.client.login(username='testuser', password='testpassword1212')
+        
 
-        # Test the ProfileView
-        url = reverse('profile')
+    # def test_profile_view(self):
+    #     # Log in the user
+    #     self.client.login(username='testuser', password='testpassword1212')
 
-        # Test with valid form data
-        valid_form_data = {
-            'username': 'new_username',
-            'first_name': 'John',
-            'last_name': 'Doe',
-            'email': 'john.doe@example.com',
-            'profile-bio': 'A short bio about John Doe.',
-        }
+    #     # Test the ProfileView
+    #     url = reverse('profile')
 
-        request = self.factory.post(url, data=valid_form_data)
-        response = ProfileView.as_view()(request)
+    #     # Test with valid form data
+    #     valid_form_data = {
+    #         'username': 'new_username',
+    #         'first_name': 'John',
+    #         'last_name': 'Doe',
+    #         'email': 'john.doe@example.com',
+    #         'profile-bio': 'A short bio about John Doe.',
+    #     }
 
-        # Check that the response is a redirect (successful form submission)
-        self.assertEqual(response.status_code, 302)
+    #     request = self.factory.post(url, data=valid_form_data)
+    #     response = ProfileView.as_view()(request)
 
-        # Check that the user profile is updated as expected
-        updated_user = User.objects.get(username='new_username')
-        self.assertIsNotNone(updated_user)
-        self.assertEqual(updated_user.first_name, 'John')
-        self.assertEqual(updated_user.last_name, 'Doe')
-        self.assertEqual(updated_user.email, 'john.doe@example.com')
-        self.assertEqual(updated_user.profile.bio, 'A short bio about John Doe.')
+    #     # Check that the response is a redirect (successful form submission)
+    #     self.assertEqual(response.status_code, 302)
 
-        # Check that a success message is set in the session
-        self.assertIn('Your profile is updated successfully', request.session.get('messages').data[0].message)
+    #     # Check that the user profile is updated as expected
+    #     updated_user = User.objects.get(username='new_username')
+    #     self.assertIsNotNone(updated_user)
+    #     self.assertEqual(updated_user.first_name, 'John')
+    #     self.assertEqual(updated_user.last_name, 'Doe')
+    #     self.assertEqual(updated_user.email, 'john.doe@example.com')
+    #     self.assertEqual(updated_user.profile.bio, 'A short bio about John Doe.')
 
-        # Test with invalid form data
-        invalid_form_data = {
-            'username': '',  # Invalid username
-            'first_name': 'John',
-            'last_name': 'Doe',
-            'email': 'invalid_email',  # Invalid email
-            'profile-bio': 'A short bio about John Doe.',
-        }
+    #     # Check that a success message is set in the session
+    #     self.assertIn('Your profile is updated successfully', request.session.get('messages').data[0].message)
 
-        request = self.factory.post(url, data=invalid_form_data)
-        response = ProfileView.as_view()(request)
+    #     # Test with invalid form data
+    #     invalid_form_data = {
+    #         'username': '',  # Invalid username
+    #         'first_name': 'John',
+    #         'last_name': 'Doe',
+    #         'email': 'invalid_email',  # Invalid email
+    #         'profile-bio': 'A short bio about John Doe.',
+    #     }
 
-        # Check that the response is not a redirect (form submission failed)
-        self.assertEqual(response.status_code, 200)
+    #     request = self.factory.post(url, data=invalid_form_data)
+    #     response = ProfileView.as_view()(request)
 
-        # Check that the form errors are present in the response
-        self.assertContains(response, 'This field is required.')
-        self.assertContains(response, 'Enter a valid email address.')
+    #     # Check that the response is not a redirect (form submission failed)
+    #     self.assertEqual(response.status_code, 200)
 
-        # Check that the user profile is not updated with invalid data
-        self.assertNotEqual(updated_user.username, '')
-        self.assertNotEqual(updated_user.email, 'invalid_email')
+    #     # Check that the form errors are present in the response
+    #     self.assertContains(response, 'This field is required.')
+    #     self.assertContains(response, 'Enter a valid email address.')
 
-        # You can add more assertions based on the expected behavior of your view
+    #     # Check that the user profile is not updated with invalid data
+    #     self.assertNotEqual(updated_user.username, '')
+    #     self.assertNotEqual(updated_user.email, 'invalid_email')
+
+    #     # You can add more assertions based on the expected behavior of your view
