@@ -87,6 +87,11 @@
     display: block;
     margin: 0 auto; /* Center the image horizontally */
 }
+.card.disabled {
+    opacity: 0.5; /* or any other styles to indicate it's disabled */
+    pointer-events: none; /* prevents click events on the disabled card */
+    color: grey;
+  }
 
 .highlighted {
     background-color: #FFAFCC; /* Change the background color to your preference */
