@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DroneCones{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS files -->
+    {% block css %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            'primary-purple': '#CDB4DB',
+                            'primary-light-pink': '#FFC8DD',
+                            'primary-pink': '#FFAFCC',
+                            'primary-light-blue': '#BDE0FE',
+                            'primary-blue': '#A2D2FF'
+                        }
+                    }
+                }
+            }
+        </script>
+        <style type="text/tailwindcss">
+            @layer utilities {
+                .alert-success {
+                    @apply bg-green-100 border-green-400
+                }
+
+                .alert-info {
+                    @apply bg-blue-100 border-blue-400
+                }
+
+                .alert-debug {
+                    @apply bg-yellow-100 border-yellow-400
+                }
+
+                .alert-warning {
+                    @apply bg-orange-100 border-orange-400
+                }
+
+                .alert-error {
+                    @apply bg-red-100 border-red-400
+                }
+
+                .nav-li {
+                    @apply transition ease-in-out duration-100 inline-block w-full py-2 pr-4 pl-2 md:px-4 rounded md:rounded-full text-gray-700 hover:bg-gray-200 md:border-0 hover:text-black md:hover:scale-105
+                }
+
+                .nav-popup-item {
+                    @apply py-2 px-4 text-sm hover:bg-gray-100 w-full text-left block whitespace-nowrap
+                }
+
+                .nav-popup-divider {
+                    @apply my-1 h-px bg-gray-100
+                }
+
+            }
+        </style>
+    {% endblock %}
+    <!-- Javascript Files -->
+    {% block javascript %}
+    {% endblock %}
+</head>
+<body class="{% block bg_class %}min-h-screen h-auto bg-gradient-to-b from-[#fbc2eb] via-[#a6c1ee] to-[#a6c1ee]{% endblock %}">
+<nav class="bg-white text-black px-2 py-3 w-full shadow-xl shadow-inner">
+    <div class="max-w-screen-2xl mx-auto flex flex-wrap justify-between items-center">
+        <!-- NavBar Brand -->
+        {% block nav_brand %}
+            <a href="{% url 'home' %}" class="flex items-top">
+                <img src="{% static 'images/DroneLogo.png' %}" class="mr-3 h-9" alt="DroneCone Logo">
+                <span class="whitespace-nowrap text-2xl font-semibold">DroneCones</span>
+            </a>
+        {% endblock nav_brand %}
+        <div class="relative md:order-2">
+            <div class="flex items-center">
+                <!-- Avatar Button -->
+                {% block nav_avatar_button %}
+                    <button id="nav-avatar-button" class="rounded-full w-10 h-10 overflow-clip hover:bg-gray-200">
+                        <img alt="" src="{% static 'images/user-account-icon.webp' %}">
+                    </button>
+                {% endblock nav_avatar_button %}
+                <!-- NavBar Mobile Hamburger -->
+                <button id="nav-hamburger"
+                        class="outline-none rounded-lg p-1.5 hover:bg-gray-100 ml-3 md:hidden ring-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Avatar Popup -->
+            <div id="nav-avatar-popup"
+                 class="hidden origin-top bg-white text-gray-700 rounded-lg border-gray-100 shadow-md z-50 absolute right-0 mt-1
+                 transition ease-in-out duration-100 opacity-0 scale-90 data-[expanded=true]:opacity-100 data-[expanded=true]:scale-100"
+                 data-expanded="false" role="tooltip" tabindex="-1">
+                <ul class="py-1">
+                    {% block nav_avatar_links %}
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <div class="py-2 px-4 text-gray-700">
+                                    {% if request.user.get_full_name %}
+                                        <span class="block text-sm">{{ request.user.get_full_name }}</span>
+                                    {% endif %}
+                                    <span class="block text-xs font-medium truncate">{{ request.user.email }}</span>
+                                </div>
+                            </li>
+                            <li class="nav-popup-divider"></li>
+                            <li><a class="nav-popup-item" href="{% url 'account' %}">My Profile</a></li>
+                            {% if request.user.profile.drone_owner %}
+                                <li><a class="nav-popup-item" href="{% url 'manage_my_drone' %}">Manage Drones</a></li>
+                            {% endif %}
+                            <li class="nav-popup-divider"></li>
+                            <li><a class="nav-popup-item" href="{% url 'account:logout' %}">Log out</a></li>
+                        {% else %}
+                            <li><a class="nav-popup-item" href="{% url 'account:login' %}">Log In</a></li>
+                            <li class="nav-popup-divider"></li>
+                            <li><a class="nav-popup-item" href="{% url 'account:signup' %}">Sign Up</a></li>
+                        {% endif %}
+                    {% endblock nav_avatar_links %}
+                </ul>
+            </div>
+        </div>
+        <!-- NavBar Links -->
+        <div id="nav-links" class="hidden md:block w-full md:w-auto">
+            <ul class="flex flex-col px-4 mt-2 md:mt-0 md:flex-row md:space-x-2 md:font-semibold">
+                {% block navbar_links %}
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                            <li><a class="nav-li" href="{% url 'order_history' %}">Admin</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endblock navbar_links %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="w-full mx-auto">
+    {% if messages %}
+        <ul class="w-full flex flex-col justify-between items-center">
+            {% for message in messages %}
+                <li class="max-w-screen-2xl relative block w-full rounded-lg border p-4 m-1 {% if message.tags %}alert-{{ message.tags }}{% endif %}"
+                    data-dismissible="alert-{{ forloop.counter }}">
+                    <div class="mr-12 overflow-hidden">{{ message }}</div>
+                    <button class="absolute top-2.5 right-3 w-max rounded-lg p-1 hover:bg-white hover:bg-opacity-30"
+                            data-dismissible-target="alert-{{ forloop.counter }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="overflow-x-auto">
+        {% block inner %}
+        {% endblock inner %}
+    </div>
+</div>
+{% block inline_javascript %}
+    <script src="{% static 'js/navBar.js' %}"></script>
+{% endblock inline_javascript %}
+</body>
+</html>

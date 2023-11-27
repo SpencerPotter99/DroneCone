@@ -1,15 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+{% block css %}
+	{{ block.super }}
     <link rel="stylesheet" href="{% static 'DroneAdmin/style.css' %}">
-</head>
-<body class="flex flex-col min-h-screen">
-    {% include 'DroneCustomer/topBar.html' %}
+{% endblock %}
+{% block inner %}
+
+
+<div class="flex flex-col min-h-screen">
     <div class="flex flex-grow">
         <aside class="w-1/8 p-4 min-h-screen border-r border-gray-400">
             <h2 class="text-lg font-semibold mb-4">Administration</h2>
@@ -36,5 +34,5 @@
             {% block content %}{% endblock %}
         </main>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
