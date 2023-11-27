@@ -3,6 +3,22 @@ from django.db import models
 from decimal import Decimal
 
 
+class Markup(models.Model):
+    markup_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.0'))
+
+    @classmethod
+    def get_instance(cls):
+        instance, created = cls.objects.get_or_create(pk=1)
+        return instance
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.markup_percentage}%"
+
+
 class Drone(models.Model):
     SIZE_CHOICES = [
         ('small', 'Small'),

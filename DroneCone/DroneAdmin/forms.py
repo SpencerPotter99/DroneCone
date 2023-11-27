@@ -1,11 +1,16 @@
 from django import forms
 from django.contrib.auth.models import User
 # noinspection PyUnresolvedReferences
-from DroneCustomer.models import Drone, IceCream, Topping, Cone
+from DroneCustomer.models import Drone, IceCream, Topping, Cone, Markup
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
 from decimal import Decimal
 
+
+class MarkupForm(forms.ModelForm):
+    class Meta:
+        model = Markup
+        fields = ['markup_percentage']
 
 class UserForm(forms.ModelForm):
     class Meta:

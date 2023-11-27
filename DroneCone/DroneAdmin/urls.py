@@ -19,6 +19,7 @@ urlpatterns = [
     path('inventory/add_topping/<int:item_id>/', views.add_topping, name='add_topping'),
     path('inventory/delete_topping/<int:item_id>/', views.delete_topping, name='delete_topping'),
     path('sales/', views.sales, name="sales"),
+    path('sales/edit_markup/', views.edit_markup, name='edit_markup'),
     path('user_management/', views.user_management, name='user_management'),
     path('user_management/edit_user/<int:user_id>/', views.edit_user, name="edit_user"),
     path('user_management/delete_user/<int:user_id>/', views.delete_user, name="delete_user")
