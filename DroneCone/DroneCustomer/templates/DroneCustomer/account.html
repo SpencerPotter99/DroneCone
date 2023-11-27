@@ -7,7 +7,10 @@
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Account Information</h2>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Email:</span> {{ user.email }}</p>
             <p class="mb-2"><span class="font-bold" style="color: #CDB4DB;">Total Orders:</span> {{ total_orders }}</p>
-            <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2" style="background-color: #FFC8DD; color: white;" onclick="location.href='/edit_account'">Edit Account Information</button>
+            <button type="button" id="edit-account-info" class="py-2 px-4 rounded font-bold mb-2"
+                    style="background-color: #FFC8DD; color: white;" onclick="location.href='/edit_account'">Edit
+                Account Information
+            </button>
         </section>
 
         <!-- Order History Section -->
@@ -15,81 +18,83 @@
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Order History</h2>
             <table class="min-w-full">
                 <thead>
-                    <tr class="text-left" style="color: #CDB4DB;">
-                        <th class="px-4 py-2">Order Number</th>
-                        <th class="px-4 py-2">Date</th>
-                        <th class="px-4 py-2">Cones</th>
-                        <th class="px-4 py-2">Total Price</th>
-                        <th class="px-4 py-2">Order Status</th>
-                    </tr>
+                <tr class="text-left" style="color: #CDB4DB;">
+                    <th class="px-4 py-2">Order Number</th>
+                    <th class="px-4 py-2">Date</th>
+                    <th class="px-4 py-2">Cones</th>
+                    <th class="px-4 py-2">Total Price</th>
+                    <th class="px-4 py-2">Order Status</th>
+                </tr>
                 </thead>
                 <tbody class="text-gray-700">
                 {% for order in orders %}
-                <tr class="border-b border-gray-200">
-                    <td class="px-4 py-2">{{ order.pk }}</td>
-                    <td class="px-4 py-2">{{ order.created_at|date:"F j, Y" }}</td>
-                    <td class="px-4 py-2">
-                        <ul class="list-disc list-inside">
-                            {% if order.cones %}
-                                {% for cone in order.cones %}
-                                    Cone:
-                                    <li>Size: {{ cone.size }}</li>
-                                    <li>Flavor: {{ cone.flavor.flavor }} - ${{ cone.flavor.price }}</li>
-                                    <li>Toppings:
-                                        <ul>
-                                            {% for topping in cone.toppings %}
-                                                <li>{{ topping.name }} - ${{ topping.price }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                    <li>Cone: {{ cone.cone.name }} - ${{ cone.cone.price }}</li>
-                                    <li>Price: ${{ cone.price }}</li>
-                                {% endfor %}
-                            {% else %}
-                                <li>No cones available</li>
-                            {% endif %}
-                        </ul>
-                    </td>
+                    <tr class="border-b border-gray-200">
+                        <td class="px-4 py-2">{{ order.pk }}</td>
+                        <td class="px-4 py-2">{{ order.created_at|date:"F j, Y" }}</td>
+                        <td class="px-4 py-2">
+                            <ul class="list-disc list-inside">
+                                {% if order.cones %}
+                                    {% for cone in order.cones %}
+                                        Cone:
+                                        <li>Size: {{ cone.size }}</li>
+                                        <li>Flavor: {{ cone.flavor.flavor }} - ${{ cone.flavor.price }}</li>
+                                        <li>Toppings:
+                                            <ul>
+                                                {% for topping in cone.toppings %}
+                                                    <li>{{ topping.name }} - ${{ topping.price }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li>Cone: {{ cone.cone.name }} - ${{ cone.cone.price }}</li>
+                                        <li>Price: ${{ cone.price }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>No cones available</li>
+                                {% endif %}
+                            </ul>
+                        </td>
 
-                    <td class="px-4 py-2">${{ order.get_order_total }}</td>
-                         <td class="px-4 py-2">
+                        <td class="px-4 py-2">${{ order.get_order_total }}</td>
+                        <td class="px-4 py-2">
                             {% if order.status == 'delivering' and order.remaining_delivery_time_seconds %}
-                             Delivery will arrive in:
-                                <div id="countdown-{{ order.pk }}" data-remaining-time="{{ order.remaining_delivery_time_seconds }}"></div>
-                             {%else%}
-                             {{ order.status }}
-                             {% endif %}
+                                Delivery will arrive in:
+                                <div id="countdown-{{ order.pk }}"
+                                     data-remaining-time="{{ order.remaining_delivery_time_seconds }}"></div>
+                            {% else %}
+                                {{ order.status }}
+                            {% endif %}
 
-                         </td>
-                </tr>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </tbody>
+                </tbody>
             </table>
         </section>
     </div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const countdownElements = document.querySelectorAll('[id^="countdown-"]');
+{% endblock %}
+{% block inline_javascript %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const countdownElements = document.querySelectorAll('[id^="countdown-"]');
 
-  countdownElements.forEach(function(el) {
-    let remainingTime = parseInt(el.getAttribute('data-remaining-time'), 10);
+            countdownElements.forEach(function (el) {
+                let remainingTime = parseInt(el.getAttribute('data-remaining-time'), 10);
 
-    // Update the countdown every second
-    const intervalId = setInterval(function() {
-      remainingTime -= 1;
+                // Update the countdown every second
+                const intervalId = setInterval(function () {
+                    remainingTime -= 1;
 
-      if (remainingTime <= 0) {
-        clearInterval(intervalId);
-        el.textContent = 'Delivery time elapsed';
-      } else {
-        const minutes = Math.floor(remainingTime / 60);
-        const seconds = remainingTime % 60;
-        el.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-      }
-    }, 1000);
-  });
-});
-
-</script>
-
+                    if (remainingTime <= 0) {
+                        clearInterval(intervalId);
+                        el.textContent = 'Delivery time elapsed';
+                    } else {
+                        const minutes = Math.floor(remainingTime / 60);
+                        const seconds = remainingTime % 60;
+                        el.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                    }
+                }, 1000);
+            });
+        });
+    </script>
 {% endblock %}
