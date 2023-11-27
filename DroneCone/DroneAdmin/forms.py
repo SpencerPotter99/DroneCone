@@ -12,6 +12,10 @@ class MarkupForm(forms.ModelForm):
         model = Markup
         fields = ['markup_percentage']
 
+        widgets = {
+            'markup_percentage': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'})
+        }
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
@@ -77,22 +81,20 @@ class IceCreamForm(forms.ModelForm):
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
 
-class ToppingForm(forms.ModelForm):
+class BaseForm(forms.ModelForm):
     class Meta:
-        model = Topping
-        fields = ['name', 'price', 'qty']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
             'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
             'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
 
-class ConeForm(forms.ModelForm):
+class ToppingForm(BaseForm):
+    class Meta:
+        model = Topping
+        fields = ['name', 'price', 'qty']
+
+class ConeForm(BaseForm):
     class Meta:
         model = Cone
         fields = ['name', 'price', 'qty']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-        }
