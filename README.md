@@ -28,12 +28,12 @@
       ```
 
 4. Activate the virtual environment:
-    - Windows
+    - Windows 
       ```shell
       .\.venv\Scripts\activate
       ```
     
-    - Git-Bash on Windows
+    - Windows **(Git-Bash)**
       ```shell
       source ./.venv/Scripts/activate
       ```
@@ -43,37 +43,27 @@
       source ./.venv/bin/activate
       ```
     
-    - To **exit** the virtual environment, type
+    - **Note:** To exit the virtual environment, type
       ```shell
       deactivate
       ```
 
 5. Install dependencies:
-    - Windows
-      ```shell
-      py -3 -m pip install -r requirements.txt
-      ```
-    
-    - Linux/macOS
-      ```shell
-      python3 -m pip install -r requirements.txt
-      ```
+    > **_NOTE:_** For Windows, when you activate the virtual environment, 
+    It will add an executable of python and pip from your virtual environment to your terminal path despite your os.
+    So for Windows, you don't want to use py, since py might point to your global installation of python.
+
+    ```shell
+    pip install -r requirements.txt
+    ```
 
 6. Migrate & Runserver:
-    - Windows
-      ```shell
-      py DroneCone/manage.py migrate
-      py DroneCone/manage.py runserver
-      ```
-    
-    - Linux/macOS
-      ```shell
-      python3 DroneCone/manage.py migrate
-      python3 DroneCone/manage.py runserver
-      ```
+    ```shell
+    python DroneCone/manage.py migrate
+    python DroneCone/manage.py runserver
+    ```
 
 7. Finally, go to the locally hosted [**website**](http://127.0.0.1:8000/):
-
     ```html
     http://127.0.0.1:8000/
     ```
@@ -83,28 +73,16 @@
 - To create a **normal user account**, just go to the Sign-Up page while the server is running and fill out the form.
 
 - To create a **superuser account**, use this command:
-    - Windows
-      ```shell
-      py DroneCone/manage.py createsuperuser
-      ```
-    
-    - Linux/macOS
-      ```shell
-      python3 DroneCone/manage.py createsuperuser
-      ```
+    ```shell
+    python DroneCone/manage.py createsuperuser
+    ```
 
 ## Seeding with Dummy Data
 
 - To seed the database with dummy data use this command:
-    - Windows
-      ```shell
-      py DroneCone/manage.py loaddata DroneCone/fixtures/seed_db
-      ```
-    
-    - Linux/macOS
-      ```shell
-      python3 DroneCone/manage.py loaddata DroneCone/fixtures/seed_db
-      ```
+    ```shell
+    python DroneCone/manage.py loaddata DroneCone/fixtures/seed_db
+    ```
 
 - Logging in as one of the dummy users
     - **Superuser**
@@ -127,5 +105,5 @@
           Ch0c0L@te!
           ```
 
-**Note:** Optionally, you can log in as a normal user on Chrome and as a superuser on firefox,
+> **_Note:_** Optionally, you can log in as a normal user on Chrome and as a superuser on firefox,
 and see how the site behaves for different users
