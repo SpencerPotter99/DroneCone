@@ -4,7 +4,7 @@ from decimal import Decimal
 
 
 class Markup(models.Model):
-    markup_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.0'))
+    markup_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('10.0'))
 
     @classmethod
     def get_instance(cls):
