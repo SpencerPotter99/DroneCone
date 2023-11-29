@@ -44,13 +44,16 @@
     <h1 class="text-2xl font-semibold">Choose Your Ice Cream Flavor</h1>
 </div>
 <div class="card-container">
-  <div v-for="(menuItem, index) in menuItems" :key="menuItem.id" v-if="menuItem.qty > 0" class="card" @click="toggleCard(index)" :class="{ 'highlighted': selectedFlavor?.flavor === menuItem.flavor }">
+  <div
+    v-for="(menuItem, index) in menuItems"
+    :key="menuItem.id"
+    v-bind:class="{ 'card': true, 'highlighted': selectedFlavor?.flavor === menuItem.flavor, 'disabled': menuItem.qty <= 0 }"
+    @click="menuItem.qty > 0 ? toggleCard(index) : null"
+  >
     <h3><b>[[ menuItem.flavor ]]</b></h3>
     <p>[[ menuItem.description ]]</p>
     <p>Price: $[[ menuItem.price ]]</p>
   </div>
-</div>
-<div>
 </div>
 <div class="text-center mt-8">
     <h1 class="text-2xl font-semibold">Choose Your Ice Cream Cone</h1>
@@ -62,8 +65,6 @@
       <p>Price: $[[ menuItem.price ]]</p>
   </div>
 </div>
-    <div>
-    </div>
     <div class="text-center mt-8">
         <h1 class="text-2xl font-semibold">Choose Your Toppings</h1>
     </div>
