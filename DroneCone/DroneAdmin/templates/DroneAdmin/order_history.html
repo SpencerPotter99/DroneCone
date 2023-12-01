@@ -19,9 +19,9 @@
         <tbody>
             {% for order in orders %}
                 <tr>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ order.pk }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ order.user.username }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ order.pk }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ order.user.username }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">
                         {% for cone_details in order.cones %}
                             <p><strong>Size:</strong> {{ cone_details.size }}</p>
                             <p><strong>Flavor:</strong> {{ cone_details.flavor.flavor }}</p>
@@ -39,10 +39,10 @@
                             <hr>
                         {% endfor %}
                     </td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ order.get_status_display }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ order.drone }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ order.created_at }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ order.updated_at }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ order.get_status_display }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ order.drone }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ order.created_at }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ order.updated_at }}</td>
                 </tr>
             {% endfor %}
         </tbody>

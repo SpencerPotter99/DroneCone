@@ -1,11 +1,20 @@
 from django import forms
 from django.contrib.auth.models import User
 # noinspection PyUnresolvedReferences
-from DroneCustomer.models import Drone, IceCream, Topping, Cone
+from DroneCustomer.models import Drone, IceCream, Topping, Cone, Markup
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
 from decimal import Decimal
 
+
+class MarkupForm(forms.ModelForm):
+    class Meta:
+        model = Markup
+        fields = ['markup_percentage']
+
+        widgets = {
+            'markup_percentage': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'})
+        }
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -26,7 +35,7 @@ class ProfileForm(forms.ModelForm):
 class CustomNumberInput(forms.NumberInput):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('attrs', {})
-        kwargs['attrs'].update({'class': 'border border-gray-400 rounded'})
+        kwargs['attrs'].update({'class': 'border border-gray-400 rounded text-right'})
         super().__init__(*args, **kwargs)
 
 class DroneForm(forms.ModelForm):
@@ -51,9 +60,9 @@ class DroneForm(forms.ModelForm):
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'drone_weight_g': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'battery_capacity_mAh': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'battery_voltage': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
+            'drone_weight_g': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
+            'battery_capacity_mAh': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
+            'battery_voltage': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
             'enabled': forms.CheckboxInput(attrs={'class': 'border border-gray-400 rounded'}),
             'in_flight': forms.CheckboxInput(attrs={'class': 'border border-gray-400 rounded'}),
         }
@@ -68,26 +77,24 @@ class IceCreamForm(forms.ModelForm):
         fields = ['flavor', 'price', 'qty']
         widgets = {
             'flavor': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
+            'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
+            'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
         }
 
-class ToppingForm(forms.ModelForm):
+class BaseForm(forms.ModelForm):
+    class Meta:
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
+            'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
+            'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded text-right'}),
+        }
+
+class ToppingForm(BaseForm):
     class Meta:
         model = Topping
         fields = ['name', 'price', 'qty']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-        }
 
-class ConeForm(forms.ModelForm):
+class ConeForm(BaseForm):
     class Meta:
         model = Cone
         fields = ['name', 'price', 'qty']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'price': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-            'qty': forms.NumberInput(attrs={'class': 'border border-gray-400 rounded'}),
-        }

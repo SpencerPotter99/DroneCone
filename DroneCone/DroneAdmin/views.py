@@ -2,11 +2,10 @@ from collections import defaultdict
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.db.models import Sum
-from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm
+from .forms import DroneForm, IceCreamForm, ConeForm, ToppingForm, UserForm, ProfileForm, MarkupForm
 from.decorators import admin_required
 # noinspection PyUnresolvedReferences
-from DroneCustomer.models import Drone, IceCream, Cone, Topping, Order, IceCreamCone
+from DroneCustomer.models import Drone, IceCream, Cone, Topping, Order, IceCreamCone, Markup
 # noinspection PyUnresolvedReferences
 from Account.models import Profile
 
@@ -198,7 +197,22 @@ def delete_topping(request, item_id=None):
     return render(request, 'DroneAdmin/delete_topping.html', {'topping': topping})
 
 @admin_required
+def edit_markup(request):
+    markup_instance = Markup.get_instance()
+
+    if request.method == 'POST':
+        form = MarkupForm(request.POST, instance=markup_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('sales')
+    else:
+        form = MarkupForm(instance=markup_instance)
+
+    return render(request, 'DroneAdmin/edit_markup.html', {'form': form})
+
+@admin_required
 def sales(request):
+    markup = Markup.get_instance()
     orders = Order.objects.all()
     total_revenue = 0
     ice_cream_sales = defaultdict(dict)
@@ -256,6 +270,7 @@ def sales(request):
         'cone_sales': cone_sales,
         'topping_sales': topping_sales,
         'total_revenue': total_revenue,
+        'markup': markup.markup_percentage
     }
 
     return render(request, "DroneAdmin/sales.html", context)
