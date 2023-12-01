@@ -1,0 +1,5 @@
+# Django
+# ------------------------------------------------------------------------------
+Django==4.2.7 # pyup: < 5.0 # https://www.djangoproject.com/
+djangorestframework==3.14.0 # https://github.com/encode/django-rest-framework
+django-debug-toolbar==4.2.0 # https://github.com/jazzband/django-debug-toolbar
