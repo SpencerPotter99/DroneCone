@@ -1,0 +1,26 @@
+{% extends 'DroneAdmin/base.html' %}
+
+{% block title %}Edit Markup{% endblock %}
+{% block heading %}Edit Markup{% endblock %}
+
+{% block content %}
+    <div class="bg-white p-4 shadow bg-gray-100">
+        <form method="post">
+            {% csrf_token %}
+            <table class="table-auto w-full bg-gray-100">
+                <tr>
+                    <td class="font-semibold">Markup Percentage: </td>
+                    <td>
+                        {{ form.markup_percentage }}
+                        <small class="text-gray-500">%</small>
+                    </td>
+                </tr>
+            </table>
+            <div class="mt-4 flex items-center">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+                <a href="{% url 'sales' %}" class="ml-2 text-gray-500">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -60,67 +60,63 @@
 
                 }
             </style>
-                        <div id="powered-by" style="position: absolute;
+            <div id="powered-by" style="position: absolute;
                         top: 13px;
                         right: 10px;
                         font-size: 17px;
                         font-family: Arial;
                         color: #626262;">Powered by <strong>Dorsal Froat Doom</strong>
-                        </div>
+            </div>
             <div>
-            <form class="signup" id="signup_form" method="post" action="{% url 'account:signup' %}">
-                {% csrf_token %}
-                <table class="table-auto w-full">
-                    <tr>
-                        <td class="inputLabel"><span class="required">*</span>Username:</td>
-                        <td>{{ user_form.username }}</td>
-                    </tr>
-                    <tr>
-                        <td class="inputLabel"><span class="required">*</span>Password:</td>
-                        <td>{{ user_form.password1 }}</td>
-                    </tr>
-                    <tr>
-                        <td class="inputLabel"><span class="required">*</span>Confirm Password:</td>
-                        <td>{{ user_form.password2 }}</td>
-                    </tr>
-                    <tr>
-                        <td class="inputLabel"><span class="required">*</span>Email:</td>
-                        <td>{{ user_form.email }}</td>
-                    </tr>
-                    <tr>
-                        <td class="inputLabel">Phone:</td>
-                        <td>{{ profile_form.phone }}</td>
-                    </tr>
-                    <tr>
-                        <td class="inputLabel">Address:</td>
-                        <td>{{ profile_form.address }}</td>
-                    </tr>
-                </table>
-                {% if user_form.errors %}
-                <div class="error-box"
-                    style="background-color: #FFBABA; color: #D8000C; padding: 10px; margin-top: 15px;">
-                    {% for field, errors in user_form.errors.items %}
-                    {% for error in errors %}
-                    <p>{{ error }}</p>
-                    {% endfor %}
-                    {% endfor %}
-                </div>
-                {% endif %}
+                <form class="signup" id="signup_form" method="post" action="{% url 'account:signup' %}">
+                    {% csrf_token %}
+                    <table class="table-auto w-full">
+                        <tr>
+                            <td class="inputLabel"><span class="required">*</span>Username:</td>
+                            <td>{{ user_form.username }}</td>
+                        </tr>
+                        <tr>
+                            <td class="inputLabel"><span class="required">*</span>Password:</td>
+                            <td>{{ user_form.password1 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="inputLabel"><span class="required">*</span>Confirm Password:</td>
+                            <td>{{ user_form.password2 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="inputLabel"><span class="required">*</span>Email:</td>
+                            <td>{{ user_form.email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="inputLabel">Phone:</td>
+                            <td>{{ profile_form.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td class="inputLabel">Address:</td>
+                            <td>{{ profile_form.address }}</td>
+                        </tr>
+                    </table>
+                    {% if user_form.errors %}
+                    <div class="error-box"
+                        style="background-color: #FFBABA; color: #D8000C; padding: 10px; margin-top: 15px;">
+                        {% for field, errors in user_form.errors.items %}
+                        {% for error in errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
-                <button class="button-link" style="cursor: pointer; padding-top:15px" type="submit"><strong>Sign Up
-                        »</strong></button>
-            </form>
-            <p>Click to <a href="{% url 'account:drone_owner_creation' %}"><strong>Register as Drone Owner</strong></a>
-            </p>
+                    <button class="button-link" style="cursor: pointer; padding-top:15px" type="submit"><strong>Sign Up
+                            »</strong></button>
+                </form>
+                <p>Click to <a href="{% url 'account:drone_owner_creation' %}"><strong>Register as Drone
+                            Owner</strong></a>
+                </p>
+            </div>
         </div>
     </div>
 
 </body>
 
 </html>
-
-
-
-
-
-

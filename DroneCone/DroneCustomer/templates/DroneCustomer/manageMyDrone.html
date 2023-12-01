@@ -28,6 +28,17 @@
             .action-buttons {
                 @apply inline-block bg-[#4299e1] text-white p-2 px-4 rounded-md m-1 no-underline hover:bg-[#337fbe] transition ease-in-out duration-300 hover:scale-105
             }
+
+            .summary-stats {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #d1e5f0;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
         }
     </style>
 {% endblock %}
@@ -81,12 +92,17 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <div style="margin-top: 20px;" class="summary-stats">
+                        <p>Total Revenue: ${{ total_revenue }}</p>
+                        <p>Average Hours Worked per Drone: {{ avg_hours_per_drone }} hours</p>
+                        <p>Average Revenue per Drone: ${{ avg_rev_per_drone }}</p>
+                    </div>
                 </div>
             {% else %}
                 <p class="text-xl font-semibold text-center">You don't have any drones yet.</p>
             {% endif %}
             <a class="action-buttons [&]:bg-[#4CAF50] hover:[&]:bg-[#39823c] [&]:mt-4"
-               href="{% url 'customer_create_drone' %}">Add</a>
+               href="{% url 'customer_create_drone' %}">Add Drone</a>
         </div>
     </div>
 {% endblock %}

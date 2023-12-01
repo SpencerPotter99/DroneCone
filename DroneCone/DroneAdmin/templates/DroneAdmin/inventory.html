@@ -18,10 +18,10 @@
         <tbody>
             {% for ice_cream in ice_creams %}
                 <tr>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ ice_cream.flavor }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ ice_cream.qty }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">${{ ice_cream.price }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ ice_cream.flavor }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ ice_cream.qty }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">${{ ice_cream.price }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">
                         <button onclick="window.location.href='{% url 'add_ice_cream' ice_cream.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
                         <button onclick="window.location.href='{% url 'delete_ice_cream' ice_cream.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
                     </td>
@@ -41,9 +41,9 @@
         <tbody>
             {% for cone in cones %}
                 <tr>
-                   <td class="px-6 py-3 whitespace-nowrap">{{ cone.name }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ cone.qty }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">${{ cone.price }}</td>
+                   <td class="px-6 py-3 whitespace-nowrap text-center">{{ cone.name }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ cone.qty }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">${{ cone.price }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">
                         <button onclick="window.location.href='{% url 'add_cone' cone.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
                         <button onclick="window.location.href='{% url 'delete_cone' cone.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
@@ -64,9 +64,9 @@
         <tbody>
             {% for topping in toppings %}
                 <tr>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ topping.name }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">{{ topping.qty }}</td>
-                    <td class="px-6 py-3 whitespace-nowrap">${{ topping.price }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ topping.name }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">{{ topping.qty }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">${{ topping.price }}</td>
                     <td class="px-6 py-3 whitespace-nowrap">
                         <button onclick="window.location.href='{% url 'add_topping' topping.id %}'" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
                         <button onclick="window.location.href='{% url 'delete_topping' topping.id %}'" class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
