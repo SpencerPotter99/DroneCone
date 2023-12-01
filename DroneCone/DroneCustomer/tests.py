@@ -8,6 +8,13 @@ from .models import Order, Drone  # Import other models as needed
 from django.contrib.auth.models import User
 from decimal import Decimal
 from .models import Drone, IceCream, Topping, Cone, IceCreamCone, Order, Cart
+from django.test import TestCase, RequestFactory
+from django.contrib.auth.models import User
+from django.contrib.sessions.middleware import SessionMiddleware
+from unittest.mock import patch, MagicMock
+from models import Order, Drone, IceCream, Cone, Topping
+from views import submit_order
+import threading
 
 def create_mock_user(username='testuser', password='testpassword'):
     return User.objects.create_user(username=username, password=password)
@@ -103,3 +110,56 @@ class ViewTests(TestCase):
         # Check if the user is authenticated and the status code is 200
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context['user'].is_authenticated)
+
+class SubmitOrderTests(TestCase):
+    def test_login_required(self):
+        request = RequestFactory().get('/submit_order')
+        response = submit_order(request)
+        self.assertEqual(response.status_code, 302)  # Assuming redirect to login
+        self.assertIn('login', response.url)
+
+    def test_no_pending_orders(self):
+        user = User.objects.create_user(username='testuser', password='12345')
+        request = RequestFactory().get('/submit_order')
+        request.user = user
+
+        with patch('models.Order.objects.filter') as mock_filter:
+            mock_filter.return_value.exists.return_value = False
+            response = submit_order(request)
+            self.assertEqual(response.status_code, 302)
+            self.assertIn('home', response.url)
+
+    @patch('views.find_available_drone')
+    def test_post_request_with_pending_orders(self, mock_find_drone):
+        user = User.objects.create_user(username='testuser', password='12345')
+        request = RequestFactory().post('/submit_order')
+        request.user = user
+
+        # Set up middleware for message framework
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # Mocking the pending orders
+        order = MagicMock(spec=Order)
+        order.cones = [
+            {'flavor': {'flavor': 'chocolate'}, 'cone': {'name': 'waffle'}, 'toppings': [{'name': 'sprinkles'}]}]
+        order.get_order_total.return_value = 100
+
+        with patch('models.Order.objects.filter') as mock_filter:
+            mock_filter.return_value.exists.return_value = True
+            mock_filter.return_value = [order]
+
+            # Mocking an available drone
+            mock_drone = MagicMock(spec=Drone)
+            mock_find_drone.return_value = mock_drone
+
+            response = submit_order(request)
+
+            self.assertEqual(mock_drone.in_flight, True)
+            self.assertEqual(mock_drone.dollar_revenue, 50)
+            order.save.assert_called()
+            # More assertions as needed
+            self.assertEqual(response.status_code, 302)
+            self.assertIn('home', response.url)
+

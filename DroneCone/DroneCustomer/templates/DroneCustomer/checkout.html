@@ -3,15 +3,6 @@
 {% block content %}
     <div class="container mx-auto p-4">
         <!-- Your Order Section -->
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="{% if message.tags %}{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
         <section id="your-order" class="mb-4 p-4 rounded-lg shadow-lg" style="background-color: white;">
             <h2 class="text-2xl font-bold mb-3" style="color: #CDB4DB;">Your Order</h2>
             <div class="overflow-x-auto">
