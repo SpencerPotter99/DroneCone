@@ -4,7 +4,6 @@ from django.test import TestCase
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Order, Drone  # Import other models as needed
 from django.contrib.auth.models import User
 from decimal import Decimal
 from .models import Drone, IceCream, Topping, Cone, IceCreamCone, Order, Cart
@@ -68,13 +67,10 @@ class HomeTests(TestCase):
         self.drone = Drone.objects.create(owner=self.user, name='Test Drone', drone_weight_g=100,
                                           battery_capacity_mAh=2000, battery_voltage=11.1, battery_level=1.0)
 
-        # Create IceCream with Decimal price
         self.ice_cream = IceCream.objects.create(flavor='Vanilla', price=Decimal('2.00'), qty=10)
 
-        # Create Topping with Decimal price
         self.topping = Topping.objects.create(name='Sprinkles', price=Decimal('0.50'), qty=5)
-
-        # Create Cone with Decimal price
+    
         self.cone = Cone.objects.create(name='Waffle Cone', price=Decimal('1.00'), qty=20)
 
         self.ice_cream_cone = create_mock_ice_cream_cone(flavor=self.ice_cream,
@@ -111,6 +107,51 @@ class HomeTests(TestCase):
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('home'))
         self.assertIn('Welcome To Drone Cones', response.content.decode('utf-8'))
+
+class HomeApiTests(TestCase):
+    def setUp(self):
+        # Create a test user and test objects
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.topping = Topping.objects.create(name='Sprinkles', price=Decimal('0.50'), qty=5)
+        self.ice_cream = IceCream.objects.create(flavor='Vanilla', price=Decimal('2.00'), qty=10)
+        self.cone = Cone.objects.create(name='Waffle Cone', price=Decimal('1.00'), qty=20)
+
+    def test_menu_items_view(self):
+        # Log in the user
+        self.client.login(username='testuser', password='testpassword')
+
+        # Access the menu items view
+        response = self.client.get(reverse('menu_items_api'))
+
+        # Check if the response status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
+        expected_flavor = {'id': 1, 'flavor': 'Vanilla', 'price': '2.00', 'qty': 10}
+        self.assertIn(expected_flavor, response.data)
+
+    def test_topping_items_view(self):
+        # Log in the user
+        self.client.login(username='testuser', password='testpassword')
+
+        # Access the topping items view
+        response = self.client.get(reverse('topping_items_api'))
+
+        # Check if the response status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
+        expected_topping = {'id': 1, 'name': 'Sprinkles', 'price': '0.50', 'qty': 5}
+        self.assertIn(expected_topping, response.data)
+
+
+    def test_cone_items_view(self):
+        # Log in the user
+        self.client.login(username='testuser', password='testpassword')
+
+        # Access the cone items view
+        response = self.client.get(reverse('cone_items_api'))
+
+        expected_cone = {'id': 1, 'name': 'Waffle Cone', 'price': '1.00', 'qty': 20}
+        # Check if the response status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(expected_cone, response.data)
 
 class ConeModelTest(TestCase):
 
@@ -253,13 +294,13 @@ class IceCreamConeModelTest(TestCase):
             'flavor': 'Vanilla',
             'toppings': ['Sprinkles'],
             'cone': 'Regular Cone',
-            'price': '4.00'  # Based on the default prices
+            'price': '4.00'
         }
         self.assertEqual(ice_cream_cone.get_cone_info(), expected_cone_info)
 
     def test_get_price(self):
         ice_cream_cone = IceCreamCone.objects.get(id=1)
-        expected_price = 4.00  # Based on the default prices
+        expected_price = 4.00
         self.assertEqual(ice_cream_cone.get_price(), expected_price)
 
 class OrderModelTest(TestCase):
