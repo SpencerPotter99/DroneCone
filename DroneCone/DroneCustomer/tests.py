@@ -122,37 +122,37 @@ class ConeModelTest(TestCase):
     def test_name_label(self):
         cone = Cone.objects.get(id=1)
         field_label = cone._meta.get_field('name').verbose_name
-        self.assertEquals(field_label, 'name')
+        self.assertEqual(field_label, 'name')
 
     def test_price_label(self):
         cone = Cone.objects.get(id=1)
         field_label = cone._meta.get_field('price').verbose_name
-        self.assertEquals(field_label, 'price')
+        self.assertEqual(field_label, 'price')
 
     def test_qty_label(self):
         cone = Cone.objects.get(id=1)
         field_label = cone._meta.get_field('qty').verbose_name
-        self.assertEquals(field_label, 'qty')
+        self.assertEqual(field_label, 'qty')
 
     def test_name_max_length(self):
         cone = Cone.objects.get(id=1)
         max_length = cone._meta.get_field('name').max_length
-        self.assertEquals(max_length, 127)
+        self.assertEqual(max_length, 127)
 
     def test_price_default_value(self):
         cone = Cone.objects.get(id=1)
         default_value = cone._meta.get_field('price').default
-        self.assertEquals(default_value, 0)
+        self.assertEqual(default_value, 0)
 
     def test_qty_default_value(self):
         cone = Cone.objects.get(id=1)
         default_value = cone._meta.get_field('qty').default
-        self.assertEquals(default_value, 0)
+        self.assertEqual(default_value, 0)
 
     def test_object_name(self):
         cone = Cone.objects.get(id=1)
         expected_object_name = f"{cone.name}"
-        self.assertEquals(expected_object_name, str(cone))
+        self.assertEqual(expected_object_name, str(cone))
 
 class IceCreamModelTest(TestCase):
 
