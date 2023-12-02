@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>
+        {% block head_title %}
+        {% endblock head_title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- CSS files -->
+    {% block css %}
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+              integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"/>
+
+    {% endblock css %}
+    <!-- Javascript Files -->
+    {% block javascript %}
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+                integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
+
+    {% endblock javascript %}
+</head>
+
+<body>
+<div class="mb-1">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">DroneCones</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account' %}">My Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account:logout' %}">Log Out</a>
+                        </li>
+                        {% if request.user.is_staff or request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'order_history' %}">Admin</a>
+                            </li>
+                        {% endif %}
+                        {% if request.user.profile.drone_owner %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'manage_my_drone' %}">Manage My Drones</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a id="sign-up-link" class="nav-link" href="{% url 'account:signup' %}">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="log-in-link" class="nav-link" href="{% url 'account:login' %}">Log In</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

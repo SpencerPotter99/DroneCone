@@ -16,7 +16,7 @@ from django.views.generic import CreateView
 from .forms import CustomUserCreationForm, CustomUserForm
 from django.contrib.auth import login
 from DroneAdmin.forms import ProfileForm
-
+from django.contrib.auth.decorators import user_passes_test
 
 
 def RegisterView(request):
@@ -37,6 +37,7 @@ def RegisterView(request):
 
     return render(request, 'Account/register.html', {'user_form': user_form, 'profile_form': profile_form})
 
+
 def DroneOwnerRegisterView(request):
     if request.method == 'POST':
         user_form = CustomUserCreationForm(request.POST)
@@ -56,6 +57,7 @@ def DroneOwnerRegisterView(request):
         user_form = CustomUserCreationForm()
 
     return render(request, 'DroneCustomer/droneOwnerCreation.html', {'user_form': user_form, 'profile_form': profile_form})
+
 
 class LoginView(auth_views.LoginView):
     template_name = 'account/login.html'
@@ -118,24 +120,24 @@ class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     template_name = 'account/password_reset_from_key_done.html'
 
 
-class ProfileView(LoginRequiredMixin, View):
-    template_name = 'account/user_profile.html'
-    user_form_class = CustomUserForm
-    profile_form_class = ProfileForm
+# class ProfileView(LoginRequiredMixin, View):
+#     template_name = 'account/user_profile.html'
+#     user_form_class = CustomUserForm
+#     profile_form_class = ProfileForm
 
-    def get(self, request, *args, **kwargs):
-        user_form = self.user_form_class(instance=request.user)
-        profile_form = self.profile_form_class(instance=request.user.profile)
-        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
+#     def get(self, request, *args, **kwargs):
+#         user_form = self.user_form_class(instance=request.user)
+#         profile_form = self.profile_form_class(instance=request.user.profile)
+#         return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
 
-    def post(self, request, *args, **kwargs):
-        user_form = self.user_form_class(request.POST, instance=request.user)
-        profile_form = self.profile_form_class(request.POST, instance=request.user.profile)
+#     def post(self, request, *args, **kwargs):
+#         user_form = self.user_form_class(request.POST, instance=request.user)
+#         profile_form = self.profile_form_class(request.POST, instance=request.user.profile)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect('account:profile')
+#         if user_form.is_valid() and profile_form.is_valid():
+#             user_form.save()
+#             profile_form.save()
+#             messages.success(request, 'Your profile is updated successfully')
+#             return redirect('account:profile')
 
-        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
+#         return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})

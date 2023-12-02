@@ -77,6 +77,12 @@
 </section>
 
 <section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Current Markup Percentage</h2>
+    <p class="text-xl shadow py-2 px-4 bg-gray-100">Current Markup: {{ markup }}%</p>
+    <button onclick="window.location.href='{% url 'edit_markup' %}'" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Edit</button>
+</section>
+
+<section class="mb-8">
     <h2 class="text-2xl font-semibold mb-4">Total Sales</h2>
     <p class="text-xl shadow py-2 px-4 bg-gray-100">Total Revenue: ${{ total_revenue }}</p>
 </section>
