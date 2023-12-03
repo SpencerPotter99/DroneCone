@@ -9,7 +9,6 @@ urlpatterns = [
     path("home", views.home, name="home"),
     path("checkout/", views.checkout, name="checkout"),
     path("account/", views.account, name="account"),
-    path("signup/", views.signUp, name="signup"),
     path("edit_account/", views.editAccount, name="editaccount"),
     path('update-account/', views.update_account, name='update_account'),
     path('create_icecreamcone/', IceCreamConeCreateView.as_view(), name='create_icecreamcone'),
@@ -24,7 +23,7 @@ urlpatterns = [
     path('manage-my-drone/<int:drone_id>/update', views.customerEditDrone, name='customer_edit_drone'),
     path('manage-my-drone/<int:drone_id>/delete', views.customerDeleteDrone, name='customer_delete_drone'),
     #
-    path("edit-account/", views.editAccount, name="edit_account"),
+    # path("edit-account/", views.editAccount, name="edit_account"),
     path('menu-items/', MenuItemsAPI.as_view(), name='menu_items_api'),
     path('topping-items/', ToppingsItemsAPI.as_view(), name='topping_items_api'),
     path('cone-items/', ConeItemsAPI.as_view(), name='cone_items_api'),

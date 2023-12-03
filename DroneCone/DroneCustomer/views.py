@@ -199,9 +199,6 @@ def droneManagement(request):
     return render(request, 'DroneCustomer/droneManager.html')
 
 
-def signUp(request):
-    return render(request, 'DroneCustomer/customerCreation.html')
-
 @login_required
 def editAccount(request):
     user = request.user
