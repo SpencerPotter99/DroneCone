@@ -4,10 +4,10 @@ from django.test import TestCase
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Order, Drone  # Import other models as needed
+from ..models import Order, Drone  # Import other models as needed
 from django.contrib.auth.models import User
 from decimal import Decimal
-from .models import Drone, IceCream, Topping, Cone, IceCreamCone, Order, Cart
+from ..models import Drone, IceCream, Topping, Cone, IceCreamCone, Order, Cart
 
 def create_mock_user(username='testuser', password='testpassword'):
     return User.objects.create_user(username=username, password=password)
