@@ -5,8 +5,7 @@ from ..models import Drone
 from django.contrib.auth.decorators import login_required
 from ..customerDecorators import drone_owner_required
 from rest_framework.test import APIClient
-from django.test import TestCase, RequestFactory
-from ..models import Order
+from django.test import TestCase
 
 
 
