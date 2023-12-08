@@ -214,6 +214,7 @@ def editAccount(request):
 def submit_order(request):
     user = request.user
     pending_orders = Order.objects.filter(user=user, status='pending')
+    markup = Markup.get_instance()
 
     if not pending_orders.exists():
         return redirect('../home')
@@ -223,7 +224,9 @@ def submit_order(request):
             num_cones = len(order.cones)
             drone = find_available_drone(num_cones)
             if drone:
-                drone.dollar_revenue += order.get_order_total() / 2
+                order_total = order.get_order_total()
+                order_total_without_markup = order_total - order_total * markup.markup_percentage * .01
+                drone.dollar_revenue += order_total_without_markup / 2
                 order.drone = drone
                 order.status = "delivering"
                 order.updated_at = timezone.now()
