@@ -225,7 +225,8 @@ def submit_order(request):
             drone = find_available_drone(num_cones)
             if drone:
                 order_total = order.get_order_total()
-                order_total_without_markup = order_total - order_total * markup.markup_percentage * .01
+                markup_factor = Decimal(str(markup.markup_percentage * Decimal('.01')))
+                order_total_without_markup = order_total - (order_total * markup_factor)
                 drone.dollar_revenue += order_total_without_markup / 2
                 order.drone = drone
                 order.status = "delivering"
