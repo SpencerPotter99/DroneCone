@@ -59,7 +59,7 @@
     <h1 class="text-2xl font-semibold">Choose Your Ice Cream Cone</h1>
 </div>
 <div class="card-container">
-  <div v-for="(menuItem, index2) in coneItems" :key="menuItem.id" class="card" @click="toggleCone(index2)" :class="{ 'highlighted': selectedCone?.name === menuItem.name }">
+  <div v-for="(menuItem, index2) in coneItems" :key="menuItem.id" v-bind:class="{ 'card': true, 'highlighted': selectedCone?.name === menuItem.name, 'disabled': menuItem.qty <= 0 }" @click="menuItem.qty > 0 ? toggleCone(index2) : null" >
     <h3><b>[[ menuItem.name ]]</b></h3>
       <p>[[ menuItem.description ]]</p>
       <p>Price: $[[ menuItem.price ]]</p>
@@ -69,7 +69,7 @@
         <h1 class="text-2xl font-semibold">Choose Your Toppings</h1>
     </div>
     <div class="card-container">
-      <div v-for="menuItem in toppingItems" :key="menuItem.id" class="card" @click="toggleTopping(menuItem)" :class="{ 'highlighted': selectedToppings.includes(menuItem) }">
+      <div v-for="menuItem in toppingItems" :key="menuItem.id" v-bind:class="{ 'card': true, 'highlighted': selectedToppings.includes(menuItem), 'disabled': menuItem.qty <= 0 }" @click="menuItem.qty > 0 ? toggleTopping(menuItem) : null" >
         <h3><b>[[ menuItem.name ]]</b></h3>
           <p>[[ menuItem.description ]]</p>
           <p>Price: $[[ menuItem.price ]]</p>
