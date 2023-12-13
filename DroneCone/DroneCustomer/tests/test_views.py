@@ -1,12 +1,123 @@
+from decimal import Decimal
+
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
-from ..models import Drone
+from ..models import Drone, Order, IceCream, Cone, Topping, Markup
 from django.contrib.auth.decorators import login_required
 from ..customerDecorators import drone_owner_required
 from rest_framework.test import APIClient
 from django.test import TestCase
+from django.test import TestCase, RequestFactory
+from django.urls import reverse
+from django.contrib.auth.models import User
+from unittest.mock import patch
+from django.contrib.messages.storage.fallback import FallbackStorage
 
+from ..views import submit_order
+
+
+class SubmitOrderTestCase(TestCase):
+
+    def setUp(self):
+        # User setup
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='password')
+
+        # Drone setup
+        self.drone = Drone.objects.create(
+            owner=self.user,
+            name="Test Drone",
+            size="small",
+            drone_weight_g=500,
+            battery_capacity_mAh=1000,
+            battery_voltage=Decimal('5.0'),
+            battery_level=Decimal('1.0'),
+            hours_worked=Decimal('0.0'),
+            dollar_revenue=Decimal('0.00'),
+            enabled=True,
+            in_flight=False
+        )
+
+        # Order setup
+        self.ice_cream = IceCream.objects.create(flavor="Vanilla", price=Decimal('2.00'), qty=10)
+        self.cone = Cone.objects.create(name="Regular Cone", price=Decimal('1.00'), qty=10)
+        self.topping = Topping.objects.create(name="Sprinkles", price=Decimal('0.50'), qty=10)
+
+        self.order_data = {
+            'flavor': {'flavor': self.ice_cream.flavor},
+            'cone': {'name': self.cone.name},
+            'toppings': [{'name': self.topping.name}],
+            'price': '3.50'
+        }
+
+
+        # Request setup
+        self.factory = RequestFactory()
+        self.request = self.factory.post('/submit_order')
+        self.request.user = self.user
+
+        setattr(self.request, 'session', 'session')
+        messages = FallbackStorage(self.request)
+        setattr(self.request, '_messages', messages)
+
+        # Markup setup
+        Markup.objects.create(markup_percentage=Decimal('10.0'))
+        Order.objects.filter(user=self.user, status='pending').delete()
+
+    def test_no_pending_orders(self):
+        response = submit_order(self.request)
+        self.assertEqual(response.url, '../home')
+
+    def test_multiple_pending_orders(self):
+        Order.objects.create(user=self.user, status='pending', cones=[self.order_data])
+        Order.objects.create(user=self.user, status='pending', cones=[self.order_data])
+        response = submit_order(self.request)
+        self.assertEqual(response.url, '../home')
+
+    @patch('DroneCustomer.views.find_available_drone')
+    def test_no_drones_available(self, mock_find_available_drone):
+        self.order = Order.objects.create(user=self.user, status='pending', cones=[self.order_data])
+        # Setup the mock to return None
+        mock_find_available_drone.return_value = None
+
+        response = submit_order(self.request)
+
+        # Check for error message
+        messages = list(get_messages(self.request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'No drones are available for delivery right now. Please try again later.')
+
+        # Verify that no drone is assigned and status is still pending
+        self.order.refresh_from_db()
+        self.assertIsNone(self.order.drone)
+        self.assertEqual(self.order.status, 'pending')
+
+        # Verify redirection
+        self.assertEqual(response.url, '../checkout')
+
+    @patch('DroneCustomer.views.find_available_drone')
+    def test_drone_available(self, mock_find_available_drone):
+        # Mock find_available_drone to return a drone instance
+        self.order = Order.objects.create(user=self.user, status='pending', cones=[self.order_data])
+        mock_find_available_drone.return_value = self.drone
+        response = submit_order(self.request)
+
+        # Verify drone assignment and status update
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.drone, self.drone)
+        self.assertEqual(self.order.status, 'delivering')
+
+        # Verify inventory update
+        self.ice_cream.refresh_from_db()
+        self.cone.refresh_from_db()
+        self.topping.refresh_from_db()
+        self.assertEqual(self.ice_cream.qty, 5)
+        self.assertEqual(self.cone.qty, 9)
+        self.assertEqual(self.topping.qty, 9)
+
+        # Verify redirection
+        self.assertEqual(response.url, '../home')
 
 
 class TestDroneOwnerRequiredViews(TestCase):
@@ -19,7 +130,7 @@ class TestDroneOwnerRequiredViews(TestCase):
             'password1': 'testpassword1212',
             'password2': 'testpassword1212',
             'email': 'test1@gmail.com',
-            'drone_owner' : True
+            'drone_owner': True
         }
         url = reverse('account:drone_owner_creation')
         response = self.client.post(url, self.droneOwner_form_data)
